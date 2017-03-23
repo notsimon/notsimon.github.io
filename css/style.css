@@ -1,0 +1,76 @@
+/* Larger than phablet */
+
+html {
+  color: #111;
+}
+
+body {
+  width: 100%;
+}
+
+h1 { font-size: 1.8em; }
+h2 { font-size: 1.6em; }
+h3 { font-size: 1.4em; }
+h4 { font-size: 1.2em; }
+h5, h6 { font-size: 1em; }
+
+p {
+  margin-bottom: 1em;
+}
+
+nav {
+  text-align: center;
+  padding: 10px;
+  background: #efefef;
+  background: linear-gradient(to bottom, #efefef 70%, #eee 88%, #ddd);
+}
+
+nav a {
+  color: #444;
+  text-decoration: none;
+  margin: 0 0.5em;
+}
+
+main {
+  padding: 20px;
+}
+
+footer {
+  text-align: center;
+  font-size: 0.8em;
+}
+
+article > header > p {
+  font-style: italic;
+  font-size: 0.9em;
+  text-align: right;
+}
+
+article {
+  text-align: justify;
+}
+
+@media (min-width: 550px) {
+  nav {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 130px;
+    padding: 20px;
+    background: linear-gradient(to right, #efefef 90%, #eee 96%, #ddd);
+    text-align: right;
+  }
+  nav > a {
+    display: block;
+    margin: 0.5em 0;
+  }
+  main, footer {
+    margin: 0;
+    margin-left: 170px;
+    max-width: 700px;
+  }
+  footer {
+    position: relative;
+  }
+}
