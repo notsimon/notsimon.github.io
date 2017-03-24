@@ -40,6 +40,7 @@ main = hakyll $ do
         let writerOptions = defaultHakyllWriterOptions {
                                 writerSlideVariant = DZSlides
                               , writerHtml5 = True
+                              , writerHTMLMathMethod = MathJax ""
                             }
 
         compile $ pandocCompilerWith defaultHakyllReaderOptions writerOptions

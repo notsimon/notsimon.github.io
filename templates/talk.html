@@ -3,7 +3,9 @@
 <meta charset="utf-8">
 <title>$title$</title>
 
+<body>
 $body$
+</body>
 
 <!-- Your Style -->
 <!-- Define the style of your presentation -->
@@ -12,14 +14,42 @@ $body$
 <link href='http://fonts.googleapis.com/css?family=Oswald' rel='stylesheet'>
 
 <style>
-  html, .view body { background-color: black; counter-reset: slideidx; }
-  body, .view section {
-    background-color: white; border-radius: 12px;
-    font-family: 'Oswald', arial, serif;
+  @import url(https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
+  @import url(https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic);
+
+  html, .view body {
+    counter-reset: slideidx;
+    background: #d6d6d6;
+    font-size: 16px;
+    font-family: 'Droid Serif', 'Georgia', serif;
   }
 
-  section, .view head > title {
-      font-size: 2rem;
+  body {
+    line-height: 1.5em;
+    box-shadow: 0 0 30px #888;
+  }
+
+  .view > body {
+    box-shadow: none;
+    position: static;
+    width: 100%; height: 100%;
+    margin: 0; padding: 0;
+    display: inline-block;
+    overflow: visible;
+    overflow-x: hidden;
+  }
+
+  .view > body.loaded {
+    display: inline;
+  }
+
+  section {
+    padding: 0.5em 4em;
+    background-color: white;
+  }
+
+  .view section {
+    box-shadow: 0 0 30px #888;
   }
 
   .view section:after {
@@ -29,25 +59,38 @@ $body$
     color: white;
   }
 
-  .view head > title {
-    color: white;
-    text-align: center;
-    margin: 1em 0 1em 0;
+  h1, h2, h3, h4, h5 {
+    font-family: 'Yanone Kaffeesatz';
+    color: #606060;
+    font-weight: normal;
   }
-
   h1 {
-    margin: 120px 0 30px 0;
-    text-align: center;
-    font-size: 5rem;
+    font-size: 2em
   }
-
   h2 {
+    font-size: 1.8em
+  }
+  h3 {
+    font-size: 1.6em
+  }
+  h4 {
+    font-size: 1.4em
+  }
+  h5 {
+    font-size: 1.2em
+  }
+
+  ul, p, span.math.display {
+    margin: 0.5em 0;
+  }
+
+  span.math.display {
+    display: block;
     text-align: center;
   }
 
-  section > h3 {
-    margin: 50px 50px 40px 50px;
-    border-bottom: 0.1px solid;
+  ul ul {
+    margin: 0;
   }
 
   pre {
@@ -61,23 +104,9 @@ $body$
     width:80%
   }
 
-  ul, ol {
-      margin: 40px 100px 0 100px;
-  }
-
-  li > ul, ol {
-      margin: 0 0 15px 50px;
-      list-style-image: none; /* in case parent list has some */
-  }
-
   mark.next:not([active]) {
     visibility: visible; /* override the default behavior where next is hidden */
     background-color: inherit; /* and disable highlighting instead */
-  }
-
-  p {
-    margin: 75px 75px 0 75px;
-    font-size: 3rem;
   }
 
   table {
@@ -103,19 +132,12 @@ $body$
   /* Figures are displayed full-page, with the caption
      on top of the image/video */
   figure {
-    background-color: black;
-    width: 100%;
-    height: 100%;
-  }
-  figure > * {
-    position: absolute;
-  }
-  figure > img, figure > video {
-    width: 100%; height: 100%;
+    display: block;
+    margin: auto;
+    text-align: center;
   }
   figcaption {
-    margin: 70px;
-    font-size: 3rem;
+    font-size: 0.7em;
   }
 
   header {
@@ -133,20 +155,8 @@ $body$
     padding: 10px;
   }
 
-  /* Transition effect */
-  /* Feel free to change the transition effect for original
-     animations. See here:
-     https://developer.mozilla.org/en/CSS/CSS_transitions
-     How to use CSS3 Transitions: */
-  section {
-    transition: left 400ms linear 0s;
-  }
-  .view section {
-    transition: none;
-  }
-
   .view section[aria-selected] {
-    border: 5px red solid;
+    box-shadow: 0 0 30px red;
   }
 
 @media screen {
@@ -161,8 +171,8 @@ $body$
   /* The progressbar, at the bottom of the slides, show the global
      progress of the presentation. */
   #progress-bar {
-    height: 4px;
-    background: #AAA;
+    height: 2px;
+    background: #aaa;
   }
 </style>
 
@@ -184,25 +194,13 @@ $body$
 
 <!-- Default Style -->
 <style>
-  * { margin: 0; padding: 0; box-sizing: border-box; }
+  * { box-sizing: border-box; }
   [role="note"] { display: none; }
-  html {
-    font-size: 16px;
-  }
   body {
     width: 800px; height: 600px;
     position: absolute; top: 50%; left: 50%;
     overflow: hidden;
     display: none;
-  }
-  .view body {
-    position: static;
-    margin: 0; padding: 0;
-    width: 100%; height: 100%;
-    display: inline-block;
-    overflow: visible; overflow-x: hidden;
-    /* undo Dz.onresize */
-    transform: none !important;
   }
   .view head, .view head > title { display: block }
   section {
@@ -275,4 +273,39 @@ $body$
 </style>
 
 <script src="/scripts/dzslides.js"></script>
-<!-- vim: set fdm=marker: }}} -->
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?delayStartupUntil=configured"></script>
+<script>
+  // Setup MathJax
+  MathJax.Hub.Config({
+    config: ["MMLorHTML.js"],
+    jax: ["input/AsciiMath","output/HTML-CSS","output/NativeMML", "output/PreviewHTML"],
+    extensions: ["asciimath2jax.js","MathMenu.js","MathZoom.js", "fast-preview.js", "AssistiveMML.js", "[Contrib]/a11y/accessibility-menu.js"],
+    asciimath2jax: {
+      delimiters: [['\\(', '\\)'], ['\\[', '\\]']],
+      processClass: ['math']
+    },
+    AsciiMath: {
+      displaystyle: false
+    }
+  });
+
+  //MathJax.Hub.Register.LoadHook("[MathJax]/extensions/asciimath2jax.js", function () {
+  //  var AM = MathJax.Extension.asciimath2jax, CREATEPATTERNS = AM.createPatterns;
+  //  AM.createPatterns = function () {
+  //      var result = CREATEPATTERNS.call(this);
+  //      this.match['$$'].mode = ";mode=display";
+  //      return result;
+  //  };
+  //});
+
+  //MathJax.Hub.Register.StartupHook("AsciiMath Jax Ready", function () {
+  //  var AM = MathJax.InputJax.AsciiMath;
+  //  AM.postfilterHooks.Add(function (data) {
+  //      if (data.script.type.match(/;mode=display/)) {
+  //      data.math.root.display = "block"}
+  //      return data;
+  //  });
+  //});
+
+  MathJax.Hub.Configured()
+</script>
