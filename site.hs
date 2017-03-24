@@ -13,6 +13,10 @@ main = hakyll $ do
         route   idRoute
         compile copyFileCompiler
 
+    match "scripts/*" $ do
+        route   idRoute
+        compile copyFileCompiler
+
     match "css/*" $ do
         route   idRoute
         compile compressCssCompiler
@@ -20,8 +24,8 @@ main = hakyll $ do
     match (fromList ["cv.md", "contact.md"]) $ do
         route   $ setExtension "html"
         compile $ pandocCompiler
-            >>= loadAndApplyTemplate "templates/post.html"    postCtx
-            >>= loadAndApplyTemplate "templates/default.html" postCtx
+            >>= loadAndApplyTemplate "templates/post.html"    defaultContext
+            >>= loadAndApplyTemplate "templates/default.html" defaultContext
             >>= relativizeUrls
 
     match "posts/*" $ do
@@ -39,6 +43,8 @@ main = hakyll $ do
                             }
 
         compile $ pandocCompilerWith defaultHakyllReaderOptions writerOptions
+            >>= loadAndApplyTemplate "templates/talk.html" postCtx
+            >>= relativizeUrls
 
     create ["archive.html"] $ do
         route idRoute
