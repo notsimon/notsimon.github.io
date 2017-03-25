@@ -1,0 +1,292 @@
+  @import url(https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
+  @import url(https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic);
+
+  * { box-sizing: border-box; }
+
+  html, .view body {
+    counter-reset: slide;
+    background: #d6d6d6;
+    font-size: 16px;
+    font-family: 'Droid Serif', 'Georgia', serif;
+  }
+
+  body {
+    line-height: 1.5em;
+    box-shadow: 0 0 30px #888;
+  }
+
+  .view > body {
+    box-shadow: none;
+    position: static;
+    width: 100%; height: 100%;
+    margin: 0; padding: 0;
+    display: inline-block;
+    overflow: visible;
+    overflow-x: hidden;
+  }
+
+  .view > body.loaded {
+    display: inline;
+  }
+
+  .middle {
+    width: 100%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .center {
+    text-align: center;
+  }
+
+  .title, .subtitle, .author, .intitution, .date, .view head > title {
+      display: block;
+      text-align: center;
+  }
+  .title, .view head > title {
+      font-family: 'Yanone Kaffeesatz';
+      font-size: 2.2em;
+      color:#606060;
+      font-weight:bold;
+      letter-spacing:0.01em;
+      line-height:1em;
+  }
+  .subtitle {
+      font-weight:lighter;
+  }
+  .author {
+      font-size: 1.2em;
+      margin-top: 2em;
+      color:#606060;
+      font-weight:bold;
+      letter-spacing:0.02em;
+  }
+  .date {
+      position:absolute;
+      bottom: 2em;
+      left:50%;
+      transform:translate(-50%, 0);
+      font-style: italic;
+  }
+  .inverse {
+      background: #333333;
+      color: #777777;
+      text-shadow: 0 0 20px #333;
+  }
+  .inverse h1, .inverse h2, .inverse .title, .inverse .author {
+      color: #f3f3f3;
+  }
+
+  section {
+    padding: 0.5em 4em;
+    background-color: white;
+  }
+
+  .view section {
+    box-shadow: 0 0 30px #888;
+  }
+
+  section:after, body:after {
+    position: absolute;
+    bottom: 1em;
+    color: #606060;
+    font-size: 10px;
+  }
+
+  section:after {
+    counter-increment: slide;
+    content: counter(slide);
+    right: 4em;
+  }
+
+  body:after {
+    position: absolute;
+    right: 2em;
+    content: "/ " counter(slide);
+  }
+
+  .view body:after {
+    display: none;
+  }
+
+  h1, h2, h3, h4, h5 {
+    font-family: 'Yanone Kaffeesatz';
+    color: #606060;
+    font-weight: normal;
+  }
+  h1 {
+    font-size: 2em
+  }
+  h2 {
+    font-size: 1.8em
+  }
+  h3 {
+    font-size: 1.6em
+  }
+  h4 {
+    font-size: 1.4em
+  }
+  h5 {
+    font-size: 1.2em
+  }
+
+  ul, p, span.math.display {
+    margin: 0.5em 0;
+  }
+
+  span.math.display {
+    display: block;
+    text-align: center;
+  }
+
+  ul ul {
+    margin: 0;
+  }
+
+  pre {
+    overflow: hidden;
+    font-size: 1.25rem;
+    margin: 0 75px 0 75px;
+    padding: 10px;
+    border: 1px solid;
+    font-weight: bold;
+    background-color: #F7F7F7;
+    width:80%
+  }
+
+  mark.next:not([active]) {
+    visibility: visible; /* override the default behavior where next is hidden */
+    background-color: inherit; /* and disable highlighting instead */
+  }
+
+  table {
+    margin: auto;
+    font-size:2.5rem;
+    text-align: center;
+  }
+
+  blockquote {
+    height: 100%;
+    background-color: black;
+    color: white;
+    font-size: 3.75rem;
+    padding: 50px;
+  }
+  blockquote:before {
+    content: open-quote;
+  }
+  blockquote:after {
+    content: close-quote;
+  }
+
+  /* Figures are displayed full-page, with the caption
+     on top of the image/video */
+  figure {
+    display: block;
+    margin: auto;
+    text-align: center;
+  }
+  figcaption {
+    font-size: 0.7em;
+  }
+
+  header {
+    background-color: #F3F4F8;
+    border-bottom: 1px solid #CCC;
+  }
+
+  footer {
+    background-color: #F3F4F8;
+    border-top: 1px solid #CCC;
+    padding-bottom: 4px; /* remember progress bar */
+  }
+
+  section footer {
+    padding: 10px;
+  }
+
+  .view section[aria-selected] {
+    box-shadow: 0 0 30px red;
+  }
+
+@media screen {
+  /* Before */
+  section { left: -150%; }
+  /* Now */
+  section[aria-selected] { left: 0; }
+  /* After */
+  section[aria-selected] ~ section { left: +150%; }
+}
+
+  /* The progressbar, at the bottom of the slides, show the global
+     progress of the presentation. */
+  #progress-bar {
+    height: 2px;
+    background: #ee6666;
+  }
+
+  [role="note"] { display: none; }
+  body {
+    width: 800px; height: 600px;
+    position: absolute; top: 50%; left: 50%;
+    overflow: hidden;
+    display: none;
+  }
+  .view head, .view head > title {
+    display: block;
+  }
+  section {
+    position: absolute;
+    pointer-events: none;
+    width: 100%; height: 100%;
+  }
+  .view section {
+    pointer-events: auto;
+    position: static;
+    width: 800px; height: 600px;
+    margin: -150px -200px;
+    float: left;
+
+    transform: scale(.4);
+  }
+  .view section > * { pointer-events: none; }
+  section[aria-selected] { pointer-events: auto; }
+  html { overflow: hidden; }
+  html.view { overflow: visible; }
+  body.loaded { display: block; }
+  .next:not([active]) {visibility: hidden; }
+  #progress-bar{
+    bottom: 0;
+    position: absolute;
+    transition: width 400ms linear 0s;
+  }
+  .view #progress-bar {
+    display: none;
+  }
+  header {
+    text-align: right;
+    position: absolute;
+    top: 0;
+    width: 100%;
+  }
+  footer {
+    text-align: right;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+  }
+  .view header { display: none; }
+  .view footer { display: none; }
+
+@media print {
+  section {
+    transition: none;
+    transform: none;
+    position: static;
+    page-break-inside: avoid;
+  }
+  body { overflow: visible; }
+  #progress-bar{ display:none; }
+
