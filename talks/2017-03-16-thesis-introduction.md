@@ -4,7 +4,6 @@ subtitle: Thèse CIFRE en collaboration avec Sevenhugs
 author: Simon Guillot
 ---
 
-
 # Sevenhugs
 
 <figure>
@@ -20,9 +19,7 @@ author: Simon Guillot
 
 # Sevenhugs' remote
 
-<figure>
-<img src="/images/sr_setup.gif" width="50%" />
-</figure>
+![](/images/sr_setup.gif){width=50%}
 
 * To track its position and orientation in the room, the remote merges:
     * Measurements from a set of embedded sensors: a gyroscope, an accelerometer, a
@@ -33,9 +30,7 @@ magnetometer
 
 # State estimation
 
-<figure>
-<img src="/images/fusion.svg" width=60% />
-</figure>
+![](/images/fusion.svg){width=60%}
 
 The inputs are
 
@@ -53,9 +48,7 @@ $$ z in bbb"R"^(N + 9) $$
 
 # State estimation
 
-<figure>
-<img src="/images/fusion.svg" width=60% />
-</figure>
+![](/images/fusion.svg){width=60%}
 
 The estimation of the targeted objects requires at least
 
@@ -65,9 +58,7 @@ The estimation of the targeted objects requires at least
 
 # State estimation
 
-<figure>
-<img src="/images/fusion_kalman.svg" width=60% />
-</figure>
+![](/images/fusion_kalman.svg){width=60%}
 
 Adding information on the dynamics of the body, for instance
 
@@ -86,25 +77,17 @@ $$ x in bbb"R"^15 $$
 
 # Indoor usage of a magnetometer
 
-<figure>
-<img src="/images/map_normalized.svg" width="70%" style="margin: -2.5em 0" />
-<figcaption>
-Direction of the magnetic field on a plane at one meter above the ground 
-(vectors are normalized)
-</figcaption>
-</figure>
+![Direction of the magnetic field on a plane at one meter above the ground 
+(vectors are normalized)](/images/map_normalized.svg){style="width: 70%; margin: 
+-2.5em 0"}
 
 * Some regions can be up to 45º off from the north direction
 
 
 # Indoor usage of a magnetometer
 
-<figure>
-<img src="/images/map.svg" width="70%" style="margin: -2.5em 0" />
-<figcaption>
-Variations in color represent variations in inclination
-</figcaption>
-</figure>
+![Variations in color represent variations in 
+inclination](/images/map.svg){style="width: 70%; margin: -2.5em 0"}
 
 * Important variations of the norm and inclination of the magnetic field
 * Both can be measured without ambiguities
@@ -121,9 +104,8 @@ dimensionality of the inputs is low and the odometry of poor quality ?
     - Mostly, how to properly close loops and eliminate ambiguities ?
 - How to augment the system with informations extracted from electromagnetic
 signals ? (Bluetooth, WiFi etc.)
-- How to compress.red[\\*] and recall the heterogeneous data found in the environment ?
-
-.footnote[.red[*] Partly due to hardware constraints.]
+- How to compress – due to hardware constraints – and recall the heterogeneous 
+  data found in the environment ?
 
 
 # Work overview
