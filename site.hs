@@ -1,14 +1,15 @@
---------------------------------------------------------------------------------
 {-# LANGUAGE OverloadedStrings #-}
 
 import           Data.Monoid (mappend)
 import           Hakyll
 import           Text.Pandoc.Options
 
-
---------------------------------------------------------------------------------
 main :: IO ()
 main = hakyll $ do
+    match "images/*.dot" $ do
+        route   $ setExtension "svg"
+        compile dotCompiler
+
     match "images/*" $ do
         route   idRoute
         compile copyFileCompiler
@@ -76,9 +77,10 @@ main = hakyll $ do
 
     match "templates/*" $ compile templateBodyCompiler
 
-
---------------------------------------------------------------------------------
 postCtx :: Context String
 postCtx =
     dateField "date" "%B %e, %Y" `mappend`
     defaultContext
+
+dotCompiler :: Compiler (Item String)
+dotCompiler = getResourceString >>= withItemBody (unixFilter "dot" ["-Tsvg"])
