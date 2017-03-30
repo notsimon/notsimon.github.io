@@ -8,3 +8,22 @@
 
   $body$
 </article>
+
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?delayStartupUntil=configured"></script>
+<script>
+  // Setup MathJax
+  MathJax.Hub.Config({
+    config: ["MMLorHTML.js"],
+    jax: ["input/AsciiMath","output/HTML-CSS","output/NativeMML", "output/PreviewHTML"],
+    extensions: ["asciimath2jax.js","MathMenu.js","MathZoom.js", "fast-preview.js", "AssistiveMML.js", "[Contrib]/a11y/accessibility-menu.js"],
+    asciimath2jax: {
+      delimiters: [['\\(', '\\)'], ['\\[', '\\]']],
+      processClass: ['math']
+    },
+    AsciiMath: {
+      displaystyle: false
+    }
+  });
+
+  MathJax.Hub.Configured()
+</script>

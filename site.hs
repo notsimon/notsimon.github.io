@@ -31,13 +31,18 @@ main = hakyll $ do
 
     match "posts/*" $ do
         route $ setExtension "html"
-        compile $ pandocCompiler
+
+        let writerOptions = defaultHakyllWriterOptions {
+                              writerHTMLMathMethod = MathJax ""
+                            }
+        compile $ pandocCompilerWith defaultHakyllReaderOptions writerOptions
             >>= loadAndApplyTemplate "templates/post.html"    postCtx
             >>= loadAndApplyTemplate "templates/default.html" postCtx
             >>= relativizeUrls
 
     match "talks/*" $ do
         route $ setExtension "html"
+
         let writerOptions = defaultHakyllWriterOptions {
                                 writerSlideVariant = DZSlides
                               , writerHtml5 = True
