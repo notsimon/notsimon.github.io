@@ -1,0 +1,85 @@
+@import url(style.css);
+
+body {
+  width: 100%;
+}
+
+nav {
+  text-align: center;
+  padding: 10px;
+  background: #efefef;
+  background: linear-gradient(to bottom, #efefef 70%, #eee 88%, #ddd);
+}
+
+nav a {
+  color: #444;
+  text-decoration: none;
+  margin: 0 0.5em;
+}
+
+main {
+  padding: 20px;
+}
+
+footer {
+  text-align: center;
+  font-size: 0.8em;
+}
+
+article > header > p {
+  font-style: italic;
+  font-size: 0.9em;
+  text-align: right;
+}
+
+article {
+  text-align: justify;
+}
+
+/* Larger than phablet */
+@media (min-width: 550px) {
+  nav {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 130px;
+    padding: 20px;
+    background: linear-gradient(to right, #efefef 90%, #eee 96%, #ddd);
+    text-align: right;
+  }
+  nav > a {
+    display: block;
+    margin: 0.5em 0;
+  }
+  main, footer {
+    margin: 0;
+    margin-left: 170px;
+    max-width: 700px;
+  }
+  footer {
+    position: relative;
+  }
+}
+
+/* Syntax highlight */
+
+code {
+  background: #f8f8f8;
+  border-style: solid;
+  border-width: 1px 1px 1px 4px;
+  border-color: #E1E1E1;
+  border-radius: 4px;
+}
+
+.sourceCode .kw { color: #268BD2; }
+.sourceCode .dt { color: #268BD2; }
+.sourceCode .dv, .sourceCode .bn, .sourceCode .fl { color: #D33682; }
+.sourceCode .ch { color: #DC322F; }
+.sourceCode .st { color: #2AA198; }
+.sourceCode .co { color: #93A1A1; }
+.sourceCode .ot { color: #A57800; }
+.sourceCode .al { color: #CB4B16; font-weight: bold; }
+.sourceCode .fu { color: #268BD2; }
+.sourceCode .re { }
+.sourceCode .er { color: #D30102; font-weight: bold; }
