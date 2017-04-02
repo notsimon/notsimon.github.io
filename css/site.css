@@ -7,21 +7,26 @@ body {
 nav {
   text-align: center;
   padding: 10px;
-  background: #efefef;
-  background: linear-gradient(to bottom, #efefef 70%, #eee 88%, #ddd);
+  background: #333;
 }
 
 nav a {
-  color: #444;
+  color: #888;
   text-decoration: none;
   margin: 0 0.5em;
 }
 
+nav a:hover {
+  color: #f3f3f3;
+}
+
 main {
   padding: 20px;
+  text-align: justify;
 }
 
 footer {
+  padding: 20px;
   text-align: center;
   font-size: 0.8em;
 }
@@ -30,10 +35,6 @@ article > header > p {
   font-style: italic;
   font-size: 0.9em;
   text-align: right;
-}
-
-article {
-  text-align: justify;
 }
 
 /* Larger than phablet */
@@ -45,7 +46,6 @@ article {
     left: 0;
     width: 130px;
     padding: 20px;
-    background: linear-gradient(to right, #efefef 90%, #eee 96%, #ddd);
     text-align: right;
   }
   nav > a {

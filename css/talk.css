@@ -70,8 +70,8 @@ body {
     font-style: italic;
 }
 .inverse {
-    background: #333333;
-    color: #777777;
+    background: #333;
+    color: #888;
     text-shadow: 0 0 20px #333;
 }
 .inverse h1, .inverse h2, .inverse .title, .inverse .author {
@@ -246,12 +246,16 @@ footer {
 .view footer { display: none; }
 
 @media print {
-section {
-  transition: none;
-  transform: none;
-  position: static;
-  page-break-inside: avoid;
+  section {
+    transition: none;
+    transform: none;
+    position: static;
+    page-break-inside: avoid;
+  }
+  body {
+    overflow: visible;
+  }
+  #progress-bar {
+    display:none;
+  }
 }
-body { overflow: visible; }
-#progress-bar{ display:none; }
-
