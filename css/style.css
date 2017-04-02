@@ -42,3 +42,25 @@ ul, p, span.math.display {
 ul ul {
   margin-top: 0.8em;
 }
+
+/* Syntax highlight */
+
+code {
+  background: #f8f8f8;
+  border-style: solid;
+  border-width: 1px 1px 1px 4px;
+  border-color: #E1E1E1;
+  border-radius: 4px;
+}
+
+.sourceCode .kw { color: #268BD2; }
+.sourceCode .dt { color: #268BD2; }
+.sourceCode .dv, .sourceCode .bn, .sourceCode .fl { color: #D33682; }
+.sourceCode .ch { color: #DC322F; }
+.sourceCode .st { color: #2AA198; }
+.sourceCode .co { color: #93A1A1; }
+.sourceCode .ot { color: #A57800; }
+.sourceCode .al { color: #CB4B16; font-weight: bold; }
+.sourceCode .fu { color: #268BD2; }
+.sourceCode .re { }
+.sourceCode .er { color: #D30102; font-weight: bold; }
