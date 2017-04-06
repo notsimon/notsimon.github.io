@@ -40,6 +40,10 @@ main = hakyll $ do
             >>= loadAndApplyTemplate "templates/default.html" postCtx
             >>= relativizeUrls
 
+    match "posts/**" $ do
+        route   idRoute
+        compile copyFileCompiler
+
     match "talks/*" $ do
         route $ setExtension "html"
 
