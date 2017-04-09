@@ -4,8 +4,13 @@ import           Data.Monoid (mappend)
 import           Hakyll
 import           Text.Pandoc.Options
 
+siteConfig :: Configuration
+siteConfig = defaultConfiguration {
+                deployCommand = "bash deploy.sh"
+             }
+
 main :: IO ()
-main = hakyll $ do
+main = hakyllWith siteConfig $ do
     match "images/*.dot" $ do
         route   $ setExtension "svg"
         compile dotCompiler
