@@ -38,7 +38,8 @@ main = hakyllWith siteConfig $ do
         route $ setExtension "html"
 
         let writerOptions = defaultHakyllWriterOptions {
-                              writerHTMLMathMethod = MathJax ""
+                                writerHtml5 = True
+                              , writerHTMLMathMethod = MathJax ""
                             }
         compile $ pandocCompilerWith defaultHakyllReaderOptions writerOptions
             >>= loadAndApplyTemplate "templates/post.html"    postCtx
