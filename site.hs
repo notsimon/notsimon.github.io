@@ -79,7 +79,7 @@ main = hakyllWith siteConfig $ do
     match "index.html" $ do
         route idRoute
         compile $ do
-            posts <- fmap (take 3) . recentFirst =<< loadAll "posts/*"
+            posts <- fmap (take 3) . recentFirst =<< loadAll ("posts/*" .||. "talks/*")
             let indexCtx =
                     listField "posts" postCtx (return posts) `mappend`
                     defaultContext
