@@ -1,6 +1,9 @@
 {-# LANGUAGE OverloadedStrings #-}
 
-import           Data.Monoid (mappend)
+import           Control.Monad (filterM)
+import           Data.Maybe
+import           Data.Monoid ((<>))
+import           Debug.Trace
 import           Hakyll
 import           Text.Pandoc.Options
 
@@ -42,8 +45,8 @@ main = hakyllWith siteConfig $ do
                               , writerHTMLMathMethod = MathJax ""
                             }
         compile $ pandocCompilerWith defaultHakyllReaderOptions writerOptions
-            >>= loadAndApplyTemplate "templates/post.html"    postCtx
-            >>= loadAndApplyTemplate "templates/default.html" postCtx
+            >>= loadAndApplyTemplate "templates/post.html"    postContext
+            >>= loadAndApplyTemplate "templates/default.html" postContext
             >>= relativizeUrls
 
     match "posts/**" $ do
@@ -60,16 +63,15 @@ main = hakyllWith siteConfig $ do
                             }
 
         compile $ pandocCompilerWith defaultHakyllReaderOptions writerOptions
-            >>= loadAndApplyTemplate "templates/talk.html" postCtx
+            >>= loadAndApplyTemplate "templates/talk.html" postContext
             >>= relativizeUrls
 
     create ["archive.html"] $ do
         route idRoute
         compile $ do
-            posts <- recentFirst =<< loadAll "posts/*"
+            posts <- recentFirst =<< loadAll ("posts/*" .||. "talks/*")
             let archiveCtx =
-                    listField "posts" postCtx (return posts) `mappend`
-                    defaultContext
+                    listField "posts" postContext (return posts) <> defaultContext
 
             makeItem ""
                 >>= loadAndApplyTemplate "templates/archive.html" archiveCtx
@@ -81,9 +83,9 @@ main = hakyllWith siteConfig $ do
         route idRoute
         compile $ do
             posts <- fmap (take 3) . recentFirst =<< loadAll ("posts/*" .||. "talks/*")
+            publishedPosts <- filterM (\item -> isDraft item >>= return . not) posts
             let indexCtx =
-                    listField "posts" postCtx (return posts) `mappend`
-                    defaultContext
+                    listField "posts" postContext (return publishedPosts) <> defaultContext
 
             getResourceBody
                 >>= applyAsTemplate indexCtx
@@ -92,10 +94,14 @@ main = hakyllWith siteConfig $ do
 
     match "templates/*" $ compile templateBodyCompiler
 
-postCtx :: Context String
-postCtx =
-    dateField "date" "%B %e, %Y" `mappend`
-    defaultContext
+isDraft :: Item a -> Compiler Bool
+isDraft item = do
+    draft <- getMetadataField (itemIdentifier item) "draft"
+    return $ fromMaybe False (draft >>= return . (== "true"))
+
+postContext :: Context String
+postContext =
+    dateField "date" "%B %e, %Y" <> defaultContext
 
 dotCompiler :: Compiler (Item String)
 dotCompiler = getResourceString >>= withItemBody (unixFilter "dot" ["-Tsvg"])
