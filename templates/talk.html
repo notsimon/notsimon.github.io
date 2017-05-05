@@ -3,6 +3,7 @@
 <meta charset="utf-8">
 <title>$title$</title>
 <link href="/css/talk.css" rel="stylesheet" type="text/css"></link>
+<link href="/css/katex.min.css" rel="stylesheet" type="text/css"></link>
 
 <section id="title" class="inverse">
   <div class="middle center">
@@ -20,21 +21,17 @@ $body$
 <div id="progress-bar"></div>
 
 <script src="/scripts/dzslides.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?delayStartupUntil=configured"></script>
+<script src="/scripts/katex.min.js"></script>
 <script>
-  // Setup MathJax
-  MathJax.Hub.Config({
-    config: ["MMLorHTML.js"],
-    jax: ["input/AsciiMath","output/HTML-CSS","output/NativeMML", "output/PreviewHTML"],
-    extensions: ["asciimath2jax.js","MathMenu.js","MathZoom.js", "fast-preview.js", "AssistiveMML.js", "[Contrib]/a11y/accessibility-menu.js"],
-    asciimath2jax: {
-      delimiters: [['\\(', '\\)'], ['\\[', '\\]']],
-      processClass: ['math']
-    },
-    AsciiMath: {
-      displaystyle: true
-    }
-  });
+  function loadKatex() {
+      var elements = document.getElementsByClassName("math");
+      Array.prototype.forEach.call(elements, function(e) {
+          katex.render(e.innerHTML, e);
+      });
+  };
 
-  MathJax.Hub.Configured()
+  window.onload = function() {
+    loadDz();
+    loadKatex();
+  }
 </script>

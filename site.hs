@@ -26,7 +26,7 @@ main = hakyllWith siteConfig $ do
         route   idRoute
         compile copyFileCompiler
 
-    match "css/*" $ do
+    match "css/*.css" $ do
         route   idRoute
         compile compressCssCompiler
 
@@ -42,14 +42,14 @@ main = hakyllWith siteConfig $ do
 
         let writerOptions = defaultHakyllWriterOptions {
                                 writerHtml5 = True
-                              , writerHTMLMathMethod = MathJax ""
+                              , writerHTMLMathMethod = KaTeX "" ""
                             }
         compile $ pandocCompilerWith defaultHakyllReaderOptions writerOptions
             >>= loadAndApplyTemplate "templates/post.html"    postContext
             >>= loadAndApplyTemplate "templates/default.html" postContext
             >>= relativizeUrls
 
-    match "posts/**" $ do
+    match ("posts/**" .||. "css/**") $ do
         route   idRoute
         compile copyFileCompiler
 
@@ -59,7 +59,7 @@ main = hakyllWith siteConfig $ do
         let writerOptions = defaultHakyllWriterOptions {
                                 writerSlideVariant = DZSlides
                               , writerHtml5 = True
-                              , writerHTMLMathMethod = MathJax ""
+                              , writerHTMLMathMethod = KaTeX "" ""
                             }
 
         compile $ pandocCompilerWith defaultHakyllReaderOptions writerOptions

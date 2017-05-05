@@ -9,21 +9,12 @@
   $body$
 </article>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?delayStartupUntil=configured"></script>
+<script src="/scripts/katex.min.js" />
 <script>
-  // Setup MathJax
-  MathJax.Hub.Config({
-    config: ["MMLorHTML.js"],
-    jax: ["input/AsciiMath","output/HTML-CSS","output/NativeMML", "output/PreviewHTML"],
-    extensions: ["asciimath2jax.js","MathMenu.js","MathZoom.js", "fast-preview.js", "AssistiveMML.js", "[Contrib]/a11y/accessibility-menu.js"],
-    asciimath2jax: {
-      delimiters: [['\\(', '\\)'], ['\\[', '\\]']],
-      processClass: ['math']
-    },
-    AsciiMath: {
-      displaystyle: true
-    }
-  });
-
-  MathJax.Hub.Configured()
+  window.onload = function() {
+      var elements = document.getElementsByClassName("math");
+      Array.prototype.forEach.call(elements, function(e) {
+          katex.render(e.innerHTML, e);
+      });
+  };
 </script>

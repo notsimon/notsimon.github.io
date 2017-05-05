@@ -34,16 +34,16 @@ magnetometer
 
 The inputs are
 
-- ${bar r_i | i in [1, N]}$ the (very noisy) distances to the beacons
-- $bar a$ the measurement extracted from the accelerometer
+- $\{\bar{r_i} | i \in [1, N]\}$ the (very noisy) distances to the beacons
+- $\bar{a}$ the measurement extracted from the accelerometer
     - effect of gravity must be subtracted
     - then integrated twice to retrieve motion
-- $bar omega$ the angular velocity given by the gyroscope
-- $bar m$ the magnetometer
+- $\bar{\omega}$ the angular velocity given by the gyroscope
+- $\bar{m}$ the magnetometer
     - the magnetic field direction can be useless while being correct
 
-$$ z = [[bar r, bar a, bar omega, bar m]] $$
-$$ z in bbb"R"^(N + 9) $$
+$$ z = (\bar{r}, \bar{a}, \bar{\omega}, \bar{m})^\top $$
+$$ z \in \mathbb{R}^{N + 9} $$
 
 
 # State estimation
@@ -64,15 +64,15 @@ Adding information on the dynamics of the body, for instance
 
 - the velocity $v$
 - the acceleration $a$
-- the angular velocity $omega$
+- the angular velocity $\omega$
 
 leads to the usage of kinematics models, required by state-space estimators such
 as **Kalman filters**.
 
 The augmented state to estimate becomes:
 
-$$ x = [[p, v, a, q, omega]] $$
-$$ x in bbb"R"^15 $$
+$$ x = (p, v, a, q, \omega)^\top $$
+$$ x \in \mathbb{R}^15 $$
 
 
 # Indoor usage of a magnetometer

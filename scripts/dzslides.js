@@ -321,7 +321,7 @@ Dz.postMsg = function(aWin, aMsg) { // [arg0, [arg1...]]
   aWin.postMessage(aMsg.join(" "), "*");
 }
 
-function init() {
+function loadDz() {
   Dz.init();
   window.onkeydown = Dz.onkeydown.bind(Dz);
   window.onresize = Dz.onresize.bind(Dz);
@@ -329,7 +329,7 @@ function init() {
   window.onmessage = Dz.onmessage.bind(Dz);
 }
 
-window.onload = init;
+window.onload = loadDz;
 
 // Helpers
 if (!Function.prototype.bind) {
