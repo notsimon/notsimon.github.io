@@ -54,6 +54,7 @@ body {
 }
 .subtitle {
     font-weight:lighter;
+    margin-top: 0.5em;
 }
 .author {
     font-size: 1.2em;

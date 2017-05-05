@@ -1,6 +1,6 @@
 ---
-title: Localisation et Cartographie Multicapteurs
-subtitle: Thèse CIFRE en collaboration avec Sevenhugs
+title: Multisensors Localisation and Mapping
+subtitle: Localisation et Cartographie Multicapteurs <br/> Thèse CIFRE en collaboration avec Sevenhugs
 author: Simon Guillot
 ---
 
