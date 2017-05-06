@@ -72,7 +72,7 @@ as **Kalman filters**.
 The augmented state to estimate becomes:
 
 $$ x = (p, v, a, q, \omega)^\top $$
-$$ x \in \mathbb{R}^15 $$
+$$ x \in \mathbb{R}^{15} $$
 
 
 # Indoor usage of a magnetometer
