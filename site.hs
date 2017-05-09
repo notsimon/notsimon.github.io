@@ -6,6 +6,8 @@ import           Data.Monoid ((<>))
 import           Debug.Trace
 import           Hakyll
 import           Text.Pandoc.Options
+import           Data.Binary (Binary)
+import           Data.Typeable (Typeable)
 
 siteConfig :: Configuration
 siteConfig = defaultConfiguration {
@@ -57,7 +59,7 @@ main = hakyllWith siteConfig $ do
     create ["archive.html"] $ do
         route idRoute
         compile $ do
-            posts <- recentFirst =<< loadAll ("posts/*" .||. "talks/*")
+            posts <- loadPublishedPosts
             let archiveCtx =
                     listField "posts" postContext (return posts) <> defaultContext
 
@@ -70,10 +72,9 @@ main = hakyllWith siteConfig $ do
     match "index.html" $ do
         route idRoute
         compile $ do
-            posts <- fmap (take 3) . recentFirst =<< loadAll ("posts/*" .||. "talks/*")
-            publishedPosts <- filterM (\item -> isDraft item >>= return . not) posts
+            posts <- loadPublishedPosts
             let indexCtx =
-                    listField "posts" postContext (return publishedPosts) <> defaultContext
+                    listField "posts" postContext (return posts) <> defaultContext
 
             getResourceBody
                 >>= applyAsTemplate indexCtx
@@ -90,6 +91,12 @@ isDraft :: Item a -> Compiler Bool
 isDraft item = do
     draft <- getMetadataField (itemIdentifier item) "draft"
     return $ fromMaybe False (draft >>= return . (== "true"))
+
+
+loadPublishedPosts :: (Binary a, Typeable a) => Compiler [Item a]
+loadPublishedPosts = do
+    posts <- fmap (take 3) . recentFirst =<< loadAll ("posts/*" .||. "talks/*")
+    filterM (\item -> isDraft item >>= return . not) posts
 
 postContext :: Context String
 postContext =
