@@ -18,14 +18,6 @@ main = hakyllWith siteConfig $ do
         route   $ setExtension "svg"
         compile dotCompiler
 
-    match "images/*" $ do
-        route   idRoute
-        compile copyFileCompiler
-
-    match "scripts/*" $ do
-        route   idRoute
-        compile copyFileCompiler
-
     match "css/*.css" $ do
         route   idRoute
         compile compressCssCompiler
@@ -48,10 +40,6 @@ main = hakyllWith siteConfig $ do
             >>= loadAndApplyTemplate "templates/post.html"    postContext
             >>= loadAndApplyTemplate "templates/default.html" postContext
             >>= relativizeUrls
-
-    match ("posts/**" .||. "css/**") $ do
-        route   idRoute
-        compile copyFileCompiler
 
     match "talks/*" $ do
         route $ setExtension "html"
@@ -91,6 +79,10 @@ main = hakyllWith siteConfig $ do
                 >>= applyAsTemplate indexCtx
                 >>= loadAndApplyTemplate "templates/default.html" indexCtx
                 >>= relativizeUrls
+
+    match (foldl1 (.||.) ["images/*", "scripts/*", "robots.txt", "posts/**", "css/**"]) $ do
+        route   idRoute
+        compile copyFileCompiler
 
     match "templates/*" $ compile templateBodyCompiler
 
