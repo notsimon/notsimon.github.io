@@ -1,12 +1,18 @@
 ---
-title: Magnetic field interpolation
-draft: true
+title: Interpolation of the magnetic field for indoor tracking
 ---
+
+In this post, I will introduce one of my attempts at modeling the magnetic field 
+of a room using a continuous representation. The first goal of this work is to 
+assist the tracking of the orientation of a device by taking into account the 
+multiple distortions of the field observed indoor: this is a step toward a 
+positioning algorithm that takes advantage of these anomalies.
 
 ## Maxwell's equations and the magnetic scalar potential
 
-Our primary interest is the magnetic field, denoted by $B$ in two of the 
-[Maxwell's 
+In order to be plausible, our approximation of the magnetic field should obey 
+some properties well known by physicists. The magnetic field is denoted by $B$ 
+in two of the [Maxwell's 
 equations](https://en.wikipedia.org/wiki/Maxwell%27s_equations#Formulation_in_SI_units_convention):
 
 $$
@@ -27,8 +33,9 @@ $$
   \nabla \times B = 0
 $$
 
-In order to be plausible, our approximation of the magnetic field should obey 
-these two laws. In other words, it must be *divergence-free* and *irrotational*.  
+In other words, the magnetic field we are modeling must be *divergence-free* and 
+*irrotational*: these two constraint drastically reduces the search space of 
+possible vector fields.
 
 An irrotational vector field can be fully described as the gradient of a scalar 
 field, called a scalar potential:
@@ -71,15 +78,17 @@ $$
 
 <span style="font-size: smaller">
 We dropped the negative sign to simplify the equations even though this not 
-standard among mathematicians and physicists, the true value of the potential is 
-of little interest of our application.
+standard among mathematicians and physicists, however the true value of the 
+potential is of little interest to our application.
 </span>
-
-*[[TODO mention Barnes interpolation]]*
 
 ### Radial basis functions
 
-*[[TODO plot exp(-x^2), 1/(1+x^2), 1/sqrt(1+x^2)]]*
+A radial basis function satisfies the property $\phi(x) = \phi(||x||)$: its 
+value depends only on the distance from the origin – or another point called the 
+center. Some commonly used RBF are shown bellow.
+
+![](/images/rbf.svg){width=50%}
 
 ## Learning the map parameters
 
@@ -95,6 +104,8 @@ $$
 
 where $R \in (\mathbb{R}^2, \mathbb{R}^2) \mapsto \mathbb{R}$ is a measurement 
 of the error between the output of the model and the expected value.
+
+![](/images/magnetic-field-data.svg){width=70%}
 
 ### Stochastic gradient descent
 
@@ -123,8 +134,8 @@ $$
 $$
 
 where $\sigma$ is an hyperparameter related to the [full width at half 
-maximum](https://en.wikipedia.org/wiki/Full_width_at_half_maximum) (it gives the 
-"spread" of the weighting). Its gradient w.r.t the position $x$ is
+maximum](https://en.wikipedia.org/wiki/Full_width_at_half_maximum) – it gives 
+the *spread* of the weighting. Its gradient w.r.t the position $x$ is
 
 $$
   \nabla_x \phi(x, c_k) = \frac{c_k - x}{\sigma^2}
@@ -141,8 +152,14 @@ $$
 In the following experiement, the model was trained for 10 epochs on a set of 64 
 samples taken at random from a ground truth made of 380 samples:
 
-![](/images/gaussian-map-model.svg){width=100%}
+![](/images/radial-basis-map.svg){width=70%}
 
 ## Future work
+
 ### Sum of hot spots
-*[[TODO explain the similar form, highlight the very different semantic]]*
+
+Instead of viewing this problem as an interpolation between control point, we 
+could try to model the sources of anomalies in the magnetic field: the control 
+points would then be objects such as a furniture made of metal, or a strong 
+magnets – in a speaker for instance. We would thus try to optimize their 
+positions and the strength of their influence on the magnetic potential.
