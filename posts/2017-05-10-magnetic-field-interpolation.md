@@ -98,7 +98,7 @@ A radial basis function satisfies the property $\phi(x) = \phi(||x||)$: its
 value depends only on the distance from the origin – or another point called the 
 center. Some commonly used RBF are shown bellow.
 
-![](/images/rbf.svg){width=50%}
+![](/images/rbf.svg){width=350px}
 
 ## Learning the map parameters
 
@@ -115,7 +115,7 @@ $$
 where $R \in (\mathbb{R}^2, \mathbb{R}^2) \mapsto \mathbb{R}$ is a measurement 
 of the error between the output of the model and the expected value.
 
-![](/images/magnetic-field-data.svg){width=70%}
+![](/images/magnetic-field-data.svg){width=400px}
 
 ### Stochastic gradient descent
 
@@ -162,7 +162,7 @@ $$
 In the following experiement, the model was trained for 10 epochs on a set of 64 
 samples taken at random from a ground truth made of 380 samples:
 
-![](/images/radial-basis-map.svg){width=70%}
+![](/images/radial-basis-map.svg){width=400px}
 
 ## Future work
 
