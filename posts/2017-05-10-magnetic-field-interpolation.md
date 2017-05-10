@@ -11,9 +11,9 @@ positioning algorithm that takes advantage of these anomalies.
 ## Maxwell's equations and the magnetic scalar potential
 
 In order to be plausible, our approximation of the magnetic field should obey 
-some properties well known by physicists. The magnetic field is denoted by $B$ 
-in two of the [Maxwell's 
-equations](https://en.wikipedia.org/wiki/Maxwell%27s_equations#Formulation_in_SI_units_convention):
+some properties well known by physicists. All electromagnetic phenomena are 
+governed by the [Maxwell's equations](https://en.wikipedia.org/wiki/Maxwell%27s_equations#Formulation_in_SI_units_convention), 
+two of them involve the magnetic field:
 
 $$
   \nabla \cdot B = 0
@@ -23,21 +23,21 @@ $$
   \nabla \times B = \mu_0 \left(J + \epsilon_0 \frac{\partial E}{\partial t}\right)
 $$
 
-where $\mu_0$ and $\epsilon_0$ are respectively the permeability and 
-permittivity of vacuum, $J$ is the current density and $E$ the electric field.
+where $B \in \mathbb{R}^3 \mapsto \mathbb{R}^3$ is the magnetic field, $\mu_0$ 
+and $\epsilon_0$ are respectively the permeability and permittivity of vacuum, 
+$J$ is the current density and $E$ the electric field. 
 
-We are assuming that there is no free current in the air and no time-dependent 
-effects due to moving charges, thus the Ampère's circuital law reduces to:
+The first of these two laws states that the magnetic field is divergence free, 
+in other words, *magnetic monopoles do not exist*. We are assuming that there is 
+no free current in the air and no time-dependent effects due to moving electric 
+charges, thus the Ampère's circuital law reduces to:
 
 $$
   \nabla \times B = 0
 $$
 
-In other words, the magnetic field we are modeling must be *divergence-free* and 
-*irrotational*: these two constraint drastically reduces the search space of 
-possible vector fields.
-
-An irrotational vector field can be fully described as the gradient of a scalar 
+In these conditions, the magnetic field is then said to be *irrotational*. An 
+irrotational vector field can be fully described as the gradient of a scalar 
 field, called a scalar potential:
 
 $$
@@ -76,7 +76,7 @@ gives a weight to the anchors depending on their distance to the point $x$.  In
 essence, this approach is similar to the attention mechanism in deep 
 learning.[^attention]
 
-With this definition of the scalar potential function $psi$, the estimated 
+With this definition of the scalar potential function $\psi$, the estimated 
 magnetic field $B$ is:
 
 $$
@@ -120,9 +120,9 @@ of the error between the output of the model and the expected value.
 ### Stochastic gradient descent
 
 We consider the positions $c_k$ of the anchors to be fixed, the parameters of 
-the model are then $\theta = (w_1, \cdots, w_k)^\top$. Minimize the loss 
-$\mathcal{L}_\psi$ using a stochastic gradient descent comes down to update the 
-parameters iteratively using
+the model are then $\theta = (w_1, \cdots, w_K)^\top$. Minimize the loss 
+$\mathcal{L}_\psi$ using a stochastic gradient descent comes down to updating 
+the parameters iteratively using
 
 $$
 \theta \leftarrow \theta - \epsilon \nabla_\theta R(\nabla_x \psi(x^\star), 
