@@ -12,7 +12,7 @@ positioning algorithm that takes advantage of these anomalies.
 
 In order to be plausible, our approximation of the magnetic field should obey 
 some properties well known by physicists. All electromagnetic phenomena are 
-governed by the [Maxwell's equations](https://en.wikipedia.org/wiki/Maxwell%27s_equations#Formulation_in_SI_units_convention), 
+governed by [Maxwell's equations](https://en.wikipedia.org/wiki/Maxwell%27s_equations#Formulation_in_SI_units_convention), 
 two of them involve the magnetic field:
 
 $$
