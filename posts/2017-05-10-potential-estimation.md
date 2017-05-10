@@ -2,10 +2,10 @@
 title: Interpolation of the magnetic field for indoor tracking
 ---
 
-In this post, I will introduce one of my attempts at modeling the magnetic field 
-of a room using a continuous representation. The first goal of this work is to 
-assist the tracking of the orientation of a device by taking into account the 
-multiple distortions of the field observed indoor: this is a step toward a 
+In this report, I will introduce one of my attempts at modeling the magnetic 
+field of a room using a continuous representation. The first goal of this work 
+is to assist the tracking of the orientation of a device by taking into account 
+the multiple distortions of the field observed indoor: this is a step toward a 
 positioning algorithm that takes advantage of these anomalies.
 
 ## Maxwell's equations and the magnetic scalar potential
@@ -45,8 +45,15 @@ $$
 $$
 
 Thus, by modeling $\psi$ in place of $B$ directly, we are implicitly modeling a 
-vector field that follows the second law. The first law will be added as a 
-regularization in the optimization procedure.
+vector field that follows the second law.[^wahlstrom][^solin] The first law will 
+be added as a regularization in the optimization procedure.
+
+[^wahlstrom]: Niklas Wahlström et al., "Modeling magnetic fields using Gaussian 
+  Processes", *2013 International Conference on Acoustics, Speech and Signal 
+  Processing (ICASSP)*
+
+[^solin]: Arno Solin et al., "Modeling and interpolation of the ambient magnetic 
+  field by Gaussian processes", *arXiv:1509.04634*
 
 ## Differentiable interpolation
 
@@ -66,8 +73,8 @@ where $x \in \mathbb{R}^2$ is a point in space, $w_k$ the value of the map at
 the anchor $k$ located in position $c_k$, and $\phi \in (\mathbb{R}^2, 
 \mathbb{R}^2) \mapsto \mathbb{R}$ is a differentiable radial basis function: it 
 gives a weight to the anchors depending on their distance to the point $x$.  In 
-essence, this approach is similar to [the attention 
-mechanism](http://distill.pub/2016/augmented-rnns/) in deep learning.
+essence, this approach is similar to the attention mechanism in deep 
+learning.[^attention]
 
 With this definition of the scalar potential function $psi$, the estimated 
 magnetic field $B$ is:
@@ -81,6 +88,9 @@ We dropped the negative sign to simplify the equations even though this not
 standard among mathematicians and physicists, however the true value of the 
 potential is of little interest to our application.
 </span>
+
+[^attention]: Olah & Carter, "Attention and Augmented Recurrent Neural 
+  Networks", *Distill, 2016*. http://distill.pub/2016/augmented-rnns/
 
 ### Radial basis functions
 
