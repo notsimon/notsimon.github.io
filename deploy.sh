@@ -14,16 +14,18 @@ git fetch --all
 git checkout -b master --track origin/master
 
 # Overwrite existing files with new files
-cp -a _site/* .
+git add _site
 
 # Commit
-git add -A
 git commit -m "Publish"
 
-# Push
-git push origin master:master
+# Remove everything else
+git filter-branch -f --subdirectory-filter _site/ HEAD
 
-# Restoration
+# Push
+git push -f origin master:master
+
+# Restore
 git checkout hakyll
 git branch -D master
 git stash pop
