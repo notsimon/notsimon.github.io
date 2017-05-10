@@ -61,3 +61,13 @@ article > header > p {
     position: relative;
   }
 }
+
+@media print {
+  nav, footer {
+    display: none;
+  }
+
+  main {
+    margin: 0;
+  }
+}
