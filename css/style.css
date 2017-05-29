@@ -26,6 +26,15 @@ h5, h6 { font-size: 1em; }
 a { color: #ee6666; }
 a:hover { color: #777; }
 
+ul ul {
+  margin-top: 0.8em;
+}
+
+ul, p, span.math.display {
+  margin: 1em 0;
+}
+
+
 /*********
  * Maths *
  *********/
@@ -33,14 +42,19 @@ a:hover { color: #777; }
 span.math.display {
   display: block;
   text-align: center;
-}
-
-ul, p, span.math.display {
   margin: 1em 0;
 }
 
-ul ul {
-  margin-top: 0.8em;
+body {
+  counter-reset: eqnum;
+}
+
+span.math.display:after {
+  counter-increment: eqnum;
+  content: "(" counter(eqnum) ")";
+  float: right;
+  font-size: 0.7em;
+  color: #bbb;
 }
 
 /* Syntax highlight */
