@@ -72,7 +72,7 @@ main = hakyllWith siteConfig $ do
     match "index.html" $ do
         route idRoute
         compile $ do
-            posts <- loadPublishedPosts
+            posts <- fmap (take 3) loadPublishedPosts
             let indexCtx =
                     listField "posts" postContext (return posts) <> defaultContext
 
@@ -95,7 +95,7 @@ isDraft item = do
 
 loadPublishedPosts :: (Binary a, Typeable a) => Compiler [Item a]
 loadPublishedPosts = do
-    posts <- fmap (take 3) . recentFirst =<< loadAll ("posts/*" .||. "talks/*")
+    posts <- recentFirst =<< loadAll ("posts/*" .||. "talks/*")
     filterM (\item -> isDraft item >>= return . not) posts
 
 postContext :: Context String
