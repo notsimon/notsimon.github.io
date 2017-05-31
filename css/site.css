@@ -79,4 +79,26 @@ figure > img {
   main {
     margin: 0;
   }
+
+  article > header, article > header > p {
+    text-align: center;
+  }
+}
+
+/* Multicolumns when printing with Firefox */
+@-moz-document url-prefix() {
+  @media print {
+    body {
+      font-size: 10px;
+    }
+
+    article > section.content {
+      columns: 2;
+      column-gap: 40px;
+    }
+
+    p {
+      margin: 0 0 2em 0;
+    }
+  }
 }

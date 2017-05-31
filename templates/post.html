@@ -2,11 +2,13 @@
   <header>
     <h1>$title$</h1>
     $if(date)$
-    <p>Posted on <time>$date$</time></p>
+    <p><time>$date$</time></p>
     $endif$
   </header>
 
-  $body$
+  <section class="content">
+    $body$
+  </section>
 </article>
 
 <script src="/scripts/katex.min.js" />
