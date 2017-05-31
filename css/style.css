@@ -46,15 +46,21 @@ span.math.display {
 }
 
 body {
-  counter-reset: eqnum;
+  counter-reset: section;
+}
+
+h2 {
+  counter-reset: equation;
+  counter-increment: section;
 }
 
 span.math.display:after {
-  counter-increment: eqnum;
-  content: "(" counter(eqnum) ")";
+  counter-increment: equation;
+  content: "(" counter(section) "." counter(equation) ")";
   float: right;
   font-size: 0.7em;
   color: #bbb;
+  margin-right: 2em;
 }
 
 /* Syntax highlight */
