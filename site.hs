@@ -14,6 +14,15 @@ siteConfig = defaultConfiguration {
                 deployCommand = "bash deploy.sh"
              }
 
+feedConfig :: FeedConfiguration
+feedConfig = FeedConfiguration {
+                feedTitle       = "Simon - all posts"
+              , feedDescription = "A personnal blog"
+              , feedAuthorName  = "Simon Guillot"
+              , feedRoot        = "http://notsimon.github.io"
+              , feedAuthorEmail = "sgr.[last name]@gmail.com"
+             }
+
 main :: IO ()
 main = hakyllWith siteConfig $ do
     match "images/*.dot" $ do
@@ -40,6 +49,7 @@ main = hakyllWith siteConfig $ do
                             }
         compile $ pandocCompilerWith defaultHakyllReaderOptions writerOptions
             >>= loadAndApplyTemplate "templates/post.html"    postContext
+            >>= saveSnapshot "content"
             >>= loadAndApplyTemplate "templates/default.html" postContext
             >>= relativizeUrls
 
@@ -60,25 +70,32 @@ main = hakyllWith siteConfig $ do
         route idRoute
         compile $ do
             posts <- loadPublishedPosts
-            let archiveCtx =
+            let archiveContext =
                     listField "posts" postContext (return posts) <> defaultContext
 
             makeItem ""
-                >>= loadAndApplyTemplate "templates/archive.html" archiveCtx
-                >>= loadAndApplyTemplate "templates/default.html" archiveCtx
+                >>= loadAndApplyTemplate "templates/archive.html" archiveContext
+                >>= loadAndApplyTemplate "templates/default.html" archiveContext
                 >>= relativizeUrls
 
+    create ["atom.xml"] $ do
+        route idRoute
+        compile $ do
+            posts <- fmap (take 10) . recentFirst =<< loadAllSnapshots "posts/*" "content"
+            let feedContext = postContext `mappend` bodyField "description"
+
+            renderAtom feedConfig feedContext posts
 
     match "index.html" $ do
         route idRoute
         compile $ do
             posts <- fmap (take 3) loadPublishedPosts
-            let indexCtx =
+            let indexContext =
                     listField "posts" postContext (return posts) <> defaultContext
 
             getResourceBody
-                >>= applyAsTemplate indexCtx
-                >>= loadAndApplyTemplate "templates/default.html" indexCtx
+                >>= applyAsTemplate indexContext
+                >>= loadAndApplyTemplate "templates/default.html" indexContext
                 >>= relativizeUrls
 
     match (foldl1 (.||.) ["images/*", "scripts/*", "robots.txt", "posts/**", "css/**"]) $ do
