@@ -166,6 +166,19 @@ samples taken at random from a ground truth made of 380 samples:
 
 ## Future work
 
+### Regularization using the divergence
+
+$$
+\nabla \cdot B(x) = \nabla \cdot \nabla \psi(x)
+= \sum_{k=1}^K w_k \nabla_x \cdot \nabla_x \phi(x, c_k)
+$$
+
+which can be rewritten using the scalar Laplacian:
+
+$$
+\nabla \cdot B(x) = \sum_{k=1}^K w_k \Delta_x \phi(x, c_k)
+$$
+
 ### Sum of hot spots
 
 Instead of viewing this problem as an interpolation between control point, we 
