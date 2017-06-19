@@ -2,17 +2,18 @@
 title: Interpolation of the magnetic field for indoor tracking
 ---
 
-In this report, I will introduce one of my attempts at modeling the magnetic 
-field of a room using a continuous representation. The first goal of this work 
-is to assist the tracking of the orientation of a device by taking into account 
-the multiple distortions of the field observed indoor: this is a step toward a 
-positioning algorithm that takes advantage of these anomalies.
+This report introduces one of my attempts at modelling the magnetic field of a 
+room using a continuous representation. The first goal of this work is to assist 
+the tracking of the orientation of a device by taking into account the multiple 
+distortions of the field observed indoor: this is a step toward a positioning 
+algorithm that takes advantage of these anomalies.
 
 ## Maxwell's equations and the magnetic scalar potential
 
-In order to be plausible, our approximation of the magnetic field should obey 
+In order to be plausible, an approximation of the magnetic field should obey 
 some properties well known by physicists. All electromagnetic phenomena are 
-governed by [Maxwell's equations](https://en.wikipedia.org/wiki/Maxwell%27s_equations#Formulation_in_SI_units_convention), 
+governed by [Maxwell's 
+equations](https://en.wikipedia.org/wiki/Maxwell%27s_equations#Formulation_in_SI_units_convention), 
 two of them involve the magnetic field:
 
 $$
@@ -44,16 +45,16 @@ $$
   B = - \nabla \psi
 $$
 
-Thus, by modeling $\psi$ in place of $B$ directly, we are implicitly modeling a 
-vector field that follows the second law.[^wahlstrom][^solin] The first law will 
-be added as a regularization in the optimization procedure.
+Thus, by modelling $\psi$ in place of $B$ directly, we are implicitly modelling 
+a vector field that follows the second law.[^wahlstrom][^solin] The first law 
+will be added as a regularization in the optimization procedure.
 
-[^wahlstrom]: Niklas Wahlström et al., "Modeling magnetic fields using Gaussian 
+[^wahlstrom]: Niklas Wahlström et al., "Modelling magnetic fields using Gaussian 
   Processes", *2013 International Conference on Acoustics, Speech and Signal 
   Processing (ICASSP)*
 
-[^solin]: Arno Solin et al., "Modeling and interpolation of the ambient magnetic 
-  field by Gaussian processes", *arXiv:1509.04634*
+[^solin]: Arno Solin et al., "Modelling and interpolation of the ambient 
+  magnetic field by Gaussian processes", *arXiv:1509.04634*
 
 ## Differentiable interpolation
 
@@ -96,7 +97,7 @@ potential is of little interest to our application.
 
 A radial basis function satisfies the property $\phi(x) = \phi(||x||)$: its 
 value depends only on the distance from the origin – or another point called the 
-center. Some commonly used RBF are shown bellow.
+center. Some commonly used RBF are shown below.
 
 ![](/images/rbf.svg){width=350px}
 
@@ -121,8 +122,8 @@ of the error between the output of the model and the expected value.
 
 We consider the positions $c_k$ of the anchors to be fixed, the parameters of 
 the model are then $\theta = (w_1, \cdots, w_K)^\top$. Minimize the loss 
-$\mathcal{L}_\psi$ using a stochastic gradient descent comes down to updating 
-the parameters iteratively using
+$\mathcal{L}_\psi$ using a stochastic gradient descent (SGD) comes down to 
+updating the parameters iteratively using
 
 $$
 \theta \leftarrow \theta - \epsilon \nabla_\theta R(\nabla_x \psi(x^\star), 
@@ -137,13 +138,13 @@ much more effective.
 
 ## Initial tests and results
 
-We chose $\phi$ to be a in the form of a Gaussian function such that
+We chose $\phi$ to be the form of a Gaussian function such that
 
 $$
   \phi(x, c_k) = e^{-\frac{||x - c_k||^2}{2 \sigma^2}}
 $$
 
-where $\sigma$ is an hyperparameter related to the [full width at half 
+where $\sigma$ is a hyperparameter related to the [full width at half 
 maximum](https://en.wikipedia.org/wiki/Full_width_at_half_maximum) – it gives 
 the *spread* of the weighting. Its gradient w.r.t the position $x$ is
 
@@ -159,10 +160,13 @@ B(x) = \sum_{k=1}^K w_k \nabla_x \phi(x, c_k)
      = \sum_{k=1}^K w_k \frac{c_k - x}{\sigma^2} e^{-\frac{||x - c_k||^2}{2 \sigma^2}}
 $$
 
-In the following experiement, the model was trained for 10 epochs on a set of 64 
-samples taken at random from a ground truth made of 380 samples:
+In the following experiment, the model was trained for 10 epochs on a set of $N 
+= 64$ samples taken at random from a ground truth made of 380 samples:
 
 ![](/images/radial-basis-map.svg){width=400px}
+
+<!-- métrique d'erreur -->
+<!-- quel choix de K -->
 
 ## Future work
 
@@ -181,7 +185,7 @@ $$
 
 ### Sum of hot spots
 
-Instead of viewing this problem as an interpolation between control point, we 
+Instead of viewing this problem as an interpolation between control points, we 
 could try to model the sources of anomalies in the magnetic field: the control 
 points would then be objects such as a furniture made of metal, or a strong 
 magnets – in a speaker for instance. We would thus try to optimize their 
