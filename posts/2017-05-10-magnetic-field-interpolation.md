@@ -165,12 +165,15 @@ In the following experiment, the model was trained for 10 epochs on a set of $N
 
 ![](/images/radial-basis-map.svg){width=400px}
 
-<!-- métrique d'erreur -->
-<!-- quel choix de K -->
+As for the number of control points, it has been chosen such as there is a point 
+every 25cm on an area covering the entire scene.
 
 ## Future work
 
 ### Regularization using the divergence
+
+We used only one property of the magnetic field, the divergence-free property 
+could be introduced in the system as a regularizer such that:
 
 $$
 \nabla \cdot B(x) = \nabla \cdot \nabla \psi(x)
