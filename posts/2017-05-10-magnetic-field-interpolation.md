@@ -1,5 +1,5 @@
 ---
-title: Interpolation of the magnetic field for indoor tracking
+title: Real time interpolation of the magnetic field
 ---
 
 This report introduces one of my attempts at modelling the magnetic field of a 
@@ -167,6 +167,85 @@ In the following experiment, the model was trained for 10 epochs on a set of $N
 
 As for the number of control points, it has been chosen such as there is a point 
 every 25cm on an area covering the entire scene.
+
+
+## Implementation using a Kalman filter
+
+<div style="font-size: smaller; font-style: italic">
+Updated on June 27, 2017.
+</div>
+
+$$
+  B(x) = \nabla_x \psi(x) = \sum_{k=1}^K w_k \nabla_x \phi(x, c_k)
+$$
+
+Going back to equation 2.2, we can take the $c_k$ as hyperparameters – i.e. 
+fixing their value during optimization. We can now express $B(x)$ as a linear 
+function of the parameters we are trying to estimate (the weights $w_k$) such 
+that:
+
+$$
+  B = H \cdot w
+$$
+
+where $H$ is the $3 \times K$ matrix
+
+$$
+H =
+\begin{bmatrix}
+  \nabla_x \phi(x, c_1) & \cdots & \nabla_x \phi(x, c_K)
+\end{bmatrix}
+$$
+
+and $w$ the column vector
+
+$$
+\begin{bmatrix}
+  w_1 \\
+  \vdots \\
+  w_K
+\end{bmatrix}
+$$
+
+When defined as a linear optimization problem, the research of the most likely 
+field potential fits in the (original) [Kalman 
+filter](https://en.wikipedia.org/wiki/Kalman_filter) framework – which is, under 
+some conditions, well suited algorithm for real time estimation of unknown 
+variables. In particular, we are making use of the *update* step of the 
+algorithm during which observations are used to correct the estimation of the 
+state of the system.
+
+An update iteration of the estimated state $w$ given a measurement $z$ goes as 
+follow:
+
+<div class="algorithm">
+
+1. Compute the $H$ matrix for the current position $x$
+2. Compute the Kalman gain $K$ and residual $y$ between the true and estimated 
+   measurements using
+
+$$
+\begin{aligned}
+y &= z - H w \\
+S &= R + H P H^\top \\
+K &= P H^\top S^{-1} \\
+\end{aligned}
+$$
+
+3. Update the state $w$ and its covariance $P$ with
+
+$$
+\begin{aligned}
+w &\leftarrow w + K y \\
+P &\leftarrow (I - K H) P
+\end{aligned}
+$$
+
+</div>
+
+In our case, the measurement $z$ is the output of the magnetometer in 
+$\mathbb{R}^3$ (transformed to take into account the orientation of the device). 
+Thus, $S$ is in $\mathcal{M}^{3\times3}$ and its inversion is easy to compute.
 
 ## Future work
 

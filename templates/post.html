@@ -16,7 +16,8 @@
   window.onload = function() {
       var elements = document.getElementsByClassName("math");
       Array.prototype.forEach.call(elements, function(e) {
-          katex.render(e.innerHTML, e);
+          var str = e.innerHTML.replace(/&amp;/g, "&")
+          katex.render(str, e);
       });
   };
 </script>

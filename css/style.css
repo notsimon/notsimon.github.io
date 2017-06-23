@@ -47,6 +47,7 @@ span.math.display {
 
 body {
   counter-reset: section;
+  counter-reset: equation;
 }
 
 h2 {
@@ -65,7 +66,7 @@ span.math.display:after {
 
 /* Syntax highlight */
 
-code {
+code, .algorithm {
   background: #f8f8f8;
   border-style: solid;
   border-width: 1px;
@@ -73,9 +74,13 @@ code {
   border-radius: 0px;
 }
 
-pre > code {
+pre > code, .algorithm {
   border-width: 1px 1px 1px 4px;
   border-radius: 4px;
+}
+
+.algorithm {
+   padding: 1rem 1.5rem;
 }
 
 .sourceCode .kw { color: #268BD2; }
