@@ -2,6 +2,7 @@
 title: Interpolation of the magnetic field for indoor positioning
 subtitle: Interpolation du champ magnétique pour la localisation en intérieur
 author: Simon Guillot
+draft: true
 ---
 
 # Sevenhugs
