@@ -120,10 +120,9 @@ of the error between the output of the model and the expected value.
 
 ### Stochastic gradient descent
 
-We consider the positions $c_k$ of the anchors to be fixed, the parameters of 
-the model are then $\theta = (w_1, \cdots, w_K)^\top$. Minimize the loss 
-$\mathcal{L}_\psi$ using a stochastic gradient descent (SGD) comes down to 
-updating the parameters iteratively using
+Considering the parameters as $\theta = (w_1, \cdots, w_K, c_1, \cdots, 
+c_K)^\top$. Minimizing the loss $\mathcal{L}_\psi$ using a stochastic gradient 
+descent (SGD) comes down to updating the parameters iteratively using
 
 $$
 \theta \leftarrow \theta - \epsilon \nabla_\theta R(\nabla_x \psi(x^\star), 
@@ -136,7 +135,10 @@ of SGD, in practice there is [many
 improvements](http://sebastianruder.com/optimizing-gradient-descent/) to make it 
 much more effective.
 
-## Initial tests and results
+## Implementation using a Kalman filter
+<div style="font-size: smaller; font-style: italic">
+Updated on June 27, 2017.
+</div>
 
 We chose $\phi$ to be the form of a Gaussian function such that
 
@@ -160,29 +162,9 @@ B(x) = \sum_{k=1}^K w_k \nabla_x \phi(x, c_k)
      = \sum_{k=1}^K w_k \frac{c_k - x}{\sigma^2} e^{-\frac{||x - c_k||^2}{2 \sigma^2}}
 $$
 
-In the following experiment, the model was trained for 10 epochs on a set of $N 
-= 64$ samples taken at random from a ground truth made of 380 samples:
-
-![](/images/radial-basis-map.svg){width=400px}
-
-As for the number of control points, it has been chosen such as there is a point 
-every 25cm on an area covering the entire scene.
-
-
-## Implementation using a Kalman filter
-
-<div style="font-size: smaller; font-style: italic">
-Updated on June 27, 2017.
-</div>
-
-$$
-  B(x) = \nabla_x \psi(x) = \sum_{k=1}^K w_k \nabla_x \phi(x, c_k)
-$$
-
-Going back to equation 2.2, we can take the $c_k$ as hyperparameters – i.e. 
-fixing their value during optimization. We can now express $B(x)$ as a linear 
-function of the parameters we are trying to estimate (the weights $w_k$) such 
-that:
+By fixing the values of the $c_k$ – i.e. taking them as hyperparameters of the 
+model – we can now express $B(x)$ as a linear function of the parameters we are 
+trying to estimate (the weights $w_k$) such that:
 
 $$
   B = H \cdot w
@@ -207,10 +189,10 @@ $$
 \end{bmatrix}
 $$
 
-When defined as a linear optimization problem, the research of the most likely 
+When defined as a linear optimization problem, the quest for the most likely 
 field potential fits in the (original) [Kalman 
 filter](https://en.wikipedia.org/wiki/Kalman_filter) framework – which is, under 
-some conditions, well suited algorithm for real time estimation of unknown 
+some conditions, a well suited algorithm for real time estimation of unknown 
 variables. In particular, we are making use of the *update* step of the 
 algorithm during which observations are used to correct the estimation of the 
 state of the system.
@@ -244,8 +226,37 @@ $$
 </div>
 
 In our case, the measurement $z$ is the output of the magnetometer in 
-$\mathbb{R}^3$ (transformed to take into account the orientation of the device). 
-Thus, $S$ is in $\mathcal{M}^{3\times3}$ and its inversion is easy to compute.
+$\mathbb{R}^3$ (transformed to take into account the orientation of the device).  
+Thus, $S$ is in $\mathcal{M}^{3\times3}$ and its inverse is easy to compute.
+
+### Initial results
+
+In the following experiment, we choose the $c_k$ such that the points are spread 
+of a grid covering a least the area of interest with a resolution of 25cm. The 
+model observes 64 samples taken at random from a ground truth made of 380 
+samples. In other words, the train set is made of $N = 60$ samples.
+
+![Model output after one observation of each training 
+sample.](/images/kalman-map-test-1.svg){width="400px" id="kalman-map-test"}
+
+<script type = "text/javascript">
+  var images = [], x = 0;
+  images[0] = "/images/kalman-map-test-1.svg";
+  images[1] = "/images/kalman-map-test-2.svg";
+
+  setInterval(function() {
+    x = (x + 1) % images.length;
+    document.getElementById("kalman-map-test").src = images[x];
+  }, 2000);
+</script>
+
+Although the training data does not contain much information on the anomaly at 
+the center of the scene, the model manages to estimate it quite accurately. 
+Indeed, in the figure below we see that the model converges rapidely to its 
+optimum after having seen only a few samples.
+
+![Model error evolution during 
+training.](/images/kalman-map-mse.svg){width="400px"}
 
 ## Future work
 

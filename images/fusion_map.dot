@@ -8,6 +8,9 @@ digraph {
         style=dashed
         model [shape=box, margin=0.3, style=filled,
                label="Estimator"]
+        memory [label="Map"]
+        memory:nw -> model
+        model -> memory:ne
     }
 
     output [label="State"]
