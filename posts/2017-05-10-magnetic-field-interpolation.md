@@ -45,16 +45,16 @@ $$
   B = - \nabla \psi
 $$
 
-Thus, by modelling $\psi$ in place of $B$ directly, we are implicitly modelling 
-a vector field that follows the second law.[^wahlstrom][^solin] The first law 
-will be added as a regularization in the optimization procedure.
+Thus, by modeling $\psi$ in place of $B$ directly, we are implicitly modeling a 
+vector field that follows the second law.[^wahlstrom][^solin] The first law will 
+be added as a regularization in the optimization procedure.
 
-[^wahlstrom]: Niklas Wahlström et al., "Modelling magnetic fields using Gaussian 
+[^wahlstrom]: Niklas Wahlström et al., "Modeling magnetic fields using Gaussian 
   Processes", *2013 International Conference on Acoustics, Speech and Signal 
   Processing (ICASSP)*
 
-[^solin]: Arno Solin et al., "Modelling and interpolation of the ambient 
-  magnetic field by Gaussian processes", *arXiv:1509.04634*
+[^solin]: Arno Solin et al., "Modeling and interpolation of the ambient magnetic 
+  field by Gaussian processes", *arXiv:1509.04634*
 
 ## Differentiable interpolation
 
@@ -233,7 +233,7 @@ Thus, $S$ is in $\mathcal{M}^{3\times3}$ and its inverse is easy to compute.
 
 In the following experiment, we choose the $c_k$ such that the points are spread 
 of a grid covering a least the area of interest with a resolution of 25cm. The 
-model observes 64 samples taken at random from a ground truth made of 380 
+model observes 60 samples taken at random from a ground truth made of 380 
 samples. In other words, the train set is made of $N = 60$ samples.
 
 ![Model output after one observation of each training 
@@ -251,8 +251,8 @@ sample.](/images/kalman-map-test-1.svg){width="400px" id="kalman-map-test"}
 </script>
 
 Although the training data does not contain much information on the anomaly at 
-the center of the scene, the model manages to estimate it quite accurately. 
-Indeed, in the figure below we see that the model converges rapidely to its 
+the center of the scene, the model manages to estimate it quite accurately.  
+Indeed, in the figure below we see that the model converges rapidly to its 
 optimum after having seen only a few samples.
 
 ![Model error evolution during 
@@ -276,10 +276,3 @@ $$
 \nabla \cdot B(x) = \sum_{k=1}^K w_k \Delta_x \phi(x, c_k)
 $$
 
-### Sum of hot spots
-
-Instead of viewing this problem as an interpolation between control points, we 
-could try to model the sources of anomalies in the magnetic field: the control 
-points would then be objects such as a furniture made of metal, or a strong 
-magnets – in a speaker for instance. We would thus try to optimize their 
-positions and the strength of their influence on the magnetic potential.
