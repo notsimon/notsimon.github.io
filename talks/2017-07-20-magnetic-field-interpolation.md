@@ -20,74 +20,63 @@ magnetometer
     * The distances to three beacons and its charging base
 * During setup, the user places its real and virtual objects using the remote
 
+# Indoor usage of a magnetometer
 
-# State estimation
+![Variations in color represent variations in 
+inclination](/images/map.svg){style="width: 70%; margin: -2.5em 0"}
 
-![](/images/fusion_kalman.svg){width=60%}
+* Important variations of the intensity and direction in the magnetic field
+* The magnetometer must be recalibrated when exposed to strong fields
 
-The inputs are
-
-- $\{\bar{r_i} | i \in [1, N]\}$ the (very noisy) distances to the beacons
-- $\bar{a} \in \mathbb{R}^3$ the measurement extracted from the accelerometer
-    - effect of gravity must be subtracted
-    - then integrated twice to retrieve motion
-- $\bar{\omega} \in \mathbb{R}^3$ the angular velocity given by the gyroscope
-    - some calibration parameters must be estimated continuously
-- $\bar{m} \in \mathbb{R}^3$ the magnetometer
-    - must be recalibrated when exposed to strong magnetic fields
-    - the magnetic field direction isn't always the magnetic north!
-
-# State estimation
-
-![](/images/fusion_map.svg){width=60%}
-
-Pose estimation comes down to estimating
-
-- the position $p$ in $\mathbb{R}^3$
-- the orientation $q$ in $\mathbb{R}^3$, represented as a rotation quaternion for convenience
-
-To which we add information on the dynamics of the body, for instance
-
-- the velocity $v$
-- the acceleration $a$
-- the angular velocity $\omega$
-
-The system's state to estimate is in $\mathbb{R}^{15}$.
-
-# Model's inputs and outputs
+# Estimation of the magnetic field
 
 ![](/images/map_measurements.svg){width=80%}
 
-The model input is a set of magnetometer readings with
+The model learns from a set of readings $D^\star = \{ (x_i^\star, y_i^\star) | i 
+\in [1..N] \}$ where
 
-- the associated absolute positions
-- the orientation of the sensor substracted
+- $y^\star \in \mathbb{R}^3$ is the magnetometer reading transformed to be 
+  independent of the orientation of the device
+- $x^\star \in \mathbb{R}^3$ its associated position
 
-# Model's inputs and outputs
+We are looking for an approximation $B$ of the field such that
+$$
+B(x^\star) \approx y^\star
+$$
+
+# Estimation of the magnetic field
 
 ![](/images/map_ground_truth.svg){width=80%}
 
-Given a position, the model is expected to output the value of the magnetic 
-field in $\mathbb{R}^3$.
+Given a (new) position, the model is expected to predict the value of the 
+magnetic field.
+
+<hr></hr>
+
+**Difficulty:** How to generalize well enough to be accurate in unexplored areas 
+?
 
 # A priori knowledge
 
 Electromagnetic phenomena are governed by the four Maxwell's equations, two 
 involve the magnetic field.
 
+<div class="next">
 $$
   \nabla \cdot B = 0
 $$
 
-[**The magnetic field is divergence-free**: magnetic monopoles do not 
-exist.]{.next}
+**The magnetic field is divergence-free**: magnetic monopoles do not exist.
 
+</div>
+
+<div class="next" style="margin-top: 3em">
 $$
   \nabla \times B = \mu_0 \left(J + \epsilon_0 \frac{\partial E}{\partial t}\right)
 $$
 
-[The magnetic field induced around a closed loop depends on the electric 
-current.]{.next}
+Around a closed loop, it depends on the electric current.
+</div>
 
 <div class="next">
 We are assuming:
@@ -107,17 +96,16 @@ $$
 # The magnetic potential
 
 An irrotational vector field can be represented as *the gradient of a scalar 
-field*, called the field potential.
+field*
 
 $$
-  B(x) = - \nabla_x \psi(x)
+  B(x) = \nabla_x \psi(x)
 $$
 
-where $B \in \mathbb{R}^3 \mapsto \mathbb{R}^3$ and
-$\psi$ is a *differentiable* function in $\mathbb{R}^3 \mapsto \mathbb{R}$
+Our goal is now to find a function $\psi$
 
-By modeling $\psi$ in place of $B$ directly, we are implicitly modeling a vector 
-field that follows the second law.[^wahlstrom]
+- in $\mathbb{R}^3 \mapsto \mathbb{R}$
+- differentiable w.r.t the position $x$
 
 [^wahlstrom]: Niklas Wahlström et al., "Modeling magnetic fields using Gaussian 
   Processes", *2013 International Conference on Acoustics, Speech and Signal 
@@ -126,66 +114,76 @@ field that follows the second law.[^wahlstrom]
 [^solin]: Arno Solin et al., "Modeling and interpolation of the ambient magnetic 
   field by Gaussian processes", *arXiv:1509.04634*
 
+[[TODO figure with potential and its associated gradient]]
 
 # Proposed model
 
-The map is represented by as set of $K$ anchor points $M = \{(c_k, w_k) | k \in 
-[1, K]\}$, where
+[[TODO figure with potential and the grid of points]]
+
+Interpolation from a set of $K$ anchor points $M = \{(c_k, w_k) | k \in [1, 
+K]\}$ where
 
 - $c_k$ is the position of the anchors in $\mathbb{R}^3$
-- $w$ their associated value, a scalar in this case
+- $w_k$ its associated scalar value
 
-In order to have a model differentiable w.r.t the position and elements of the 
-map $M$, we define $\psi$ as
+# Proposed model
+
+We define $\psi$ as
 
 $$
   \psi(x) = \sum_{k=1}^K w_k \phi(x, c_k)
 $$
 
-where $\phi \in (\mathbb{R}^3, \mathbb{R}^3) \mapsto \mathbb{R}$ is a 
-differentiable radial basis function: it gives a weight to the anchors depending 
-on their distance.
+where $\phi$ gives a weight to the anchors depending on their distance.
 
-![](/images/rbf.svg){width=300px}
-
-# Learning the map parameters
-
-Given a set of known points $S^\star = \{ (x_i^\star, y_i^\star) | i \in [1..N] 
-\}$ where
-
-- $x_i^\star \in \mathbb{R}^3$ is a position in space
-- $y_i^\star \in \mathbb{R}^3$ the observed value of the $B$ field at this 
-  position
-
-We are looking for the function $\psi$ that minimizes the loss
-
+<div class="next">
+<hr></hr>
+We chose $\phi$ to be a Gaussian:
 $$
-  \mathcal{L} = \sum_{i=1}^N R(\nabla \psi(x_i^\star), y_i^\star)
+  \phi(x, c_k) = e^{-\frac{||x - c_k||^2}{2 \sigma^2}}
 $$
 
-where $R \in (\mathbb{R}^3, \mathbb{R}^3) \mapsto \mathbb{R}$ is a measurement 
-of the error.
+![Example of radial basis functions suitable to be used as 
+$\phi$](/images/rbf.svg){width=280px}
+</div>
 
-# Stochastic gradient descent
+# Kalman filters
 
-$\theta = (w_1, \cdots, w_K, c_1, \cdots, c_K)^\top$
+- Optimal for **linear optimization problems** involving Gaussian noises
+- Estimate a state $w$ with its associated covariance matrix $P$
 
-Minimizing the loss $\mathcal{L}_\psi$ comes down to updating the parameters 
-iteratively using
+<div class="algorithm">
+#### Algorithm outline
 
-$$
-\theta \leftarrow \theta - \epsilon \nabla_\theta R(\nabla_x \psi(x^\star), 
-y^\star)
-$$
+1. **Predict**
+    - Use a "transition model" to forward the estimated state in time
 
-$\epsilon$ is a constant controling the learning rate and $(x^\star, y^\star)$ 
-is an element of $S^\star$ chosen at random
+2. **Update**
+    - Project the estimated state into the measurement space using an 
+      "observation model"
+    - Compare to the actual measurement
+    - Correct the estimation
+</div>
+
+Advantages
+
+- Online estimation of the parameters, each measurement is observed only 
+  **once**
+- Fine-grained uncertainty on the measurements and estimation
 
 # Reducing to a linear optimization problem
 
-By fixing the values of the $c_k$ – i.e. taking them as hyperparameters of the 
-model – we can now express $B(x)$ as a linear function of the parameters we are 
-trying to estimate (the weights $w_k$) such that:
+$$
+\begin{aligned}
+  \psi(x) &= \sum_{k=1}^K w_k \phi(x, c_k) \\\\
+  B(x)    &= \nabla_x \psi(x) \\\\
+          &= \sum_{k=1}^K w_k \nabla_x \phi(x, c_k)
+\end{aligned}
+$$
+
+<hr></hr>
+
+If we do not fit the positions $c_k$ of the anchors, $B$ can then be written
 
 $$
   B = H \cdot w
@@ -210,29 +208,18 @@ $$
 \end{bmatrix}
 $$
 
-When defined as a linear optimization problem, the quest for the most likely 
-field potential fits in the (original) Kalman filter framework.
-
-# 30 seconds intro to Kalman filtering
-
-Iterative
-
-- Predict
-- Update
-
-Measurement of uncertainty on the data and estimation.
-
 # Estimation of the potential using a Kalman filter
 
 <div class="algorithm">
+#### For each measurement $(x, y)$
 
 1. Compute the $H$ matrix for the current position $x$
-2. Compute the Kalman gain $K$ and residual $y$ between the true and estimated 
-   measurements using
+2. Compute the residual $z$ between the true and estimated measurements, its 
+   associated covariance $S$ and the Kalman gain $K$ using
 
 $$
 \begin{aligned}
-y &= z - H w \\
+z &= y - H w \\
 S &= R + H P H^\top \\
 K &= P H^\top S^{-1} \\
 \end{aligned}
@@ -242,18 +229,51 @@ $$
 
 $$
 \begin{aligned}
-w &\leftarrow w + K y \\
+w &\leftarrow w + K z \\
 P &\leftarrow (I - K H) P
 \end{aligned}
 $$
 
 </div>
 
-In our case, the measurement $z$ is the output of the magnetometer in 
-$\mathbb{R}^3$ (transformed to take into account the orientation of the device).  
-Thus, $S$ is in $\mathcal{M}^{3\times3}$ and its inverse is easy to compute.
+- $S \in \mathcal{M}^{3\times3}$, its inverse is easy to compute
+- $H$ grows linearly with the number of anchor points, $P$ quadratically
 
 # Initial results
 
 $c_k$ such that the points are spread of a grid covering a least the area of 
 interest with a resolution of 25cm
+
+# Non-linear version
+## Optimization by stochastic gradient descent
+
+We are looking for the function $\psi$ that minimizes the loss
+
+$$
+  \mathcal{L} = \sum_{i=1}^N \delta(\nabla \psi(x_i^\star), y_i^\star)
+$$
+
+where $\delta \in (\mathbb{R}^3, \mathbb{R}^3) \mapsto \mathbb{R}$ is a 
+measurement of the error.
+
+<hr></hr>
+
+Let $\theta = (w_1, \cdots, w_K, c_1, \cdots, c_K)^\top$
+
+To minimize $\mathcal{L}_\psi$, update iteratively $\theta$ using
+
+$$
+\theta \leftarrow \theta - \epsilon \nabla_\theta \delta(\nabla \psi(x^\star), 
+y^\star)
+$$
+
+where
+
+- $\epsilon$ is a constant controling the learning rate
+- $(x^\star, y^\star)$ is an element of $S^\star$ chosen at random
+
+## Contraint on the divergence
+
+As a regularizer in the SGD
+
+As an observation in the Kalman filter

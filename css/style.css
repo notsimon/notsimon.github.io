@@ -45,28 +45,9 @@ span.math.display {
   margin: 1em 0;
 }
 
-body {
-  counter-reset: section;
-  counter-reset: equation;
-}
-
-h2 {
-  counter-reset: equation;
-  counter-increment: section;
-}
-
-span.math.display:after {
-  counter-increment: equation;
-  content: "(" counter(section) "." counter(equation) ")";
-  float: right;
-  font-size: 0.7em;
-  color: #bbb;
-  margin-right: 2em;
-}
-
 /* Syntax highlight */
 
-code, .algorithm {
+code, .algorithm, .important {
   background: #f8f8f8;
   border-style: solid;
   border-width: 1px;
@@ -74,13 +55,17 @@ code, .algorithm {
   border-radius: 0px;
 }
 
-pre > code, .algorithm {
+pre > code, .algorithm, .important {
   border-width: 1px 1px 1px 4px;
   border-radius: 4px;
 }
 
-.algorithm {
-   padding: 1rem 1.5rem;
+.algorithm, .important {
+  padding: 1rem 1.5rem;
+}
+
+.important > p {
+  margin: 0;
 }
 
 .sourceCode .kw { color: #268BD2; }
