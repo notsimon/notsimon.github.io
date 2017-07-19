@@ -102,10 +102,12 @@ $$
   B(x) = -\nabla_x \psi(x)
 $$
 
+<div class="next">
 Our goal is now to find a function $\psi$
 
 - in $\mathbb{R}^3 \mapsto \mathbb{R}$
 - differentiable w.r.t the position $x$
+</div>
 
 [^wahlstrom]: Niklas Wahlström et al., "Modeling magnetic fields using Gaussian 
   Processes", *2013 International Conference on Acoustics, Speech and Signal 
@@ -143,6 +145,14 @@ $$
 where $\phi$ gives a weight to the anchors depending on their distance.
 
 # Proposed model
+
+$$
+\begin{aligned}
+  B(x)    &= \nabla_x \psi(x) \\\\
+          &= \sum_{k=1}^K w_k \nabla_x \phi(x, c_k)
+\end{aligned}
+$$
+
 We chose $\phi$ to be a Gaussian:
 $$
   \phi(x, c_k) = e^{-\frac{||x - c_k||^2}{2 \sigma^2}}
