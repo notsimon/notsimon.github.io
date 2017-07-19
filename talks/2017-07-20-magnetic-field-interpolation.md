@@ -96,10 +96,10 @@ $$
 # The magnetic potential
 
 An irrotational vector field can be represented as *the gradient of a scalar 
-field*
+field* [^wahlstrom] [^solin]
 
 $$
-  B(x) = \nabla_x \psi(x)
+  B(x) = -\nabla_x \psi(x)
 $$
 
 Our goal is now to find a function $\psi$
@@ -114,11 +114,14 @@ Our goal is now to find a function $\psi$
 [^solin]: Arno Solin et al., "Modeling and interpolation of the ambient magnetic 
   field by Gaussian processes", *arXiv:1509.04634*
 
-[[TODO figure with potential and its associated gradient]]
+![A scalar field and its associated 
+gradient](/images/potential_example.svg){width=80%}
 
 # Proposed model
 
-[[TODO figure with potential and the grid of points]]
+![The model is supported by a set of anchors 
+points](/images/model_anchors.svg){width=45%}
+
 
 Interpolation from a set of $K$ anchor points $M = \{(c_k, w_k) | k \in [1, 
 K]\}$ where
@@ -128,6 +131,9 @@ K]\}$ where
 
 # Proposed model
 
+![The model is supported by a set of anchors 
+points](/images/model_interpolation.svg){width=45%}
+
 We define $\psi$ as
 
 $$
@@ -136,16 +142,16 @@ $$
 
 where $\phi$ gives a weight to the anchors depending on their distance.
 
-<div class="next">
-<hr></hr>
+# Proposed model
 We chose $\phi$ to be a Gaussian:
 $$
   \phi(x, c_k) = e^{-\frac{||x - c_k||^2}{2 \sigma^2}}
 $$
 
+<hr></hr>
+
 ![Example of radial basis functions suitable to be used as 
 $\phi$](/images/rbf.svg){width=280px}
-</div>
 
 # Kalman filters
 
@@ -173,16 +179,6 @@ Advantages
 
 # Reducing to a linear optimization problem
 
-$$
-\begin{aligned}
-  \psi(x) &= \sum_{k=1}^K w_k \phi(x, c_k) \\\\
-  B(x)    &= \nabla_x \psi(x) \\\\
-          &= \sum_{k=1}^K w_k \nabla_x \phi(x, c_k)
-\end{aligned}
-$$
-
-<hr></hr>
-
 If we do not fit the positions $c_k$ of the anchors, $B$ can then be written
 
 $$
@@ -207,6 +203,20 @@ $$
   w_K
 \end{bmatrix}
 $$
+
+<hr style="margin-top: 3em"></hr>
+
+<div style="font-size: 0.8em">
+###Reminder
+
+$$
+\begin{aligned}
+  \psi(x) &= \sum_{k=1}^K w_k \phi(x, c_k) \\\\
+  B(x)    &= \nabla_x \psi(x) \\\\
+          &= \sum_{k=1}^K w_k \nabla_x \phi(x, c_k)
+\end{aligned}
+$$
+</div>
 
 # Estimation of the potential using a Kalman filter
 
@@ -241,8 +251,26 @@ $$
 
 # Initial results
 
-$c_k$ such that the points are spread of a grid covering a least the area of 
-interest with a resolution of 25cm
+- Resolution and sigma of 25cm
+- Addition of a bias – a linear function of the position when viewed as a 
+  potential
+
+<center>
+<video width="72%" controls>
+  <source src="/images/model_learning.mp4" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
+</center>
+
+# Initial results
+
+- Resolution and sigma of 25cm
+- Addition of a bias – a linear function of the position when viewed as a 
+  potential
+
+![Model confidence, using the anchors 
+variance](/images/model_confidence.svg){width=80%}
+
 
 # Non-linear version
 ## Optimization by stochastic gradient descent
@@ -256,11 +284,8 @@ $$
 where $\delta \in (\mathbb{R}^3, \mathbb{R}^3) \mapsto \mathbb{R}$ is a 
 measurement of the error.
 
-<hr></hr>
-
-Let $\theta = (w_1, \cdots, w_K, c_1, \cdots, c_K)^\top$
-
-To minimize $\mathcal{L}_\psi$, update iteratively $\theta$ using
+Let $\theta = (w_1, \cdots, w_K, c_1, \cdots, c_K)^\top$, to minimize 
+$\mathcal{L}_\psi$, update iteratively $\theta$ using
 
 $$
 \theta \leftarrow \theta - \epsilon \nabla_\theta \delta(\nabla \psi(x^\star), 
@@ -272,8 +297,40 @@ where
 - $\epsilon$ is a constant controling the learning rate
 - $(x^\star, y^\star)$ is an element of $S^\star$ chosen at random
 
-## Contraint on the divergence
+# Contraint on the divergence
 
-As a regularizer in the SGD
+$$
+\begin{aligned}
+\nabla \cdot B(x) &= \nabla \cdot \nabla \psi(x) \\ \\
+                  &= \sum_{k=1}^K w_k \nabla_x \cdot \nabla_x \phi(x, c_k)
+\end{aligned}
+$$
 
-As an observation in the Kalman filter
+which can be rewritten using the scalar Laplacian:
+
+$$
+\nabla \cdot B(x) = \sum_{k=1}^K w_k \Delta_x \phi(x, c_k)
+$$
+
+As a regularizer during a SGD, the loss becomes
+
+$$
+\mathcal{L} = \sum_{i=1}^N \delta(\nabla \psi(x_i^\star), y_i^\star)
++ mean_j\left(\nabla \cdot B(x_j)\right)
+$$
+
+As an observation in the Kalman filter: the model is expected to produce a 
+divergence of zero for a number of random positions.
+
+# Conclusion
+
+Summary:
+
+- Modelisation of a magnetic potential instead of the vector field
+- Continuous interpolation over a set of chosen points
+- Inclusion of a second law of Maxwell using a regularization
+
+Novelty of the method:
+
+- Usage of an attention mechanism
+- Implemention in a Kalman filter
