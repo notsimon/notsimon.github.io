@@ -12,6 +12,7 @@ html, .view body {
 
 body {
   box-shadow: 0 0 30px #888;
+  font-size: 12pt;
 }
 
 .view > body {
@@ -129,7 +130,6 @@ mark.next:not([active]) {
 
 table {
   margin: auto;
-  font-size:2.5rem;
   text-align: center;
 }
 
@@ -137,7 +137,6 @@ blockquote {
   height: 100%;
   background-color: black;
   color: white;
-  font-size: 3.75rem;
   padding: 50px;
 }
 blockquote:before {
@@ -155,7 +154,7 @@ figure {
   text-align: center;
 }
 figcaption {
-  font-size: 0.7em;
+  font-size: 0.8em;
 }
 
 header {

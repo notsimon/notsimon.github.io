@@ -42,8 +42,8 @@ The inputs are
 - $\bar{m}$ the magnetometer
     - the magnetic field direction can be useless while being correct
 
-$$ z = (\bar{r}, \bar{a}, \bar{\omega}, \bar{m})^\top $$
-$$ z \in \mathbb{R}^{N + 9} $$
+$$ z = (\bar{r}, \bar{a}, \bar{\omega}, \bar{m})^\top, z \in \mathbb{R}^{N + 9} 
+$$
 
 
 # State estimation
