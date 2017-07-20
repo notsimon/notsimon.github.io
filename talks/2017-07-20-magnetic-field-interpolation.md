@@ -163,30 +163,6 @@ $$
 ![Example of radial basis functions suitable to be used as 
 $\phi$](/images/rbf.svg){width=280px}
 
-# Kalman filters
-
-- Optimal for **linear optimization problems** involving Gaussian noises
-- Estimate a state $w$ with its associated covariance matrix $P$
-
-<div class="algorithm">
-#### Algorithm outline
-
-1. **Predict**
-    - Use a "transition model" to forward the estimated state in time
-
-2. **Update**
-    - Project the estimated state into the measurement space using an 
-      "observation model"
-    - Compare to the actual measurement
-    - Correct the estimation
-</div>
-
-Advantages
-
-- Online estimation of the parameters, each measurement is observed only 
-  **once**
-- Fine-grained uncertainty on the measurements and estimation
-
 # Reducing to a linear optimization problem
 
 If we do not fit the positions $c_k$ of the anchors, $B$ can then be written
@@ -214,19 +190,48 @@ $$
 \end{bmatrix}
 $$
 
-<hr style="margin-top: 3em"></hr>
+<hr></hr>
 
-<div style="font-size: 0.8em">
 ###Reminder
-
+<table width="80%">
+<td style="border: 0">
+$$
+  \psi(x) = \sum_{k=1}^K w_k \phi(x, c_k)
+$$
+</td>
+<td style="border: 0">
 $$
 \begin{aligned}
-  \psi(x) &= \sum_{k=1}^K w_k \phi(x, c_k) \\\\
   B(x)    &= \nabla_x \psi(x) \\\\
           &= \sum_{k=1}^K w_k \nabla_x \phi(x, c_k)
 \end{aligned}
 $$
+</td>
+</table>
+
+# Kalman filters
+
+- Optimal for **linear optimization problems** involving Gaussian noises
+- Estimate a state $w$ with its associated covariance matrix $P$
+
+<div class="algorithm">
+#### Algorithm outline
+
+1. **Predict**
+    - Use a "transition model" to forward the estimated state in time
+
+2. **Update**
+    - Project the estimated state into the measurement space using an 
+      "observation model"
+    - Compare to the actual measurement
+    - Correct the estimation
 </div>
+
+Advantages
+
+- Online estimation of the parameters, each measurement is observed only 
+  **once**
+- Fine-grained uncertainty on the measurements and estimation
 
 # Estimation of the potential using a Kalman filter
 
@@ -279,8 +284,20 @@ $$
   potential
 
 ![Model confidence, using the anchors 
-variance](/images/model_confidence.svg){width=80%}
+variance](/images/model_confidence.svg){width=90%}
 
+# Conclusion
+
+Summary:
+
+- Modelisation of a magnetic potential instead of the vector field
+- Continuous interpolation over a set of chosen points
+- Inclusion of a second law of Maxwell using a regularization
+
+Novelty of the method:
+
+- Usage of an attention mechanism
+- Implemention in a Kalman filter
 
 # Non-linear version
 ## Optimization by stochastic gradient descent
@@ -307,7 +324,7 @@ where
 - $\epsilon$ is a constant controling the learning rate
 - $(x^\star, y^\star)$ is an element of $S^\star$ chosen at random
 
-# Contraint on the divergence
+# Constraint on the divergence
 
 $$
 \begin{aligned}
@@ -331,16 +348,3 @@ $$
 
 As an observation in the Kalman filter: the model is expected to produce a 
 divergence of zero for a number of random positions.
-
-# Conclusion
-
-Summary:
-
-- Modelisation of a magnetic potential instead of the vector field
-- Continuous interpolation over a set of chosen points
-- Inclusion of a second law of Maxwell using a regularization
-
-Novelty of the method:
-
-- Usage of an attention mechanism
-- Implemention in a Kalman filter
