@@ -7,12 +7,13 @@ draft: true
 
 # Sevenhugs
 
-<figure>
+<!--<figure>
 <iframe width="560" height="315"
         src="https://www.youtube.com/embed/jB7iuBKcfZw?iv_load_policy=3" frameborder="0"
         allowfullscreen></iframe>
-</figure>
+</figure>-->
 
+![](/images/img-remote-livingroom.gif){width="90%"}
 
 * To track its position and orientation in the room, the remote merges:
     * Measurements from a set of embedded sensors: a gyroscope, an accelerometer, a
@@ -158,14 +159,22 @@ $$
   \phi(x, c_k) = e^{-\frac{||x - c_k||^2}{2 \sigma^2}}
 $$
 
-<hr></hr>
+its gradient is
 
-![Example of radial basis functions suitable to be used as 
-$\phi$](/images/rbf.svg){width=280px}
+$$
+  \nabla_x \phi(x, c_k) = \frac{c_k - x}{\sigma^2}
+                          e^{-\frac{||x - c_k||^2}{2 \sigma^2}}
+  \quad \in \mathbb{R}^3
+$$
+
+<div class="next">
+<hr style="margin-bottom: 1em"></hr>
+![](/images/rbf.svg){width=240px}
+</div>
 
 # Reducing to a linear optimization problem
 
-If we do not fit the positions $c_k$ of the anchors, $B$ can then be written
+If we **do not fit the positions $c_k$ of the anchors**, $B$ can then be written
 
 $$
   B = H \cdot w
@@ -183,6 +192,7 @@ $$
 and $w$ the column vector
 
 $$
+w =
 \begin{bmatrix}
   w_1 \\
   \vdots \\
@@ -339,12 +349,11 @@ $$
 \nabla \cdot B(x) = \sum_{k=1}^K w_k \Delta_x \phi(x, c_k)
 $$
 
-As a regularizer during a SGD, the loss becomes
+* As a regularizer during a SGD, the loss becomes
+    $$
+    \mathcal{L} = \sum_{i=1}^N \delta(\nabla \psi(x_i^\star), y_i^\star)
+    + mean_j\left(\nabla \cdot B(x_j)\right)
+    $$
+* As an observation in the Kalman filter: the model is expected to produce a of 
+  zero for a number of random positions.
 
-$$
-\mathcal{L} = \sum_{i=1}^N \delta(\nabla \psi(x_i^\star), y_i^\star)
-+ mean_j\left(\nabla \cdot B(x_j)\right)
-$$
-
-As an observation in the Kalman filter: the model is expected to produce a 
-divergence of zero for a number of random positions.
