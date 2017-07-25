@@ -98,7 +98,7 @@ main = hakyllWith siteConfig $ do
                 >>= loadAndApplyTemplate "templates/default.html" indexContext
                 >>= relativizeUrls
 
-    match (foldl1 (.||.) ["images/*", "scripts/*", "robots.txt", "posts/**", "css/**"]) $ do
+    match (foldl1 (.||.) ["images/**", "scripts/*", "robots.txt", "posts/**", "css/**"]) $ do
         route   idRoute
         compile copyFileCompiler
 
