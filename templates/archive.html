@@ -1,2 +1,4 @@
-<h1>All posts</h1>
-$partial("templates/post-list.html")$
+<h1>Archives</h1>
+$for(items)$
+  <li><a href="$url$">$title$</a> - $date$</li>
+$endfor$

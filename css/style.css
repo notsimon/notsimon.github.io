@@ -34,6 +34,10 @@ ul, p, span.math.display {
   margin: 1em 0;
 }
 
+.container {
+  width: 100%;
+}
+
 
 /*********
  * Maths *

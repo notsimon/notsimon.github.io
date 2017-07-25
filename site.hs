@@ -16,7 +16,7 @@ siteConfig = defaultConfiguration {
 
 feedConfig :: FeedConfiguration
 feedConfig = FeedConfiguration {
-                feedTitle       = "Simon - all posts"
+                feedTitle       = "Simon - all articles"
               , feedDescription = "A personnal blog"
               , feedAuthorName  = "Simon Guillot"
               , feedRoot        = "http://notsimon.github.io"
@@ -36,11 +36,11 @@ main = hakyllWith siteConfig $ do
     match (fromList ["cv.md", "contact.md"]) $ do
         route   $ setExtension "html"
         compile $ pandocCompiler
-            >>= loadAndApplyTemplate "templates/post.html"    defaultContext
+            >>= loadAndApplyTemplate "templates/article.html"    defaultContext
             >>= loadAndApplyTemplate "templates/default.html" defaultContext
             >>= relativizeUrls
 
-    match "posts/*" $ do
+    match "articles/*" $ do
         route $ setExtension "html"
 
         let writerOptions = defaultHakyllWriterOptions {
@@ -48,7 +48,7 @@ main = hakyllWith siteConfig $ do
                               , writerHTMLMathMethod = KaTeX "" ""
                             }
         compile $ pandocCompilerWith defaultHakyllReaderOptions writerOptions
-            >>= loadAndApplyTemplate "templates/post.html"    postContext
+            >>= loadAndApplyTemplate "templates/article.html"    postContext
             >>= saveSnapshot "content"
             >>= loadAndApplyTemplate "templates/default.html" postContext
             >>= relativizeUrls
@@ -69,9 +69,9 @@ main = hakyllWith siteConfig $ do
     create ["archive.html"] $ do
         route idRoute
         compile $ do
-            posts <- loadPublishedPosts
+            items <- loadPublishedPosts ("articles/*" .||. "talks/*")
             let archiveContext =
-                    listField "posts" postContext (return posts) <> defaultContext
+                    listField "items" postContext (return items) <> defaultContext
 
             makeItem ""
                 >>= loadAndApplyTemplate "templates/archive.html" archiveContext
@@ -81,24 +81,27 @@ main = hakyllWith siteConfig $ do
     create ["atom.xml"] $ do
         route idRoute
         compile $ do
-            posts <- fmap (take 10) . recentFirst =<< loadAllSnapshots "posts/*" "content"
+            articles <- fmap (take 10) . recentFirst =<< loadAllSnapshots "articles/*" "content"
             let feedContext = postContext `mappend` bodyField "description"
 
-            renderAtom feedConfig feedContext posts
+            renderAtom feedConfig feedContext articles
 
     match "index.html" $ do
         route idRoute
         compile $ do
-            posts <- fmap (take 3) loadPublishedPosts
+            articles <- fmap (take 3) $ loadPublishedPosts "articles/*"
+            talks <- fmap (take 3) $ loadPublishedPosts "talks/*"
             let indexContext =
-                    listField "posts" postContext (return posts) <> defaultContext
+                    listField "articles" postContext (return articles)
+                    <> listField "talks" postContext (return talks)
+                    <> defaultContext
 
             getResourceBody
                 >>= applyAsTemplate indexContext
                 >>= loadAndApplyTemplate "templates/default.html" indexContext
                 >>= relativizeUrls
 
-    match (foldl1 (.||.) ["media/**", "scripts/*", "robots.txt", "posts/**", "css/**"]) $ do
+    match (foldl1 (.||.) ["media/**", "scripts/*", "robots.txt", "articles/**", "css/**"]) $ do
         route   idRoute
         compile copyFileCompiler
 
@@ -110,9 +113,9 @@ isDraft item = do
     return $ fromMaybe False (draft >>= return . (== "true"))
 
 
-loadPublishedPosts :: (Binary a, Typeable a) => Compiler [Item a]
-loadPublishedPosts = do
-    posts <- recentFirst =<< loadAll ("posts/*" .||. "talks/*")
+loadPublishedPosts :: (Binary a, Typeable a) => Pattern -> Compiler [Item a]
+loadPublishedPosts p = do
+    posts <- recentFirst =<< loadAll p
     filterM (\item -> isDraft item >>= return . not) posts
 
 postContext :: Context String

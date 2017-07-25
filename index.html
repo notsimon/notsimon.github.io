@@ -11,5 +11,29 @@ Sevenhugs while doing a PhD thesis on indoor localisation.</p>
 Machine Learning. Among other things, my current interests lie around predictive models, 
 low-level programming and functionnal languages.</p>
 
-<h1>Last posts</h1>
-$partial("templates/post-list.html")$
+<div class="container">
+  <div class="row">
+    <div class="one-half column">
+      <h1>Last articles</h1>
+      <ul>
+        $for(articles)$
+          <li>
+            <a href="$url$">$title$</a>
+            <br/><time>$date$</time>
+          </li>
+        $endfor$
+      </ul>
+    </div>
+    <div class="one-half column">
+      <h1>Last presentations</h1>
+      <ul>
+        $for(talks)$
+          <li>
+            <a href="$url$">$title$</a>
+            <br/><time>$date$</time>
+          </li>
+        $endfor$
+      </ul>
+    </div>
+  </div>
+</div>
