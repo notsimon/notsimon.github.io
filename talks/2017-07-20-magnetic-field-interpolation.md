@@ -1,6 +1,6 @@
 ---
-title: Real time interpolation of the magnetic field
-subtitle: Interpolation du champ magnétique en temps réel
+title: Interpolation of the magnetic field for drift correction
+subtitle: Interpolation du champ magnétique pour la correction de dérive
 author: Simon Guillot
 ---
 

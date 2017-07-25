@@ -110,13 +110,16 @@ looking for a differentiable function $\psi \in \mathbb{R}^2 \mapsto \mathbb{R}$
 that minimizes the loss
 
 $$
-  \mathcal{L}_\psi = \sum_{i=1}^N R(\nabla \psi(x_i^\star), y_i^\star)
+  \mathcal{L}_\psi = \sum_{i=1}^N \delta(\nabla \psi(x_i^\star), y_i^\star)
 $$
 
-where $R \in (\mathbb{R}^2, \mathbb{R}^2) \mapsto \mathbb{R}$ is a measurement 
-of the error between the output of the model and the expected value.
+where $\delta \in (\mathbb{R}^2, \mathbb{R}^2) \mapsto \mathbb{R}$ is a 
+measurement of the error between the output of the model and the expected value.
 
-![](/media/magnetic-field-interpolation/magnetic-field-data.svg){width=400px}
+![A test case recorded using Optitrack cameras for pose estimation and a 
+calibrated magnetometer.  At the center of the scene lies a Sonos wireless 
+speaker which induce a distortion of the magnetic field around 
+it.](/media/magnetic-field-interpolation/magnetic-field-data.svg){width=400px}
 
 ### Stochastic gradient descent
 
@@ -125,11 +128,11 @@ c_K)^\top$. Minimizing the loss $\mathcal{L}_\psi$ using a stochastic gradient
 descent (SGD) comes down to updating the parameters iteratively using
 
 $$
-\theta \leftarrow \theta - \epsilon \nabla_\theta R(\nabla_x \psi(x^\star), 
+\theta \leftarrow \theta - \epsilon \nabla_\theta \delta(\nabla_x \psi(x^\star), 
 y^\star)
 $$
 
-where $\epsilon$ is a constant controling the learning rate and $(x^\star, 
+where $\epsilon$ is a constant controlling the learning rate and $(x^\star, 
 y^\star)$ is an element of $S^\star$ chosen at random. This is the simplest form 
 of SGD, in practice there is [many 
 improvements](http://sebastianruder.com/optimizing-gradient-descent/) to make it 
@@ -182,6 +185,7 @@ $$
 and $w$ the column vector
 
 $$
+w =
 \begin{bmatrix}
   w_1 \\
   \vdots \\
@@ -197,18 +201,18 @@ variables. In particular, we are making use of the *update* step of the
 algorithm during which observations are used to correct the estimation of the 
 state of the system.
 
-An update iteration of the estimated state $w$ given a measurement $z$ goes as 
-follow:
+An update iteration of the estimated state $w$ and its covariance $P$ given a 
+measurement $y$ goes as follow:
 
 <div class="algorithm">
 
 1. Compute the $H$ matrix for the current position $x$
-2. Compute the Kalman gain $K$ and residual $y$ between the true and estimated 
-   measurements using
+2. Compute the residual $z$ between the true and estimated measurements, its 
+   covariance $S$ and the Kalman gain $K$ using
 
 $$
 \begin{aligned}
-y &= z - H w \\
+z &= y - H w \\
 S &= R + H P H^\top \\
 K &= P H^\top S^{-1} \\
 \end{aligned}
@@ -218,21 +222,21 @@ $$
 
 $$
 \begin{aligned}
-w &\leftarrow w + K y \\
+w &\leftarrow w + K z \\
 P &\leftarrow (I - K H) P
 \end{aligned}
 $$
 
 </div>
 
-In our case, the measurement $z$ is the output of the magnetometer in 
-$\mathbb{R}^3$ (transformed to take into account the orientation of the device).  
+In our case, the measurement $y$ is the output of the magnetometer in 
+$\mathbb{R}^3$ (transformed to take into account the orientation of the device). 
 Thus, $S$ is in $\mathcal{M}^{3\times3}$ and its inverse is easy to compute.
 
 ### Initial results
 
 In the following experiment, we choose the $c_k$ such that the points are spread 
-of a grid covering a least the area of interest with a resolution of 25cm. The 
+over a grid covering a least the area of interest with a resolution of 25cm. The 
 model observes 60 samples taken at random from a ground truth made of 380 
 samples. In other words, the train set is made of $N = 60$ samples.
 
@@ -251,10 +255,10 @@ id="kalman-map-test"}
   }, 2000);
 </script>
 
-Although the training data does not contain much information on the anomaly at 
-the center of the scene, the model manages to estimate it quite accurately.  
-Indeed, in the figure below we see that the model converges rapidly to its 
-optimum after having seen only a few samples.
+Although the training data do not contain much information on the anomaly at the 
+center of the scene, the model manages to estimate it quite accurately. Indeed, 
+in the figure below we see that the model converges rapidly to its optimum after 
+having seen only a few samples.
 
 ![Model error evolution during 
 training.](/media/magnetic-field-interpolation/kalman-map-mse.svg){width="400px"}
@@ -277,3 +281,5 @@ $$
 \nabla \cdot B(x) = \sum_{k=1}^K w_k \Delta_x \phi(x, c_k)
 $$
 
+In a Kalman filter framework, this would come down to making an observation of 
+the value of the divergence.
