@@ -66,15 +66,16 @@ main = hakyllWith siteConfig $ do
             >>= loadAndApplyTemplate "templates/talk.html" postContext
             >>= relativizeUrls
 
-    create ["archive.html"] $ do
+    match "archive.html" $ do
         route idRoute
         compile $ do
             items <- loadPublishedPosts ("articles/*" .||. "talks/*")
             let archiveContext =
-                    listField "items" postContext (return items) <> defaultContext
+                    listField "items" postContext (return items)
+                    <> defaultContext
 
-            makeItem ""
-                >>= loadAndApplyTemplate "templates/archive.html" archiveContext
+            getResourceBody
+                >>= applyAsTemplate archiveContext
                 >>= loadAndApplyTemplate "templates/default.html" archiveContext
                 >>= relativizeUrls
 
