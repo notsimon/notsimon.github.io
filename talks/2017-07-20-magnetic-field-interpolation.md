@@ -6,7 +6,7 @@ author: Simon Guillot
 
 # Sevenhugs
 
-![](/images/sevenhugs/pointing.gif){width="90%"}
+![](/media/sevenhugs/pointing.gif){width="90%"}
 
 * To track its position and orientation in the room, the remote merges:
     * Measurements from a set of embedded sensors: a gyroscope, an accelerometer, a
@@ -17,14 +17,14 @@ magnetometer
 # Indoor usage of a magnetometer
 
 ![Variations in color represent variations in 
-inclination](/images/map.svg){style="width: 70%; margin: -2.5em 0"}
+inclination](/media/map.svg){style="width: 70%; margin: -2.5em 0"}
 
 * Important variations of the intensity and direction in the magnetic field
 * The magnetometer must be recalibrated when exposed to strong fields
 
 # Estimation of the magnetic field
 
-![](/images/magnetic-field-interpolation/map_measurements.svg){width=80%}
+![](/media/magnetic-field-interpolation/map_measurements.svg){width=80%}
 
 The model learns from a set of readings $D^\star = \{ (x_i^\star, y_i^\star) | i 
 \in [1..N] \}$ where
@@ -40,7 +40,7 @@ $$
 
 # Estimation of the magnetic field
 
-![](/images/magnetic-field-interpolation/map_ground_truth.svg){width=80%}
+![](/media/magnetic-field-interpolation/map_ground_truth.svg){width=80%}
 
 Given a (new) position, the model is expected to predict the value of the 
 magnetic field.
@@ -111,12 +111,12 @@ Our goal is now to find a function $\psi$
   field by Gaussian processes", *arXiv:1509.04634*
 
 ![A scalar field and its associated 
-gradient](/images/magnetic-field-interpolation/potential_example.svg){width=80%}
+gradient](/media/magnetic-field-interpolation/potential_example.svg){width=80%}
 
 # Proposed model
 
 ![The model is supported by a set of anchors 
-points](/images/magnetic-field-interpolation/model_anchors.svg){width=45%}
+points](/media/magnetic-field-interpolation/model_anchors.svg){width=45%}
 
 
 Interpolation from a set of $K$ anchor points $M = \{(c_k, w_k) | k \in [1, 
@@ -128,7 +128,7 @@ K]\}$ where
 # Proposed model
 
 ![The model is supported by a set of anchors 
-points](/images/magnetic-field-interpolation/model_interpolation.svg){width=45%}
+points](/media/magnetic-field-interpolation/model_interpolation.svg){width=45%}
 
 We define $\psi$ as
 
@@ -162,7 +162,7 @@ $$
 
 <div class="next">
 <hr style="margin-bottom: 1em"></hr>
-![](/images/magnetic-field-interpolation/rbf.svg){width=240px}
+![](/media/magnetic-field-interpolation/rbf.svg){width=240px}
 </div>
 
 # Reducing to a linear optimization problem
@@ -256,7 +256,7 @@ $$
 
 <center>
 <video width="72%" controls>
-  <source src="/images/magnetic-field-interpolation/model_learning.mp4" 
+  <source src="/media/magnetic-field-interpolation/model_learning.mp4" 
   type="video/mp4">
   Your browser does not support the video tag.
 </video>
@@ -269,7 +269,7 @@ $$
   potential
 
 ![Model confidence, using the anchors 
-variance](/images/magnetic-field-interpolation/model_confidence.svg){width=90%}
+variance](/media/magnetic-field-interpolation/model_confidence.svg){width=90%}
 
 # Conclusion
 

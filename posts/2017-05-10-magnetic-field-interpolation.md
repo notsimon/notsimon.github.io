@@ -99,7 +99,7 @@ A radial basis function satisfies the property $\phi(x) = \phi(||x||)$: its
 value depends only on the distance from the origin – or another point called the 
 center. Some commonly used RBF are shown below.
 
-![](/images/magnetic-field-interpolation/rbf.svg){width=350px}
+![](/media/magnetic-field-interpolation/rbf.svg){width=350px}
 
 ## Learning the map parameters
 
@@ -116,7 +116,7 @@ $$
 where $R \in (\mathbb{R}^2, \mathbb{R}^2) \mapsto \mathbb{R}$ is a measurement 
 of the error between the output of the model and the expected value.
 
-![](/images/magnetic-field-interpolation/magnetic-field-data.svg){width=400px}
+![](/media/magnetic-field-interpolation/magnetic-field-data.svg){width=400px}
 
 ### Stochastic gradient descent
 
@@ -237,13 +237,13 @@ model observes 60 samples taken at random from a ground truth made of 380
 samples. In other words, the train set is made of $N = 60$ samples.
 
 ![Model output after one observation of each training 
-sample.](/images/magnetic-field-interpolation/kalman-map-test-1.svg){width="400px" 
+sample.](/media/magnetic-field-interpolation/kalman-map-test-1.svg){width="400px" 
 id="kalman-map-test"}
 
 <script type = "text/javascript">
   var images = [], x = 0;
-  images[0] = "/images/magnetic-field-interpolation/kalman-map-test-1.svg";
-  images[1] = "/images/magnetic-field-interpolation/kalman-map-test-2.svg";
+  images[0] = "/media/magnetic-field-interpolation/kalman-map-test-1.svg";
+  images[1] = "/media/magnetic-field-interpolation/kalman-map-test-2.svg";
 
   setInterval(function() {
     x = (x + 1) % images.length;
@@ -257,7 +257,7 @@ Indeed, in the figure below we see that the model converges rapidly to its
 optimum after having seen only a few samples.
 
 ![Model error evolution during 
-training.](/images/magnetic-field-interpolation/kalman-map-mse.svg){width="400px"}
+training.](/media/magnetic-field-interpolation/kalman-map-mse.svg){width="400px"}
 
 ## Future work
 

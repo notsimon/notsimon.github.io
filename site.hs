@@ -25,7 +25,7 @@ feedConfig = FeedConfiguration {
 
 main :: IO ()
 main = hakyllWith siteConfig $ do
-    match "images/*.dot" $ do
+    match "media/*.dot" $ do
         route   $ setExtension "svg"
         compile dotCompiler
 
@@ -98,7 +98,7 @@ main = hakyllWith siteConfig $ do
                 >>= loadAndApplyTemplate "templates/default.html" indexContext
                 >>= relativizeUrls
 
-    match (foldl1 (.||.) ["images/**", "scripts/*", "robots.txt", "posts/**", "css/**"]) $ do
+    match (foldl1 (.||.) ["media/**", "scripts/*", "robots.txt", "posts/**", "css/**"]) $ do
         route   idRoute
         compile copyFileCompiler
 
