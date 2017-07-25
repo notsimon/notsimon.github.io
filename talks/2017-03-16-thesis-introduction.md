@@ -19,7 +19,7 @@ author: Simon Guillot
 
 # Sevenhugs' remote
 
-![](/images/sr_setup.gif){width=50%}
+![](/media/sevenhugs/setup.gif){width=50%}
 
 * To track its position and orientation in the room, the remote merges:
     * Measurements from a set of embedded sensors: a gyroscope, an accelerometer, a
@@ -30,7 +30,7 @@ magnetometer
 
 # State estimation
 
-![](/images/fusion.svg){width=60%}
+![](/media/fusion.svg){width=60%}
 
 The inputs are
 
@@ -48,7 +48,7 @@ $$
 
 # State estimation
 
-![](/images/fusion.svg){width=60%}
+![](/media/fusion.svg){width=60%}
 
 The estimation of the targeted objects requires at least
 
@@ -58,7 +58,7 @@ The estimation of the targeted objects requires at least
 
 # State estimation
 
-![](/images/fusion_kalman.svg){width=60%}
+![](/media/fusion_kalman.svg){width=60%}
 
 Adding information on the dynamics of the body, for instance
 
@@ -78,7 +78,7 @@ $$ x \in \mathbb{R}^{15} $$
 # Indoor usage of a magnetometer
 
 ![Direction of the magnetic field on a plane at one meter above the ground 
-(vectors are normalized)](/images/map_normalized.svg){style="width: 70%; margin: 
+(vectors are normalized)](/media/map_normalized.svg){style="width: 70%; margin: 
 -2.5em 0"}
 
 * Some regions can be up to 45º off from the north direction
@@ -87,7 +87,7 @@ $$ x \in \mathbb{R}^{15} $$
 # Indoor usage of a magnetometer
 
 ![Variations in color represent variations in 
-inclination](/images/map.svg){style="width: 70%; margin: -2.5em 0"}
+inclination](/media/map.svg){style="width: 70%; margin: -2.5em 0"}
 
 * Important variations of the norm and inclination of the magnetic field
 * Both can be measured without ambiguities
