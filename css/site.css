@@ -43,6 +43,7 @@ article > header > p {
 figure {
   text-align: center;
   max-width: 90%;
+  font-size: 0.9em;
 }
 
 figure > img {
