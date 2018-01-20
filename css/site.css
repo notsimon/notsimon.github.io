@@ -2,6 +2,8 @@
 
 body {
   width: 100%;
+  max-width: 700px;
+  margin: 0 auto;
 }
 
 nav {
@@ -16,7 +18,7 @@ nav a {
 }
 
 nav a:hover {
-  color: #f3f3f3;
+  color: #000000;
 }
 
 main {
@@ -74,11 +76,11 @@ span.math.display:after {
 /* Larger than phablet */
 @media (min-width: 750px) {
   nav {
-    position: fixed;
+    position: absolute;
     top: 0;
     bottom: 0;
-    left: 0;
     width: 130px;
+    margin-left: -170px;
     padding: 20px;
     text-align: right;
   }
@@ -87,9 +89,8 @@ span.math.display:after {
     margin: 0.5em 0;
   }
   main, footer {
+    width: 100%;
     margin: 0;
-    margin-left: 170px;
-    max-width: 700px;
   }
   footer {
     position: relative;
