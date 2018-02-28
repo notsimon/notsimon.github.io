@@ -130,7 +130,25 @@ mark.next:not([active]) {
 
 table {
   margin: auto;
+  border-collapse: collapse;
+  border-style: hidden;
+}
+
+table td, table th {
+  border: 0.5px solid #888;
+}
+
+table th {
   text-align: center;
+}
+
+table td {
+  vertical-align: top;
+}
+
+table caption {
+  font-size: smaller;
+  font-style: italic;
 }
 
 blockquote {
