@@ -7,7 +7,7 @@ git stash
 git checkout hakyll
 
 # Build new files
-./dist/build/site/site rebuild
+stack exec site rebuild
 
 # Get previous files
 git fetch --all
