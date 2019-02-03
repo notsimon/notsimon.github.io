@@ -1,6 +1,7 @@
 ---
 title: Traitement d'image pour le ciblage
 author: Simon Guillot
+draft: true
 ---
 
 # Pertinence pour la SmartRemote
