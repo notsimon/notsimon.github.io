@@ -10,24 +10,36 @@ Machine Learning, 5 years of experience as a Software Engineer.
 
 ## Skills
 
-Machine Learning
-: Foo bar
+Machine Learning &amp; Optimization
+:   - Deep Neural Networks, mainly applied to computer vision
+    - Favorite DL framework: PyTorch, for various reasons
+    - Linear and non-linear optimization, mostly for production chain monitoring and geolocation
 
-Programming
-: Blah blah
+Programming &amp; Software Development
+:   *Favorite languages and tools*
+
+    - Systems: C, C++ and some assembly, experimenting with Rust
+    - Script: Python
 
 Production management
 : Foo blah
 
 ## Technical work experience
 
+Machine Learning Engineer
+:   *@Sevenhugs, since January 2018*
+
+    Started a computer vision project, initially done as a side project on spare
+    time. Patent pending.
+
 Data Fusion & Algorithms Engineer
-:   *@ Sevenhugs, since February 2016*
+:   *@ Sevenhugs, from February 2016 to January 2018*
 
     Sensors fusion Kalman filters, low-level sensors drivers
     Production management
     Worked on a PhD thesis on indoor SLAM with the magnetic field
     Started project vision, handled the infrastructure for machine learning work
+    Patents
 
 R&D Software Engineer
 :   *@ Invoxia, from November 2013 to June 2015*
@@ -54,7 +66,7 @@ Teaching Assistant
 ## Education
 
 PhD student at *LIP6, Sorbonne University*
-:   from August 2016
+:   from September 2016 to November 2017
 
     \\ TODO
 
