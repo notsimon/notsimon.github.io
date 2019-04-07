@@ -2,9 +2,10 @@
 title: Curriculum Vitae
 ---
 
-Simon Guillot
-
 ## Summary
+
+I have an Engineering degree in Computer Science and a Master's degree in
+Machine Learning.
 
 ## Skills
 
@@ -22,7 +23,10 @@ Production management
 Data Fusion & Algorithms Engineer
 :   *@ Sevenhugs, since February 2016*
 
-    Kalman filters, low-level sensors drivers, production management
+    Sensors fusion Kalman filters, low-level sensors drivers
+    Production management
+    Worked on a PhD thesis on indoor SLAM with the magnetic field
+    Started project vision, handled the infrastructure for machine learning work
 
 R&D Software Engineer
 :   *@ Invoxia, from November 2013 to June 2015*
@@ -48,13 +52,22 @@ Teaching Assistant
 
 ## Education
 
-Master’s Degree in Machine Learning from *Université Pierre et Marie Curie*
+PhD student at *LIP6, Sorbonne University*
+:   from August 2016
+
+    \\ TODO
+
+    Supervised by Marie-Jeanne Lesot.
+    Indoor SLAM with the magnetic field, differentiable data structures,
+    sensors fusion
+
+Master’s Degree in Machine Learning from *Sorbonne University* (former *Université Pierre et Marie Curie*)
 :   Autumn 2015
 
     Statistical learning, deep learning, nonclassical logic and reasoning, data 
     mining, information retrieval, artificial intelligence applied to robotic.
 
-Engineer’s Degree in Computer Science from EPITA
+Engineering Degree in Computer Science from EPITA
 :   Graduated in 2013
 
     Major in Machine Learning and High Performance Computing
