@@ -92,7 +92,7 @@ main = hakyllWith siteConfig $ do
 
             renderAtom feedConfig feedContext articles
 
-    match (foldl1 (.||.) ["media/**", "scripts/*", "robots.txt", "articles/**", "css/**"]) $ do
+    match (foldl1 (.||.) ["media/**", "scripts/*", "robots.txt", "articles/**", "css/**", "CNAME"]) $ do
         route   idRoute
         compile copyFileCompiler
 
