@@ -1,37 +1,13 @@
 ---
-title: Home | Simon Guillot
+title: Home
 ---
 
-<h1>About me</h1>
-<p>Hello! I'm Simon, I live in Nantes where I work remotely as a Machine
-Learning Engineer. On my spare time I workout a lot, hike and cycle, teach STEM
-to children, try to grow veggies and I love to travel to Asia
-<small>(with a tiny backpack)</small>. These days I also play with
-<a href="rust-lang.org">Rust</a></p>
+<style>
+  .profile {
+    margin-top: 15vh;
+  }
 
-<div class="container">
-  <div class="row">
-    <div class="one-half column">
-      <h1>Last articles</h1>
-      <ul>
-        $for(articles)$
-          <li>
-            <a href="$url$">$title$</a>
-            <br/><time>$date$</time>
-          </li>
-        $endfor$
-      </ul>
-    </div>
-    <div class="one-half column">
-      <h1>Last presentations</h1>
-      <ul>
-        $for(talks)$
-          <li>
-            <a href="$url$">$title$</a>
-            <br/><time>$date$</time>
-          </li>
-        $endfor$
-      </ul>
-    </div>
-  </div>
-</div>
+  .profile p.description {
+    display: initial;
+  }
+</style>

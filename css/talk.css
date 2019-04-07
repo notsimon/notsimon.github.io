@@ -207,7 +207,7 @@ section[aria-selected] ~ section { left: +150%; }
    progress of the presentation. */
 #progress-bar {
   height: 2px;
-  background: #ee6666;
+  background: #2ECC40;
 }
 
 [role="note"] { display: none; }

@@ -33,11 +33,16 @@ main = hakyllWith siteConfig $ do
         route   idRoute
         compile compressCssCompiler
 
-    match (fromList ["cv.md", "contact.md"]) $ do
+    match "index.html" $ do
+        route idRoute
+        compile $ getResourceBody
+                >>= loadAndApplyTemplate "templates/layout.html" defaultContext
+                >>= relativizeUrls
+
+    match (fromList ["about.md", "cv.md"]) $ do
         route   $ setExtension "html"
         compile $ pandocCompiler
-            >>= loadAndApplyTemplate "templates/article.html"    defaultContext
-            >>= loadAndApplyTemplate "templates/default.html" defaultContext
+            >>= loadAndApplyTemplate "templates/layout.html" defaultContext
             >>= relativizeUrls
 
     match "articles/*" $ do
@@ -50,7 +55,7 @@ main = hakyllWith siteConfig $ do
         compile $ pandocCompilerWith defaultHakyllReaderOptions writerOptions
             >>= loadAndApplyTemplate "templates/article.html"    postContext
             >>= saveSnapshot "content"
-            >>= loadAndApplyTemplate "templates/default.html" postContext
+            >>= loadAndApplyTemplate "templates/layout.html" postContext
             >>= relativizeUrls
 
     match "talks/*" $ do
@@ -66,7 +71,7 @@ main = hakyllWith siteConfig $ do
             >>= loadAndApplyTemplate "templates/talk.html" postContext
             >>= relativizeUrls
 
-    match "archive.html" $ do
+    match "blog.html" $ do
         route idRoute
         compile $ do
             items <- loadPublishedPosts ("articles/*" .||. "talks/*")
@@ -76,7 +81,7 @@ main = hakyllWith siteConfig $ do
 
             getResourceBody
                 >>= applyAsTemplate archiveContext
-                >>= loadAndApplyTemplate "templates/default.html" archiveContext
+                >>= loadAndApplyTemplate "templates/layout.html" archiveContext
                 >>= relativizeUrls
 
     create ["atom.xml"] $ do
@@ -86,21 +91,6 @@ main = hakyllWith siteConfig $ do
             let feedContext = postContext `mappend` bodyField "description"
 
             renderAtom feedConfig feedContext articles
-
-    match "index.html" $ do
-        route idRoute
-        compile $ do
-            articles <- fmap (take 3) $ loadPublishedPosts "articles/*"
-            talks <- fmap (take 3) $ loadPublishedPosts "talks/*"
-            let indexContext =
-                    listField "articles" postContext (return articles)
-                    <> listField "talks" postContext (return talks)
-                    <> defaultContext
-
-            getResourceBody
-                >>= applyAsTemplate indexContext
-                >>= loadAndApplyTemplate "templates/default.html" indexContext
-                >>= relativizeUrls
 
     match (foldl1 (.||.) ["media/**", "scripts/*", "robots.txt", "articles/**", "css/**"]) $ do
         route   idRoute

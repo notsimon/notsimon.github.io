@@ -1,11 +1,12 @@
 ---
 title: Curriculum Vitae
+draft: true
 ---
 
 ## Summary
 
-I have an Engineering degree in Computer Science and a Master's degree in
-Machine Learning.
+Engineer's degree in Computer Science and Master's degree in
+Machine Learning, 5 years of experience as a Software Engineer.
 
 ## Skills
 

@@ -1,28 +1,45 @@
 @import url(normalize.css);
 @import url(skeleton.css);
 
+/* Colored items are here */
+
+a {
+  color: #2ECC40;
+}
+
+a:hover svg.icon {
+  fill: #2ECC40;
+}
+
+/* Everything else bellow */
+
 body {
-  line-height: 1.5em;
-  font-weight: 200;
-  color: #111;
+  font-size: 1.7rem;
+  font-weight: 300;
+  color: #666 ;
+  -webkit-font-smoothing: antialiased;
+  line-height: 1.7;
+  width: 100%;
 }
 
 h1, h2, h3 {
-  font-family: 'Yanone Kaffeesatz', sans-serif;
-  color:#606060;
-  letter-spacing:0.01em;
+  font-weight: 600;
+  color: #222;
   line-height:1em;
-  font-weight:bold; 
 }
 
-h1 { font-size: 1.8em; }
-h2 { font-size: 1.6em; }
-h3 { font-size: 1.4em; }
-h4 { font-size: 1.2em; }
-h5, h6 { font-size: 1em; }
+h1 { font-size: 3rem; }
+h2 { font-size: 1.6rem; }
+h3 { font-size: 1.4rem; }
+h4 { font-size: 1.2rem; }
+h5, h6 { font-size: 1rem; }
 
-a { color: #ee6666; }
-a:hover { color: #777; }
+a {
+  text-decoration: none;
+}
+a:hover {
+  color: #777;
+}
 
 ul ul {
   margin-top: 0.8em;
@@ -36,22 +53,109 @@ ul, p, span.math.display {
   width: 100%;
 }
 
+svg.icon {
+  width: 1em;
+  height: 1em;
+  fill: #222;
+}
+
+nav {
+  text-align: center;
+}
+
+nav a {
+  margin: 0 0.5em;
+  border-radius: 5px;
+}
+
+nav a:hover {
+  color: #000000;
+}
+
+main {
+  width: 100%;
+  max-width: 768px;
+  margin: 0 auto;
+}
+
+main h1 {
+  text-align: center;
+}
+
+figure {
+  text-align: center;
+  max-width: 90%;
+  font-size: 0.9em;
+}
+
+figure > img {
+  max-width: 100%;
+}
+
+.profile, .profile p {
+  text-align: center;
+}
+
+.profile {
+  margin-top: 5vh;
+  animation: fade-in-up .5s;
+  animation-delay: .2s;
+  animation-fill-mode: both;
+}
+
+.profile img {
+  width: 128px;
+  border-radius: 100%;
+}
+
+.profile h1 {
+  font-size: 4rem;
+  margin: 0;
+  margin-top: 0.5em;
+}
+
+.profile p.description {
+  color: #aaa;
+  font-size: 1.85rem;
+  display: none;
+}
+
+.profile p.accounts {
+  font-size: 2rem;
+}
+
+.profile p.accounts a {
+  margin: 0 0.3em;
+}
+
+main p {
+  text-align: justify;
+}
+
+footer {
+  padding: 20px;
+  text-align: center;
+  font-size: 0.8em;
+  margin-top: 20vh;
+}
+
+article > header > p {
+  font-style: italic;
+  font-size: 0.9em;
+  text-align: right;
+}
+
+
+/* Animations */
+
+@keyframes fade-in-up {
+  from {opacity: 0;transform:translateY(20px);}
+  to {opacity: 1;transform:translateY(0);}
+}
+
 /*********
  * Fonts *
  *********/
-
-@font-face {
-  font-family: 'Yanone Kaffeesatz';
-  font-style: normal;
-  font-weight: 400;
-  src: url('fonts/yanone-kaffeesatz-v8-latin-regular.eot'); /* IE9 Compat Modes */
-  src: local('Yanone Kaffeesatz Regular'), local('YanoneKaffeesatz-Regular'),
-       url('fonts/yanone-kaffeesatz-v8-latin-regular.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
-       url('fonts/yanone-kaffeesatz-v8-latin-regular.woff2') format('woff2'), /* Super Modern Browsers */
-       url('fonts/yanone-kaffeesatz-v8-latin-regular.woff') format('woff'), /* Modern Browsers */
-       url('fonts/yanone-kaffeesatz-v8-latin-regular.ttf') format('truetype'), /* Safari, Android, iOS */
-       url('fonts/yanone-kaffeesatz-v8-latin-regular.svg#YanoneKaffeesatz') format('svg'); /* Legacy iOS */
-}
 
 @font-face {
   font-family: 'Raleway';
@@ -102,7 +206,30 @@ span.math.display {
   margin: 1em 0;
 }
 
-/* Syntax highlight */
+/* Equations numbering */
+
+body {
+  counter-reset: section;
+  counter-reset: equation;
+}
+
+h2 {
+  counter-reset: equation;
+  counter-increment: section;
+}
+
+span.math.display:after {
+  counter-increment: equation;
+  content: "(" counter(section) "." counter(equation) ")";
+  float: right;
+  font-size: 0.7em;
+  color: #bbb;
+  margin-right: 2em;
+}
+
+/********
+ * Code *
+ ********/
 
 code, .algorithm, .important {
   background: #f8f8f8;
@@ -136,3 +263,43 @@ pre > code, .algorithm, .important {
 .sourceCode .fu { color: #268BD2; }
 .sourceCode .re { }
 .sourceCode .er { color: #D30102; font-weight: bold; }
+
+/************
+ * PRINTING *
+ ************/
+
+@media print {
+  nav, footer {
+    display: none;
+  }
+
+  main {
+    margin: 0;
+  }
+
+  article > header, article > header > p {
+    text-align: center;
+  }
+}
+
+/* Multicolumns when printing with Firefox */
+@-moz-document url-prefix() {
+  @media print {
+    body {
+      font-size: 10px;
+    }
+
+    article > section.content {
+      columns: 2;
+      column-gap: 40px;
+    }
+
+    p {
+      margin: 0 0 2em 0;
+    }
+
+    h1, h2, h3 {
+      font-family: inherit;
+    }
+  }
+}

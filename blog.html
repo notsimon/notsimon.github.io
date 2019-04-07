@@ -1,0 +1,19 @@
+---
+title: Blog – Simon Guillot
+---
+
+<style>
+  .row {
+    margin: 2em 0;
+  }
+</style>
+
+$for(items)$
+  <div class="row">
+    <div class="nine columns"><a href="$url$">$title$</a></div>
+    <div class="three columns">$date$</div>
+  </div>
+$endfor$
+<div style="text-align: center">
+  <a href="/atom.xml"><svg class="icon"><use xlink:href="/media/fa-solid.svg#rss"/>rss feed</svg></a>
+</div>
