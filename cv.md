@@ -1,6 +1,5 @@
 ---
 title: Curriculum Vitae
-draft: true
 ---
 
 <style>
