@@ -24,7 +24,7 @@ problems solving by avoiding dogmas.
 ## Main skills
 
 Programming &amp; Software Development
-:   - Systems: C, C++ and Linux (however, my dev station is preferably a Mac)
+:   - Systems: C, C++ and Linux <small>(but my dev station is preferably a Mac)</small>
     - Script: Python
 
 Machine Learning &amp; Optimization
