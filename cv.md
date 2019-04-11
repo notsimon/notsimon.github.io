@@ -3,88 +3,106 @@ title: Curriculum Vitae
 draft: true
 ---
 
+<style>
+    dl { line-height: 1.3em; }
+    dt { font-weight: bold; }
+    dd p:first-of-type { font-style: italic; }
+    dd p em:first-of-type { color: #2ECC40; }
+    h2 { margin-left: -1em; }
+</style>
+
+Located in **Nantes**, France<br/>
+*Open to on-site or remote jobs in small companies.*
+
 ## Summary
 
-Engineer's degree in Computer Science and Master's degree in
-Machine Learning, 5 years of experience as a Software Engineer.
+I have an Engineer's degree in Computer Science and a Master's degree in 
+Machine Learning, and 5 years of experience as a Software Engineer during which 
+I worked on low-level software, machine learning research projects and 
+relieable software for production lines. I do my best to be pragmatic about 
+problems solving by avoiding dogmas.
 
-## Skills
+## Main skills
+
+Programming &amp; Software Development
+:   - Systems: C, C++ and Linux (however, my dev station is preferably a Mac)
+    - Script: Python
 
 Machine Learning &amp; Optimization
 :   - Deep Neural Networks, mainly applied to computer vision
     - Favorite DL framework: PyTorch, for various reasons
-    - Linear and non-linear optimization, mostly for production chain monitoring and geolocation
+    - Linear and non-linear optimization: Kalman filters and its derivatives, SGD, ES
 
-Programming &amp; Software Development
-:   *Favorite languages and tools*
-
-    - Systems: C, C++ and some assembly, experimenting with Rust
-    - Script: Python
-
-Production management
-: Foo blah
-
-## Technical work experience
+## Work experience
 
 Machine Learning Engineer
-:   *@Sevenhugs, since January 2018*
+:   *[Sevenhugs](https://sevenhugs.com)*, since January 2018
 
-    Started a computer vision project, initially done as a side project on spare
-    time. Patent pending.
+    Work a computer vision algorithm involving deep neural networks, initially 
+    a side project done on spare time. This work is subjected to patents 
+    submissions and cannot be disclosed further.
 
 Data Fusion & Algorithms Engineer
-:   *@ Sevenhugs, from February 2016 to January 2018*
+:   *[Sevenhugs](https://sevenhugs.com)*, from February 2016 to January 2018
 
-    Sensors fusion Kalman filters, low-level sensors drivers
-    Production management
-    Worked on a PhD thesis on indoor SLAM with the magnetic field
-    Started project vision, handled the infrastructure for machine learning work
-    Patents
+    While working on a PhD thesis on indoor SLAM with the magnetic field, in 
+    chronological order:
+
+    - Work on a realtime, high-precision geolocation algorithm: implementation 
+    of a non-linear Kalman filter for sensors fusion
+    - Development of bare-metal drivers for inertial sensors
+    - Specification, implementation and deployment on site of the software for 
+    manufacturing benches on the production line in China: it combined 
+    machine-learning techniques, low-level software as well as a reliable 
+    backend to handle and process extracted data.
 
 R&D Software Engineer
-:   *@ Invoxia, from November 2013 to June 2015*
+:   *[Invoxia](https://invoxia.com)*, from November 2013 to June 2015
 
-    I optimized the critical points of the audio processing pipeline: for 
-    instance, I increased the speed of the echo canceler by 20%. I reviewed and 
-    implemented sound sources tracking algorithms. I developed production 
-    monitoring tools and acoustic tests for validation inside our factories. I 
-    also added new codecs like Opus in the VoIP stack.
+    - Development of monitoring tools and acoustic tests for validation of the 
+    manufactured hardware during production
+    - Review and implementation of sound sources tracking algorithms
+    - Low-level software development on a realtime audio processing pipeline: 
+    optimization for speed and addition of new codecs in a VoIP stack
 
 Software Engineer Intern
-:   *@ Thales Communication & Security, from March 2013 to August 2013*
+:   *[Thales Communication & Security](https://www.thalesgroup.com/en/markets/digital-identity-and-security)*, 
+    from March 2013 to August 2013
 
-    I reviewed the state of the art of fingerprints and iris comparison 
-    algorithms for bor- der control and I ported those on GPU. For instance for 
-    fingerprints comparison I increased the speed by 30x while reducing the 
-    error rate by 25%, all for the same hardware cost.
+    Review of the state of the art on fingerprints and iris matching 
+    algorithms, applied to border control. Portage and reimplementation of 
+    existing programs on GPU. For fingerprints matching: 30x speed increase 
+    while reducing the error rate by 25%, for the same cost in hardware.
 
 Teaching Assistant
-:   *@ EPITA, from September 2010 to June 2011*
+:   *[EPITA](https://www.epita.fr)*, from September 2010 to June 2011
 
-    I teached the laboratory classes of C and OCaml of second-grade students.
+    Tought laboratory classes of C and OCaml to second-year students.
 
 ## Education
 
-PhD student at *LIP6, Sorbonne University*
-:   from September 2016 to November 2017
+PhD student
+:   *[LIP6, Sorbonne University](https://www.lip6.fr)*, from September 2016 to December 2017
 
-    \\ TODO
+    *CIFRE* agreement done in partnership with Sevenhugs, under the supervision
+    of [Marie-Jeanne Lesot](http://webia.lip6.fr/~lesot/).
 
-    Supervised by Marie-Jeanne Lesot.
-    Indoor SLAM with the magnetic field, differentiable data structures,
-    sensors fusion
+    - Indoor SLAM with the magnetic field
+    - Differentiable data structures
+    - Sensors fusion
 
-Master’s Degree in Machine Learning from *Sorbonne University* (former *Université Pierre et Marie Curie*)
-:   Autumn 2015
+Master’s Degree in Machine Learning
+:   *[Sorbonne University](https://www.sorbonne-universite.fr/universite/facultes/faculte-des-sciences-et-ingenierie)*
+    (former *Université Pierre et Marie Curie*), Autumn 2015
 
     Statistical learning, deep learning, nonclassical logic and reasoning, data 
     mining, information retrieval, artificial intelligence applied to robotic.
 
-Engineering Degree in Computer Science from EPITA
-:   Graduated in 2013
+Engineering Degree in Computer Science
+:   *[EPITA](https://www.epita.fr)*, Graduated in 2013
 
-    Major in Machine Learning and High Performance Computing
-    Research student at the LRDE.
-    Project examples: physic simulations using GPU, procedural rendering of 
+    - Major in Machine Learning and High Performance Computing
+    - Research student at the LRDE.
+    - Project examples: physic simulations using GPU, procedural rendering of 
     natural environments, implementation of a compiler, model checking, machine 
     learning, implementation of a shell, parallel and distributed computing.
