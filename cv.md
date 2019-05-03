@@ -80,16 +80,6 @@ Teaching Assistant
 
 ## Education
 
-PhD student
-:   *[LIP6, Sorbonne University](https://www.lip6.fr)*, from September 2016 to December 2017
-
-    *CIFRE* agreement done in partnership with Sevenhugs, under the supervision
-    of [Marie-Jeanne Lesot](http://webia.lip6.fr/~lesot/).
-
-    - Indoor SLAM with the magnetic field
-    - Differentiable data structures
-    - Sensors fusion
-
 Master’s Degree in Machine Learning
 :   *[Sorbonne University](https://www.sorbonne-universite.fr/universite/facultes/faculte-des-sciences-et-ingenierie)*
     (former *Université Pierre et Marie Curie*), Autumn 2015
