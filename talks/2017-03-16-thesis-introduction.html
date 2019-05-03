@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+
+<meta charset="utf-8">
+<title>Multisensors Localisation and Mapping</title>
+<link href="../css/talk.css" rel="stylesheet" type="text/css" />
+<link href="../css/katex.min.css" rel="stylesheet" type="text/css" />
+
+<section id="title" class="inverse">
+  <div class="middle center">
+    <div class="title">Multisensors Localisation and Mapping</div>
+  
+    <div class="subtitle">Localisation et Cartographie Multicapteurs <br /> Thèse CIFRE en collaboration avec Sevenhugs</div>
+  
+    <div class="author">Simon Guillot</div>
+  </div>
+  <div class="date">March 16, 2017</div>
+</section>
+
+<section id="sevenhugs" class="slide level1">
+<h1>Sevenhugs</h1>
+<figure>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/jB7iuBKcfZw?iv_load_policy=3" frameborder="0" allowfullscreen>
+</iframe>
+</figure>
+<ul>
+<li>Founded in 2014</li>
+<li>Seed funding of 1.4M€ in 2014, series A round of 14M€ in 2016</li>
+<li>R&amp;D in Paris, marketing relocated in San Francisco</li>
+</ul>
+</section>
+<section id="sevenhugs-remote" class="slide level1">
+<h1>Sevenhugs’ remote</h1>
+<figure>
+<img src="../media/sevenhugs/setup.gif" style="width:50.0%" />
+</figure>
+<ul>
+<li>To track its position and orientation in the room, the remote merges:
+<ul>
+<li>Measurements from a set of embedded sensors: a gyroscope, an accelerometer, a magnetometer</li>
+<li>The distances to three beacons and its charging base</li>
+</ul></li>
+<li>During setup, the user places its real and virtual objects using the remote</li>
+</ul>
+</section>
+<section id="state-estimation" class="slide level1">
+<h1>State estimation</h1>
+<figure>
+<img src="../media/fusion.svg" style="width:60.0%" />
+</figure>
+<p>The inputs are</p>
+<ul>
+<li><span class="math inline">\{\bar{r_i} | i \in [1, N]\}</span> the (very noisy) distances to the beacons</li>
+<li><span class="math inline">\bar{a}</span> the measurement extracted from the accelerometer
+<ul>
+<li>effect of gravity must be subtracted</li>
+<li>then integrated twice to retrieve motion</li>
+</ul></li>
+<li><span class="math inline">\bar{\omega}</span> the angular velocity given by the gyroscope</li>
+<li><span class="math inline">\bar{m}</span> the magnetometer
+<ul>
+<li>the magnetic field direction can be useless while being correct</li>
+</ul></li>
+</ul>
+<p><span class="math display">\displaystyle  z = (\bar{r}, \bar{a}, \bar{\omega}, \bar{m})^\top, z \in \mathbb{R}^{N + 9} 
+</span></p>
+</section>
+<section id="state-estimation-1" class="slide level1">
+<h1>State estimation</h1>
+<figure>
+<img src="../media/fusion.svg" style="width:60.0%" />
+</figure>
+<p>The estimation of the targeted objects requires at least</p>
+<ul>
+<li>the position <span class="math inline">p</span></li>
+<li>the orientation <span class="math inline">q</span></li>
+</ul>
+</section>
+<section id="state-estimation-2" class="slide level1">
+<h1>State estimation</h1>
+<figure>
+<img src="../media/fusion_kalman.svg" style="width:60.0%" />
+</figure>
+<p>Adding information on the dynamics of the body, for instance</p>
+<ul>
+<li>the velocity <span class="math inline">v</span></li>
+<li>the acceleration <span class="math inline">a</span></li>
+<li>the angular velocity <span class="math inline">\omega</span></li>
+</ul>
+<p>leads to the usage of kinematics models, required by state-space estimators such as <strong>Kalman filters</strong>.</p>
+<p>The augmented state to estimate becomes:</p>
+<p><span class="math display">\displaystyle  x = (p, v, a, q, \omega)^\top </span> <span class="math display">\displaystyle  x \in \mathbb{R}^{15} </span></p>
+</section>
+<section id="indoor-usage-of-a-magnetometer" class="slide level1">
+<h1>Indoor usage of a magnetometer</h1>
+<figure>
+<img src="../media/map_normalized.svg" alt="Direction of the magnetic field on a plane at one meter above the ground (vectors are normalized)" style="width: 70%; margin:  -2.5em 0" /><figcaption>Direction of the magnetic field on a plane at one meter above the ground (vectors are normalized)</figcaption>
+</figure>
+<ul>
+<li>Some regions can be up to 45º off from the north direction</li>
+</ul>
+</section>
+<section id="indoor-usage-of-a-magnetometer-1" class="slide level1">
+<h1>Indoor usage of a magnetometer</h1>
+<figure>
+<img src="../media/map.svg" alt="Variations in color represent variations in inclination" style="width: 70%; margin: -2.5em 0" /><figcaption>Variations in color represent variations in inclination</figcaption>
+</figure>
+<ul>
+<li>Important variations of the norm and inclination of the magnetic field</li>
+<li>Both can be measured without ambiguities</li>
+<li>These can provide hints on the position</li>
+</ul>
+</section>
+<section id="thesis-subject" class="slide level1">
+<h1>Thesis subject</h1>
+<p>Industrial goal: find ways of positioning a device indoor without modifications of the environment (eg. adding beacons or markers)</p>
+<ul>
+<li>How to apply <em>Simulatenous Localisation and Mapping</em> techniques when the dimensionality of the inputs is low and the odometry of poor quality ?
+<ul>
+<li>Mostly, how to properly close loops and eliminate ambiguities ?</li>
+</ul></li>
+<li>How to augment the system with informations extracted from electromagnetic signals ? (Bluetooth, WiFi etc.)</li>
+<li>How to compress – due to hardware constraints – and recall the heterogeneous data found in the environment ?</li>
+</ul>
+</section>
+<section id="work-overview" class="slide level1">
+<h1>Work overview</h1>
+<ul>
+<li>Comparison of multiple adaptative filters for this non-linear problem
+<ul>
+<li>Extended Kalman Filter, Unscented KF, Recurrent Neural Nets</li>
+</ul></li>
+<li>Trajectories and sensors simulation</li>
+<li>Sensors calibration
+<ul>
+<li>Estimate the fixed transformations applied to the measurements</li>
+</ul></li>
+<li>Numerous heuristics based on the remote usage and environment, e.g.:
+<ul>
+<li>Absence of acceleration is more likely due to inactivity than constant speed</li>
+<li>Altitude can be approximated using the inclination</li>
+</ul></li>
+<li>Recently, the acquisition of a ground-truth using a set of infrared cameras</li>
+</ul>
+</section>
+
+<div id="progress-bar"></div>
+
+<script src="../scripts/dzslides.js"></script>
+<script src="../scripts/katex.min.js"></script>
+<script>
+  function loadKatex() {
+      var elements = document.getElementsByClassName("math");
+      Array.prototype.forEach.call(elements, function(e) {
+          var str = e.innerHTML.replace(/&amp;/g, "&")
+          katex.render(str, e);
+      });
+  };
+
+  window.onload = function() {
+    loadDz();
+    loadKatex();
+  }
+</script>

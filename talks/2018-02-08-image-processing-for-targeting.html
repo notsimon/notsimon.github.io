@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+
+<meta charset="utf-8">
+<title>Traitement d'image pour le ciblage</title>
+<link href="../css/talk.css" rel="stylesheet" type="text/css" />
+<link href="../css/katex.min.css" rel="stylesheet" type="text/css" />
+
+<section id="title" class="inverse">
+  <div class="middle center">
+    <div class="title">Traitement d'image pour le ciblage</div>
+  
+    <div class="author">Simon Guillot</div>
+  </div>
+  <div class="date">February  8, 2018</div>
+</section>
+
+<section id="pertinence-pour-la-smartremote" class="slide level1">
+<h1>Pertinence pour la SmartRemote</h1>
+<ul>
+<li>Suppression des balises</li>
+<li>Pas d’estimation de la pose : pas de calibration entre deux sessions</li>
+<li>Pas de “localisation” pour des objets connus d’avance</li>
+<li>Les objets peuvent être déplacés : pointer son chat pour commander des croquettes</li>
+</ul>
+<p><strong>La solution envisagée doit pouvoir</strong> :</p>
+<ol type="1">
+<li>Reconnaitre des produits connus</li>
+<li>Reconnaitre des objets génériques connus</li>
+<li>Reconnaitre de nouveaux produits à partir de quelques photos (3 ou 4)</li>
+</ol>
+</section>
+<section id="pertinence-pour-la-smartremote-1" class="slide level1">
+<h1>Pertinence pour la SmartRemote</h1>
+<table width="100%">
+<caption>
+Catégories identifiées d’objets à reconnaitre
+</caption>
+<tr>
+<th width="33%">
+Objets abstraits
+</th>
+<th width="33%">
+Objets concrets connus
+</th>
+<th width="33%">
+Nouveaux objets concrets
+</th>
+</tr>
+<tr>
+<td>
+<ul>
+<li>TV</li>
+<li>Fenêtres</li>
+<li>Portes</li>
+<li>Animaux</li>
+</ul>
+</td>
+<td>
+<ul>
+<li>Sonos</li>
+<li>Amazon Echo</li>
+<li>Google Home</li>
+<li>Thermostat Nest</li>
+</ul>
+</td>
+<td>
+<ul>
+<li>Lampes</li>
+</ul>
+</td>
+</tr>
+</table>
+<p><strong>Difficultés identifiées</strong> :</p>
+<ul>
+<li>Reconnaitre un écran lorsqu’il est allumé</li>
+<li>Différences de luminosité</li>
+<li>Occlusion des objets</li>
+<li>Plusieurs objets identiques à contrôler de manière indépendante</li>
+</ul>
+</section>
+<section id="reconnaissance-et-détection-dobjets" class="slide level1">
+<h1>Reconnaissance et détection d’objets</h1>
+<p><strong>Outils à disposition</strong> :</p>
+<ul>
+<li>Des approches <em>deep learning</em> : reconnaissance d’objets génériques et de produits avec une grande résilience aux dégradations de l’image</li>
+<li><p>Le traitement du signal : des points d’intérêts identifiables, résistants aux changements de perspective</p></li>
+<li>Reconnaissance : classification de l’objet “principal” de l’image</li>
+<li><p>Détection : classification et localisation de l’ensemble des objets connus dans l’image. Différentes approches se basant sur des modèles de reconnaissance ou de détection directe.</p></li>
+</ul>
+<figure>
+<img src="../media/image-processing/localization_detection.png" />
+</figure>
+</section>
+<section id="reconnaissance-versus-détection" class="slide level1">
+<h1>Reconnaissance <em>versus</em> détection</h1>
+<table style="margin-top: 50px">
+<tr>
+<th width="50%">
+Reconnaissance
+</th>
+<th>
+Détection
+</th>
+</tr>
+<tr style="color: green">
+<td>
+<ul>
+<li>Domaine foisonnant à l’état de l’art d’une très grande précision</li>
+<li>Simplicité des modèles</li>
+</ul>
+</td>
+<td>
+<ul>
+<li>Ordonnancement de plusieurs objets dans le champ de vision</li>
+</ul>
+</td>
+</tr>
+<tr style="color: red">
+<td>
+<ul>
+<li>Ambiguïtés si plusieurs objets</li>
+<li>Compréhension difficile des prédictions</li>
+</ul>
+</td>
+<td>
+<ul>
+<li>Modèles plus complexes donc plus coûteux en calcul</li>
+</ul>
+</td>
+</tr>
+</table>
+<p><strong>Quelques exemples</strong> :</p>
+<ul>
+<li>Reconnaissance : VGG, Inception v4, Resnet</li>
+<li>Détection : FasterRCNN, SSD, TinyYolo, Yolo v2</li>
+</ul>
+</section>
+<section id="données-de-référence" class="slide level1">
+<h1>Données de référence</h1>
+<ul>
+<li>Les catégories : jeux de donnés accessibles tels ImageNet, COCO et PascalVOC</li>
+<li>Les objets connectés : modèles 3D, images marketing via Google Image</li>
+<li>A la configuration, l’utilisateur vise ses objets depuis plusieurs points de vues et ajuste les prises sur l’app</li>
+</ul>
+<p><strong>Modèles 3D</strong> :</p>
+<ul>
+<li>Apportent davantage d’informations que de simples images</li>
+<li>Ouvre l’accès à un champ de recherche spécifique (<em>3D model pose estimation</em>)</li>
+<li>Ne permet pas de gérer les objets “abstraits”</li>
+<li>Très peu courant pour les tâches de détection</li>
+</ul>
+<p><strong>Intérêt des images</strong> :</p>
+<ul>
+<li>Abondance de données pour tous les objets nécessaires</li>
+<li>Facilement étiquetables par l’utilisateur</li>
+</ul>
+</section>
+<section id="supervision-de-lapprentissage" class="slide level1">
+<h1>Supervision de l’apprentissage</h1>
+<table width="100%" style="margin-top: 70px">
+<tr>
+<td style="color: green; vertical-align: middle">
+Supervisé
+</td>
+<td style="text-align: center">
+Faiblement supervisé
+<div style="font-size: smaller; margin-top: -10px">
+<p>Données étiquetées pour une tâche annexe. Par exemple : détection d’objets uniquement a partir des classes associées aux images.</p>
+</div>
+<p><br /></p>
+Semi-supervisé
+<div style="font-size: smaller; margin-top: -10px">
+<p>Une part importante de l’ensemble d’entrainement n’est pas étiquetée.</p>
+</div>
+<p><br /></p>
+Rares exemples (<em>Few shots</em>)
+<div style="font-size: smaller; margin-top: -10px">
+<p>Apprentissage de la tâche à partir d’un très petit nombre d’exemple étiquetés. Possiblement en ayant eu accès au préalable à un grand nombre d’exemples pour une tâche similaire.</p>
+</div>
+</td>
+<td style="color: red; vertical-align: middle">
+Non supervisé
+</td>
+</tr>
+</table>
+</section>
+<section id="conclusion" class="slide level1">
+<h1>Conclusion</h1>
+<ul>
+<li>Choix à faire : reconnaissance ou détection ?</li>
+<li>La solution se trouve probablement dans un ensemble de sous-solutions optimales :
+<ul>
+<li>Modèle avec apprentissage classique pour les objets abstraits</li>
+<li>Algorithme utilisant des modèles 3D pour les produits connus d’avance</li>
+<li>Pour les nouveaux objets concrêts : ajustement d’un modèle à partir de quelques prises de vues fournies par l’utilisateur</li>
+</ul></li>
+</ul>
+</section>
+
+<div id="progress-bar"></div>
+
+<script src="../scripts/dzslides.js"></script>
+<script src="../scripts/katex.min.js"></script>
+<script>
+  function loadKatex() {
+      var elements = document.getElementsByClassName("math");
+      Array.prototype.forEach.call(elements, function(e) {
+          var str = e.innerHTML.replace(/&amp;/g, "&")
+          katex.render(str, e);
+      });
+  };
+
+  window.onload = function() {
+    loadDz();
+    loadKatex();
+  }
+</script>

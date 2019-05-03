@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Real time interpolation of the magnetic field | Simon Guillot</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/katex.min.css">
+  <link href="../atom.xml" type="application/atom+xml" rel="alternate">
+</head>
+<body>
+  <nav>
+    <a href="../">Home</a>
+    <a href="../blog.html">Blog</a>
+    <a href="../about.html">About</a>
+    <a href="../cv.html">CV</a>
+  </nav>
+  <div class="profile">
+    <img src="../media/avatar.jpg">
+    <h1>Simon Guillot</h1>
+    <p class="description">
+      A man who travels with the address of his blog on his cap
+    </p>
+    <p class="accounts">
+      <a href="https://github.com/notsimon">
+        <svg class="icon"><use xlink:href="/media/fa-brands.svg#github-alt"></use>github</svg>
+      </a>
+      <a href="https://www.linkedin.com/in/simon-guillot-302567184">
+        <svg class="icon"><use xlink:href="/media/fa-brands.svg#linkedin"></use>line</svg>
+      </a>
+      <a href="https://m.me/simon.gllt">
+        <svg class="icon"><use xlink:href="/media/fa-brands.svg#facebook-messenger"></use>messenger</svg>
+      </a>
+      <a href="../">
+        <svg class="icon"><use xlink:href="/media/fa-brands.svg#line"></use>line</svg>
+      </a>
+    </p>
+  </div>
+  <div class="container">
+    <main>
+      <style>
+  .profile {
+    display: none;
+  }
+
+  article {
+    margin-top: 10vh;
+  }
+</style>
+
+<article>
+  <header>
+    <h1>Real time interpolation of the magnetic field</h1>
+    
+    <p><time>May 10, 2017</time></p>
+    
+  </header>
+
+  <section class="content">
+    <p>This report introduces one of my attempts at modelling the magnetic field of a room using a continuous representation. The first goal of this work is to assist the tracking of the orientation of a device by taking into account the multiple distortions of the field observed indoor: this is a step toward a positioning algorithm that takes advantage of these anomalies.</p>
+<h2 id="maxwells-equations-and-the-magnetic-scalar-potential">Maxwell’s equations and the magnetic scalar potential</h2>
+<p>In order to be plausible, an approximation of the magnetic field should obey some properties well known by physicists. All electromagnetic phenomena are governed by <a href="https://en.wikipedia.org/wiki/Maxwell%27s_equations#Formulation_in_SI_units_convention">Maxwell’s equations</a>, two of them involve the magnetic field:</p>
+<p><span class="math display">\displaystyle 
+  \nabla \cdot B = 0
+</span></p>
+<p><span class="math display">\displaystyle 
+  \nabla \times B = \mu_0 \left(J + \epsilon_0 \frac{\partial E}{\partial t}\right)
+</span></p>
+<p>where <span class="math inline">B \in \mathbb{R}^3 \mapsto \mathbb{R}^3</span> is the magnetic field, <span class="math inline">\mu_0</span> and <span class="math inline">\epsilon_0</span> are respectively the permeability and permittivity of vacuum, <span class="math inline">J</span> is the current density and <span class="math inline">E</span> the electric field.</p>
+<p>The first of these two laws states that the magnetic field is divergence free, in other words, <em>magnetic monopoles do not exist</em>. We are assuming that there is no free current in the air and no time-dependent effects due to moving electric charges, thus the Ampère’s circuital law reduces to:</p>
+<p><span class="math display">\displaystyle 
+  \nabla \times B = 0
+</span></p>
+<p>In these conditions, the magnetic field is then said to be <em>irrotational</em>. An irrotational vector field can be fully described as the gradient of a scalar field, called a scalar potential:</p>
+<p><span class="math display">\displaystyle 
+  B = - \nabla \psi
+</span></p>
+<p>Thus, by modeling <span class="math inline">\psi</span> in place of <span class="math inline">B</span> directly, we are implicitly modeling a vector field that follows the second law.<a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a><a href="#fn2" class="footnoteRef" id="fnref2"><sup>2</sup></a> The first law will be added as a regularization in the optimization procedure.</p>
+<h2 id="differentiable-interpolation">Differentiable interpolation</h2>
+<p>The map is represented by a set of anchor points <span class="math inline">M = \{(c_k, w_k) | k \in [1, K]\}</span>, where <span class="math inline">c_k</span> is the position of the anchor in <span class="math inline">\mathbb{R}^2</span> and <span class="math inline">w_k</span> its associated value – a scalar potential in this case.</p>
+<p>In order to have a model differentiable with respect to the position and the elements of the map <span class="math inline">M</span>, the <a href="https://en.wikipedia.org/wiki/Multivariate_interpolation">interpolation function</a> is defined to be in the form:</p>
+<p><span class="math display">\displaystyle 
+  \psi(x) = \sum_{k=1}^K w_k \phi(x, c_k)
+</span></p>
+<p>where <span class="math inline">x \in \mathbb{R}^2</span> is a point in space, <span class="math inline">w_k</span> the value of the map at the anchor <span class="math inline">k</span> located in position <span class="math inline">c_k</span>, and <span class="math inline">\phi \in (\mathbb{R}^2, \mathbb{R}^2) \mapsto \mathbb{R}</span> is a differentiable radial basis function: it gives a weight to the anchors depending on their distance to the point <span class="math inline">x</span>. In essence, this approach is similar to the attention mechanism in deep learning.<a href="#fn3" class="footnoteRef" id="fnref3"><sup>3</sup></a></p>
+<p>With this definition of the scalar potential function <span class="math inline">\psi</span>, the estimated magnetic field <span class="math inline">B</span> is:</p>
+<p><span class="math display">\displaystyle 
+  B(x) = \nabla_x \psi(x) = \sum_{k=1}^K w_k \nabla_x \phi(x, c_k)
+</span></p>
+<p><span style="font-size: smaller"> We dropped the negative sign to simplify the equations even though this not standard among mathematicians and physicists, however the true value of the potential is of little interest to our application. </span></p>
+<h3 id="radial-basis-functions">Radial basis functions</h3>
+<p>A radial basis function satisfies the property <span class="math inline">\phi(x) = \phi(||x||)</span>: its value depends only on the distance from the origin – or another point called the center. Some commonly used RBF are shown below.</p>
+<figure>
+<img src="../media/magnetic-field-interpolation/rbf.svg" width="350" />
+</figure>
+<h2 id="learning-the-map-parameters">Learning the map parameters</h2>
+<p>Given a set of known points <span class="math inline">S^\star = \{ (x_i^\star, y_i^\star) | i \in [1..N] \}</span> where <span class="math inline">x_i^\star \in \mathbb{R}^2</span> is a position in space and <span class="math inline">y_i^\star \in \mathbb{R}^2</span> the observed value of the <span class="math inline">B</span> field at this position, we are looking for a differentiable function <span class="math inline">\psi \in \mathbb{R}^2 \mapsto \mathbb{R}</span> that minimizes the loss</p>
+<p><span class="math display">\displaystyle 
+  \mathcal{L}_\psi = \sum_{i=1}^N \delta(\nabla \psi(x_i^\star), y_i^\star)
+</span></p>
+<p>where <span class="math inline">\delta \in (\mathbb{R}^2, \mathbb{R}^2) \mapsto \mathbb{R}</span> is a measurement of the error between the output of the model and the expected value.</p>
+<figure>
+<img src="../media/magnetic-field-interpolation/magnetic-field-data.svg" alt="A test case recorded using Optitrack cameras for pose estimation and a calibrated magnetometer. At the center of the scene lies a Sonos wireless speaker which induce a distortion of the magnetic field around it." width="400" /><figcaption>A test case recorded using Optitrack cameras for pose estimation and a calibrated magnetometer. At the center of the scene lies a Sonos wireless speaker which induce a distortion of the magnetic field around it.</figcaption>
+</figure>
+<h3 id="stochastic-gradient-descent">Stochastic gradient descent</h3>
+<p>Considering the parameters as <span class="math inline">\theta = (w_1, \cdots, w_K, c_1, \cdots, c_K)^\top</span>. Minimizing the loss <span class="math inline">\mathcal{L}_\psi</span> using a stochastic gradient descent (SGD) comes down to updating the parameters iteratively using</p>
+<p><span class="math display">\displaystyle 
+\theta \leftarrow \theta - \epsilon \nabla_\theta \delta(\nabla_x \psi(x^\star), 
+y^\star)
+</span></p>
+<p>where <span class="math inline">\epsilon</span> is a constant controlling the learning rate and <span class="math inline">(x^\star, y^\star)</span> is an element of <span class="math inline">S^\star</span> chosen at random. This is the simplest form of SGD, in practice there is <a href="http://sebastianruder.com/optimizing-gradient-descent/">many improvements</a> to make it much more effective.</p>
+<h2 id="implementation-using-a-kalman-filter">Implementation using a Kalman filter</h2>
+<div style="font-size: smaller; font-style: italic">
+<p>Updated on June 27, 2017.</p>
+</div>
+<p>We chose <span class="math inline">\phi</span> to be the form of a Gaussian function such that</p>
+<p><span class="math display">\displaystyle 
+  \phi(x, c_k) = e^{-\frac{||x - c_k||^2}{2 \sigma^2}}
+</span></p>
+<p>where <span class="math inline">\sigma</span> is a hyperparameter related to the <a href="https://en.wikipedia.org/wiki/Full_width_at_half_maximum">full width at half maximum</a> – it gives the <em>spread</em> of the weighting. Its gradient w.r.t the position <span class="math inline">x</span> is</p>
+<p><span class="math display">\displaystyle 
+  \nabla_x \phi(x, c_k) = \frac{c_k - x}{\sigma^2}
+                          e^{-\frac{||x - c_k||^2}{2 \sigma^2}}
+</span></p>
+<p>Therefore, we have</p>
+<p><span class="math display">\displaystyle 
+B(x) = \sum_{k=1}^K w_k \nabla_x \phi(x, c_k)
+     = \sum_{k=1}^K w_k \frac{c_k - x}{\sigma^2} e^{-\frac{||x - c_k||^2}{2 \sigma^2}}
+</span></p>
+<p>By fixing the values of the <span class="math inline">c_k</span> – i.e. taking them as hyperparameters of the model – we can now express <span class="math inline">B(x)</span> as a linear function of the parameters we are trying to estimate (the weights <span class="math inline">w_k</span>) such that:</p>
+<p><span class="math display">\displaystyle 
+  B = H \cdot w
+</span></p>
+<p>where <span class="math inline">H</span> is the <span class="math inline">3 \times K</span> matrix</p>
+<p><span class="math display">\displaystyle 
+H =
+\begin{bmatrix}
+  \nabla_x \phi(x, c_1) &amp; \cdots &amp; \nabla_x \phi(x, c_K)
+\end{bmatrix}
+</span></p>
+<p>and <span class="math inline">w</span> the column vector</p>
+<p><span class="math display">\displaystyle 
+w =
+\begin{bmatrix}
+  w_1 \\
+  \vdots \\
+  w_K
+\end{bmatrix}
+</span></p>
+<p>When defined as a linear optimization problem, the quest for the most likely field potential fits in the (original) <a href="https://en.wikipedia.org/wiki/Kalman_filter">Kalman filter</a> framework – which is, under some conditions, a well suited algorithm for real time estimation of unknown variables. In particular, we are making use of the <em>update</em> step of the algorithm during which observations are used to correct the estimation of the state of the system.</p>
+<p>An update iteration of the estimated state <span class="math inline">w</span> and its covariance <span class="math inline">P</span> given a measurement <span class="math inline">y</span> goes as follow:</p>
+<div class="algorithm">
+<ol type="1">
+<li>Compute the <span class="math inline">H</span> matrix for the current position <span class="math inline">x</span></li>
+<li>Compute the residual <span class="math inline">z</span> between the true and estimated measurements, its covariance <span class="math inline">S</span> and the Kalman gain <span class="math inline">K</span> using</li>
+</ol>
+<p><span class="math display">\displaystyle 
+\begin{aligned}
+z &amp;= y - H w \\
+S &amp;= R + H P H^\top \\
+K &amp;= P H^\top S^{-1} \\
+\end{aligned}
+</span></p>
+<ol start="3" type="1">
+<li>Update the state <span class="math inline">w</span> and its covariance <span class="math inline">P</span> with</li>
+</ol>
+<p><span class="math display">\displaystyle 
+\begin{aligned}
+w &amp;\leftarrow w + K z \\
+P &amp;\leftarrow (I - K H) P
+\end{aligned}
+</span></p>
+</div>
+<p>In our case, the measurement <span class="math inline">y</span> is the output of the magnetometer in <span class="math inline">\mathbb{R}^3</span> (transformed to take into account the orientation of the device). Thus, <span class="math inline">S</span> is in <span class="math inline">\mathcal{M}^{3\times3}</span> and its inverse is easy to compute.</p>
+<h3 id="initial-results">Initial results</h3>
+<p>In the following experiment, we choose the <span class="math inline">c_k</span> such that the points are spread over a grid covering a least the area of interest with a resolution of 25cm. The model observes 60 samples taken at random from a ground truth made of 380 samples. In other words, the train set is made of <span class="math inline">N = 60</span> samples.</p>
+<figure>
+<img src="../media/magnetic-field-interpolation/kalman-map-test-1.svg" alt="Model output after one observation of each training sample." id="kalman-map-test" width="400" /><figcaption>Model output after one observation of each training sample.</figcaption>
+</figure>
+<script type="text/javascript">
+  var images = [], x = 0;
+  images[0] = "/media/magnetic-field-interpolation/kalman-map-test-1.svg";
+  images[1] = "/media/magnetic-field-interpolation/kalman-map-test-2.svg";
+
+  setInterval(function() {
+    x = (x + 1) % images.length;
+    document.getElementById("kalman-map-test").src = images[x];
+  }, 2000);
+</script>
+<p>Although the training data do not contain much information on the anomaly at the center of the scene, the model manages to estimate it quite accurately. Indeed, in the figure below we see that the model converges rapidly to its optimum after having seen only a few samples.</p>
+<figure>
+<img src="../media/magnetic-field-interpolation/kalman-map-mse.svg" alt="Model error evolution during training." width="400" /><figcaption>Model error evolution during training.</figcaption>
+</figure>
+<h2 id="future-work">Future work</h2>
+<h3 id="regularization-using-the-divergence">Regularization using the divergence</h3>
+<p>We used only one property of the magnetic field, the divergence-free property could be introduced in the system as a regularizer such that:</p>
+<p><span class="math display">\displaystyle 
+\nabla \cdot B(x) = \nabla \cdot \nabla \psi(x)
+= \sum_{k=1}^K w_k \nabla_x \cdot \nabla_x \phi(x, c_k)
+</span></p>
+<p>which can be rewritten using the scalar Laplacian:</p>
+<p><span class="math display">\displaystyle 
+\nabla \cdot B(x) = \sum_{k=1}^K w_k \Delta_x \phi(x, c_k)
+</span></p>
+<p>In a Kalman filter framework, this would come down to making an observation of the value of the divergence.</p>
+<section class="footnotes">
+<hr />
+<ol>
+<li id="fn1"><p>Niklas Wahlström et al., “Modeling magnetic fields using Gaussian Processes”, <em>2013 International Conference on Acoustics, Speech and Signal Processing (ICASSP)</em><a href="#fnref1">↩</a></p></li>
+<li id="fn2"><p>Arno Solin et al., “Modeling and interpolation of the ambient magnetic field by Gaussian processes”, <em>arXiv:1509.04634</em><a href="#fnref2">↩</a></p></li>
+<li id="fn3"><p>Olah &amp; Carter, “Attention and Augmented Recurrent Neural Networks”, <em>Distill, 2016</em>. http://distill.pub/2016/augmented-rnns/<a href="#fnref3">↩</a></p></li>
+</ol>
+</section>
+  </section>
+</article>
+
+<script src="../scripts/katex.min.js"></script>
+<script>
+  window.onload = function() {
+      var elements = document.getElementsByClassName("math");
+      Array.prototype.forEach.call(elements, function(e) {
+          var str = e.innerHTML.replace(/&amp;/g, "&")
+          katex.render(str, e);
+      });
+  };
+</script>
+
+    </main>
+  </div>
+  <footer>
+  </footer>
+</body>
+</html>
