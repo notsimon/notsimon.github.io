@@ -11,7 +11,7 @@ title: Curriculum Vitae
 </style>
 
 Located in **Nantes**, France<br/>
-*Open to on-site or remote jobs in small companies.*
+*Open to on-site or remote jobs in small companies. Available for freelancing!*
 
 ## Summary
 
@@ -23,21 +23,28 @@ problems solving by avoiding dogmas.
 
 ## Main skills
 
-Programming &amp; Software Development
-:   - Systems: C, C++ and Linux <small>(but my dev station is preferably a Mac)</small>
-    - Script: Python
+[Jack of all trades](https://en.wikipedia.org/wiki/Jack_of_all_trades,_master_of_none) in Programming &amp; Software Development
+    - Preferred languages: C++, Python, Rust and C (in that order)
+    - Favorite tools and techs: Linux, macOS, Git, Vagrant, Salt, Flask, 
+    Redis, PostgreSQL, Cuda, OpenCL
+    - Knowledge of embedded software programming, low-level GPU programming, 
+    web development, data storage and processing pipelines, microservices 
+    architectures
+    - Can also cooperate with: Javascript, OpenGL & graphics pipelines, 
+    ARM assembly, Haskell, Java
 
 Machine Learning &amp; Optimization
 :   - Deep Neural Networks, mainly applied to computer vision
     - Favorite DL framework: PyTorch, for various reasons
-    - Linear and non-linear optimization: Kalman filters and its derivatives, SGD, ES
+    - Linear and non-linear optimization: Kalman filters and its derivatives, 
+    SGD, ES
 
 ## Work experience
 
 Machine Learning Engineer
 :   *[Sevenhugs](https://sevenhugs.com)*, since January 2018
 
-    Work a computer vision algorithm involving deep neural networks, initially 
+    Work on a computer vision algorithm involving deep neural networks, initially 
     a side project done on spare time. This work is subjected to patents 
     submissions and cannot be disclosed further.
 
