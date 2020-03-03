@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="robots" content="noindex, nofollow"/>
+  <link rel="stylesheet" type="text/css" href="https//sgu.pw/theme/css/style.css"/>
+  <title>Simon Guillot | Traitement d'image pour le ciblage</title>
+
+
+
+
+
+  <style>
+    .profile {
+      display: none;
+    }
+
+    article {
+      margin-top: 10vh;
+    }
+  </style>
+
+  <link rel="stylesheet" type="text/css" href="https//sgu.pw/theme/css/katex.min.css"/>
+</head>
+
+<body>
+  <nav>
+    <a href="https//sgu.pw/">Home</a>
+        <a href="https//sgu.pw/pages/about.html">About</a>
+        <a href="https//sgu.pw/pages/cv.html">CV</a>
+      <a href="/articles.html">Articles</a>
+  </nav>
+
+  <div class="profile">
+    <a href="https//sgu.pw/">
+      <img src="https//sgu.pw/images/avatar.jpg"/>
+      <h1>Simon Guillot</h1>
+    </a>
+    <p class="accounts">
+        <a href="https://github.com/notsimon">
+          <svg class="icon"><use xlink:href="/theme/images/fa-brands.svg#github"/>github</svg>
+        </a>
+        <a href="https://www.linkedin.com/in/simon-guillot-302567184">
+          <svg class="icon"><use xlink:href="/theme/images/fa-brands.svg#linkedin"/>linkedin</svg>
+        </a>
+        <a href="https://m.me/simon.gllt">
+          <svg class="icon"><use xlink:href="/theme/images/fa-brands.svg#facebook-messenger"/>facebook-messenger</svg>
+        </a>
+        <a href="#">
+          <svg class="icon"><use xlink:href="/theme/images/fa-brands.svg#line"/>line</svg>
+        </a>
+    </p>
+  </div>
+  <div class="container">
+    <main>
+<article>
+  <header>
+    <h1>Traitement d'image pour le ciblage</h1>
+    
+  </header>
+  <footer class="post-info">
+    <time class="published" datetime="2018-02-08T00:00:00+01:00">
+      Thu 08 February 2018
+    </time>
+    <address class="vcard author">
+      By           <a class="url fn" href="https//sgu.pw/author/simon-guillot.html">Simon Guillot</a>
+    </address>
+    <div class="category">
+        Category: <a href="https//sgu.pw/category/misc.html">misc</a>
+    </div>
+  </footer><!-- /.post-info -->
+
+  <section class="content">
+    <h1>Pertinence pour la SmartRemote</h1>
+<ul>
+<li>Suppression des balises</li>
+<li>Pas d'estimation de la pose : pas de calibration entre deux sessions</li>
+<li>Pas de "localisation" pour des objets connus d'avance</li>
+<li>Les objets peuvent être déplacés : pointer son chat pour commander des croquettes</li>
+</ul>
+<p><strong>La solution envisagée doit pouvoir</strong> :</p>
+<ol>
+<li>Reconnaitre des produits connus</li>
+<li>Reconnaitre des objets génériques connus</li>
+<li>Reconnaitre de nouveaux produits à partir de quelques photos (3 ou 4)</li>
+</ol>
+<h1>Pertinence pour la SmartRemote</h1>
+<table width="100%">
+<caption>Catégories identifiées d'objets à reconnaitre</caption>
+<tr>
+<th width="33%">Objets abstraits</th>
+<th width="33%">Objets concrets connus</th>
+<th width="33%">Nouveaux objets concrets</th>
+</tr>
+<tr>
+<td>
+- TV
+- Fenêtres
+- Portes
+- Animaux
+</td>
+<td>
+- Sonos
+- Amazon Echo
+- Google Home
+- Thermostat Nest
+</td>
+<td>
+- Lampes
+</td>
+</tr>
+</table>
+
+<p><strong>Difficultés identifiées</strong> :</p>
+<ul>
+<li>Reconnaitre un écran lorsqu'il est allumé</li>
+<li>Différences de luminosité</li>
+<li>Occlusion des objets</li>
+<li>Plusieurs objets identiques à contrôler de manière indépendante</li>
+</ul>
+<h1>Reconnaissance et détection d'objets</h1>
+<p><strong>Outils à disposition</strong> :</p>
+<ul>
+<li>Des approches <em>deep learning</em> : reconnaissance d'objets génériques et de produits avec une grande résilience aux dégradations de l'image</li>
+<li>
+<p>Le traitement du signal : des points d'intérêts identifiables, résistants aux changements de perspective</p>
+</li>
+<li>
+<p>Reconnaissance : classification de l'objet "principal" de l'image</p>
+</li>
+<li>Détection : classification et localisation de l'ensemble des objets connus dans l'image. Différentes approches se basant sur des modèles de reconnaissance ou de détection directe.</li>
+</ul>
+<p><img alt="" src="/media/image-processing/localization_detection.png"></p>
+<h1>Reconnaissance <em>versus</em> détection</h1>
+<table style="margin-top: 50px">
+<tr>
+<th width="50%">Reconnaissance</th>
+<th>Détection</th>
+</tr>
+<tr style='color: green'>
+<td>
+- Domaine foisonnant à l'état de l'art d'une très grande précision
+- Simplicité des modèles
+</td>
+<td>
+- Ordonnancement de plusieurs objets dans le champ de vision
+</td>
+</tr>
+<tr style='color: red'>
+<td>
+- Ambiguïtés si plusieurs objets
+- Compréhension difficile des prédictions
+</td>
+<td>
+- Modèles plus complexes donc plus coûteux en calcul
+</td>
+</tr>
+</table>
+
+<p><strong>Quelques exemples</strong> :</p>
+<ul>
+<li>Reconnaissance : VGG, Inception v4, Resnet</li>
+<li>Détection : FasterRCNN, SSD, TinyYolo, Yolo v2</li>
+</ul>
+<h1>Données de référence</h1>
+<ul>
+<li>Les catégories : jeux de donnés accessibles tels ImageNet, COCO et PascalVOC</li>
+<li>Les objets connectés : modèles 3D, images marketing via Google Image</li>
+<li>A la configuration, l'utilisateur vise ses objets depuis plusieurs points de vues et 
+ajuste les prises sur l'app</li>
+</ul>
+<p><strong>Modèles 3D</strong> :</p>
+<ul>
+<li>Apportent davantage d'informations que de simples images</li>
+<li>Ouvre l'accès à un champ de recherche spécifique (<em>3D model pose estimation</em>)</li>
+<li>Ne permet pas de gérer les objets "abstraits"</li>
+<li>Très peu courant pour les tâches de détection</li>
+</ul>
+<p><strong>Intérêt des images</strong> :</p>
+<ul>
+<li>Abondance de données pour tous les objets nécessaires</li>
+<li>Facilement étiquetables par l'utilisateur</li>
+</ul>
+<h1>Supervision de l'apprentissage</h1>
+<table width="100%" style="margin-top: 70px">
+<tr>
+<td style="color: green; vertical-align: middle">Supervisé</td>
+<td style='text-align: center'>
+Faiblement supervisé
+<div style="font-size: smaller; margin-top: -10px">
+Données étiquetées pour une tâche annexe. Par exemple : détection d'objets uniquement a partir des classes associées aux images.
+</div>
+
+<br/>
+
+Semi-supervisé
+<div style="font-size: smaller; margin-top: -10px">
+Une part importante de l'ensemble d'entrainement n'est pas étiquetée.
+</div>
+
+<br/>
+
+Rares exemples (*Few shots*)
+<div style="font-size: smaller; margin-top: -10px">
+Apprentissage de la tâche à partir d'un très petit nombre d'exemple étiquetés. Possiblement en ayant eu accès au préalable à un grand nombre d'exemples pour une tâche similaire.
+</div>
+</td>
+<td style="color: red; vertical-align: middle">Non supervisé</td>
+</tr>
+</table>
+
+<h1>Conclusion</h1>
+<ul>
+<li>Choix à faire : reconnaissance ou détection ?</li>
+<li>La solution se trouve probablement dans un ensemble de sous-solutions optimales :<ul>
+<li>Modèle avec apprentissage classique pour les objets abstraits</li>
+<li>Algorithme utilisant des modèles 3D pour les produits connus d'avance</li>
+<li>Pour les nouveaux objets concrêts : ajustement d'un modèle à partir de quelques prises de vues fournies par l'utilisateur</li>
+</ul>
+</li>
+</ul>
+  </section><!-- /.entry-content -->
+</article>
+    </main>
+  </div>
+  <footer>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="robots" content="noindex, nofollow"/>
+  <link rel="stylesheet" type="text/css" href="https//sgu.pw/theme/css/style.css"/>
+  <title>Simon Guillot | Multisensors Localisation and Mapping</title>
+
+
+
+
+
+  <style>
+    .profile {
+      display: none;
+    }
+
+    article {
+      margin-top: 10vh;
+    }
+  </style>
+
+  <link rel="stylesheet" type="text/css" href="https//sgu.pw/theme/css/katex.min.css"/>
+</head>
+
+<body>
+  <nav>
+    <a href="https//sgu.pw/">Home</a>
+        <a href="https//sgu.pw/pages/about.html">About</a>
+        <a href="https//sgu.pw/pages/cv.html">CV</a>
+      <a href="/articles.html">Articles</a>
+  </nav>
+
+  <div class="profile">
+    <a href="https//sgu.pw/">
+      <img src="https//sgu.pw/images/avatar.jpg"/>
+      <h1>Simon Guillot</h1>
+    </a>
+    <p class="accounts">
+        <a href="https://github.com/notsimon">
+          <svg class="icon"><use xlink:href="/theme/images/fa-brands.svg#github"/>github</svg>
+        </a>
+        <a href="https://www.linkedin.com/in/simon-guillot-302567184">
+          <svg class="icon"><use xlink:href="/theme/images/fa-brands.svg#linkedin"/>linkedin</svg>
+        </a>
+        <a href="https://m.me/simon.gllt">
+          <svg class="icon"><use xlink:href="/theme/images/fa-brands.svg#facebook-messenger"/>facebook-messenger</svg>
+        </a>
+        <a href="#">
+          <svg class="icon"><use xlink:href="/theme/images/fa-brands.svg#line"/>line</svg>
+        </a>
+    </p>
+  </div>
+  <div class="container">
+    <main>
+<article>
+  <header>
+    <h1>Multisensors Localisation and Mapping</h1>
+    
+  </header>
+  <footer class="post-info">
+    <time class="published" datetime="2017-03-16T00:00:00+01:00">
+      Thu 16 March 2017
+    </time>
+    <address class="vcard author">
+      By           <a class="url fn" href="https//sgu.pw/author/simon-guillot.html">Simon Guillot</a>
+    </address>
+    <div class="category">
+        Category: <a href="https//sgu.pw/category/misc.html">misc</a>
+    </div>
+  </footer><!-- /.post-info -->
+
+  <section class="content">
+    <h1>Sevenhugs</h1>
+<figure>
+<iframe width="560" height="315"
+        src="https://www.youtube.com/embed/jB7iuBKcfZw?iv_load_policy=3" frameborder="0"
+        allowfullscreen></iframe>
+</figure>
+
+<ul>
+<li>Founded in 2014</li>
+<li>Seed funding of 1.4M€ in 2014, series A round of 14M€ in 2016</li>
+<li>R&amp;D in Paris, marketing relocated in San Francisco</li>
+</ul>
+<h1>Sevenhugs' remote</h1>
+<p><img alt="" src="/media/sevenhugs/setup.gif" width="50%"></p>
+<ul>
+<li>To track its position and orientation in the room, the remote merges:<ul>
+<li>Measurements from a set of embedded sensors: a gyroscope, an accelerometer, a
+magnetometer</li>
+<li>The distances to three beacons and its charging base</li>
+</ul>
+</li>
+<li>During setup, the user places its real and virtual objects using the remote</li>
+</ul>
+<h1>State estimation</h1>
+<p><img alt="" src="/media/fusion.svg" width="60%"></p>
+<p>The inputs are</p>
+<ul>
+<li><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">{</mo><mover accent="true"><msub><mi>r</mi><mi>i</mi></msub><mo>ˉ</mo></mover><mi mathvariant="normal">∣</mi><mi>i</mi><mo>∈</mo><mo stretchy="false">[</mo><mn>1</mn><mo separator="true">,</mo><mi>N</mi><mo stretchy="false">]</mo><mo stretchy="false">}</mo></mrow><annotation encoding="application/x-tex">\{\bar{r_i} | i \in [1, N]\}</annotation></semantics></math></span><span aria-hidden="true" class="katex-html"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">{</span><span class="mord accent"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.56778em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:-0.02778em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body" style="left:-0.25em;">ˉ</span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span><span class="mord">∣</span><span class="mord mathdefault">i</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">∈</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord">1</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.10903em;">N</span><span class="mclose">]</span><span class="mclose">}</span></span></span></span> the (very noisy) distances to the beacons</li>
+<li><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mover accent="true"><mi>a</mi><mo>ˉ</mo></mover></mrow><annotation encoding="application/x-tex">\bar{a}</annotation></semantics></math></span><span aria-hidden="true" class="katex-html"><span class="base"><span class="strut" style="height:0.56778em;vertical-align:0em;"></span><span class="mord accent"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.56778em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathdefault">a</span></span></span><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body" style="left:-0.25em;">ˉ</span></span></span></span></span></span></span></span></span> the measurement extracted from the accelerometer<ul>
+<li>effect of gravity must be subtracted</li>
+<li>then integrated twice to retrieve motion</li>
+</ul>
+</li>
+<li><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mover accent="true"><mi>ω</mi><mo>ˉ</mo></mover></mrow><annotation encoding="application/x-tex">\bar{\omega}</annotation></semantics></math></span><span aria-hidden="true" class="katex-html"><span class="base"><span class="strut" style="height:0.56778em;vertical-align:0em;"></span><span class="mord accent"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.56778em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.03588em;">ω</span></span></span><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body" style="left:-0.25em;">ˉ</span></span></span></span></span></span></span></span></span> the angular velocity given by the gyroscope</li>
+<li><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mover accent="true"><mi>m</mi><mo>ˉ</mo></mover></mrow><annotation encoding="application/x-tex">\bar{m}</annotation></semantics></math></span><span aria-hidden="true" class="katex-html"><span class="base"><span class="strut" style="height:0.56778em;vertical-align:0em;"></span><span class="mord accent"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.56778em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathdefault">m</span></span></span><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body" style="left:-0.25em;">ˉ</span></span></span></span></span></span></span></span></span> the magnetometer<ul>
+<li>the magnetic field direction can be useless while being correct</li>
+</ul>
+</li>
+</ul>
+<p><span class="katex-error" style="color:#cc0000" title="ParseError: KaTeX parse error: Can't use function '$' in math mode at position 1: $̲ z = (\bar{r}, …">$ z = (\bar{r}, \bar{a}, \bar{\omega}, \bar{m})^\top, z \in \mathbb{R}^{N + 9} 
+</span>$</p>
+<h1>State estimation</h1>
+<p><img alt="" src="/media/fusion.svg" width="60%"></p>
+<p>The estimation of the targeted objects requires at least</p>
+<ul>
+<li>the position <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi></mrow><annotation encoding="application/x-tex">p</annotation></semantics></math></span><span aria-hidden="true" class="katex-html"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.19444em;"></span><span class="mord mathdefault">p</span></span></span></span></li>
+<li>the orientation <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>q</mi></mrow><annotation encoding="application/x-tex">q</annotation></semantics></math></span><span aria-hidden="true" class="katex-html"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.19444em;"></span><span class="mord mathdefault" style="margin-right:0.03588em;">q</span></span></span></span></li>
+</ul>
+<h1>State estimation</h1>
+<p><img alt="" src="/media/fusion_kalman.svg" width="60%"></p>
+<p>Adding information on the dynamics of the body, for instance</p>
+<ul>
+<li>the velocity <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>v</mi></mrow><annotation encoding="application/x-tex">v</annotation></semantics></math></span><span aria-hidden="true" class="katex-html"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.03588em;">v</span></span></span></span></li>
+<li>the acceleration <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi></mrow><annotation encoding="application/x-tex">a</annotation></semantics></math></span><span aria-hidden="true" class="katex-html"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">a</span></span></span></span></li>
+<li>the angular velocity <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ω</mi></mrow><annotation encoding="application/x-tex">\omega</annotation></semantics></math></span><span aria-hidden="true" class="katex-html"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.03588em;">ω</span></span></span></span></li>
+</ul>
+<p>leads to the usage of kinematics models, required by state-space estimators such
+as <strong>Kalman filters</strong>.</p>
+<p>The augmented state to estimate becomes:</p>
+<p><span class="katex-error" style="color:#cc0000" title="ParseError: KaTeX parse error: Can't use function '$' in math mode at position 1: $̲ x = (p, v, a, …">$ x = (p, v, a, q, \omega)^\top </span>$
+<span class="katex-error" style="color:#cc0000" title="ParseError: KaTeX parse error: Can't use function '$' in math mode at position 1: $̲ x \in \mathbb{…">$ x \in \mathbb{R}^{15} </span>$</p>
+<h1>Indoor usage of a magnetometer</h1>
+<p><img alt="Direction of the magnetic field on a plane at one meter above the ground 
+(vectors are normalized)" src="/media/map_normalized.svg">{style="width: 70%; margin: 
+-2.5em 0"}</p>
+<ul>
+<li>Some regions can be up to 45º off from the north direction</li>
+</ul>
+<h1>Indoor usage of a magnetometer</h1>
+<p><img alt="Variations in color represent variations in 
+inclination" src="/media/map.svg" style="width: 70%; margin: -2.5em 0"></p>
+<ul>
+<li>Important variations of the norm and inclination of the magnetic field</li>
+<li>Both can be measured without ambiguities</li>
+<li>These can provide hints on the position</li>
+</ul>
+<h1>Thesis subject</h1>
+<p>Industrial goal: find ways of positioning a device indoor without modifications 
+of the environment (eg. adding beacons or markers)</p>
+<ul>
+<li>How to apply <em>Simulatenous Localisation and Mapping</em> techniques when the
+dimensionality of the inputs is low and the odometry of poor quality ?<ul>
+<li>Mostly, how to properly close loops and eliminate ambiguities ?</li>
+</ul>
+</li>
+<li>How to augment the system with informations extracted from electromagnetic
+signals ? (Bluetooth, WiFi etc.)</li>
+<li>How to compress – due to hardware constraints – and recall the heterogeneous 
+  data found in the environment ?</li>
+</ul>
+<h1>Work overview</h1>
+<ul>
+<li>Comparison of multiple adaptative filters for this non-linear problem<ul>
+<li>Extended Kalman Filter, Unscented KF, Recurrent Neural Nets</li>
+</ul>
+</li>
+<li>Trajectories and sensors simulation</li>
+<li>Sensors calibration<ul>
+<li>Estimate the fixed transformations applied to the measurements</li>
+</ul>
+</li>
+<li>Numerous heuristics based on the remote usage and environment, e.g.:<ul>
+<li>Absence of acceleration is more likely due to inactivity than 
+constant speed</li>
+<li>Altitude can be approximated using the inclination</li>
+</ul>
+</li>
+<li>Recently, the acquisition of a ground-truth using a set of infrared cameras</li>
+</ul>
+  </section><!-- /.entry-content -->
+</article>
+    </main>
+  </div>
+  <footer>
+  </footer>
+</body>
+</html>
