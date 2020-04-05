@@ -1,5 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Simon Guillot</title><link href="https://sgu.pw/" rel="alternate"></link><link href="https://sgu.pw/feeds/all.atom.xml" rel="self"></link><id>https://sgu.pw/</id><updated>2019-11-16T11:42:00+01:00</updated><subtitle>A man who travels with the address of his blog on his cap</subtitle><entry><title>Setting up a Jetson TX2 from Vagrant</title><link href="https://sgu.pw/setting-up-a-jetson-tx2-from-vagrant.html" rel="alternate"></link><published>2019-11-16T11:42:00+01:00</published><updated>2019-11-16T11:42:00+01:00</updated><author><name>Simon</name></author><id>tag:sgu.pw,2019-11-16:/setting-up-a-jetson-tx2-from-vagrant.html</id><content type="html"></content><category term="programming"></category></entry><entry><title>Real time interpolation of the magnetic field</title><link href="https://sgu.pw/real-time-interpolation-of-the-magnetic-field.html" rel="alternate"></link><published>2017-05-10T08:21:00+02:00</published><updated>2017-05-10T08:21:00+02:00</updated><author><name>Simon</name></author><id>tag:sgu.pw,2017-05-10:/real-time-interpolation-of-the-magnetic-field.html</id><summary type="html">&lt;p&gt;This report introduces one of my attempts at modelling the magnetic field of a 
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Simon Guillot</title><link href="https://sgu.pw/" rel="alternate"></link><link href="https://sgu.pw/feeds/all.atom.xml" rel="self"></link><id>https://sgu.pw/</id><updated>2019-11-16T11:42:00+01:00</updated><subtitle>A man who travels with the address of his blog on his cap</subtitle><entry><title>Setting up a Jetson TX2 with Vagrant</title><link href="https://sgu.pw/setting-up-a-jetson-tx2-with-vagrant.html" rel="alternate"></link><published>2019-11-16T11:42:00+01:00</published><updated>2019-11-16T11:42:00+01:00</updated><author><name>Simon</name></author><id>tag:sgu.pw,2019-11-16:/setting-up-a-jetson-tx2-with-vagrant.html</id><summary type="html">&lt;p&gt;This post is intended for those who want to flash their Jetson TX2 board
+from an Ubuntu VM without a desktop environment running.&lt;/p&gt;
+&lt;p&gt;Setting up a Jetson TX2 must be done through NVidia's
+&lt;a href="https://developer.nvidia.com/nvidia-sdk-manager"&gt;SDK Manager&lt;/a&gt;. Per the
+requirements, it needs an Ubuntu Desktop not running in a VM. I have …&lt;/p&gt;</summary><content type="html">&lt;p&gt;This post is intended for those who want to flash their Jetson TX2 board
+from an Ubuntu VM without a desktop environment running.&lt;/p&gt;
+&lt;p&gt;Setting up a Jetson TX2 must be done through NVidia's
+&lt;a href="https://developer.nvidia.com/nvidia-sdk-manager"&gt;SDK Manager&lt;/a&gt;. Per the
+requirements, it needs an Ubuntu Desktop not running in a VM. I have a Macbook
+and no intention of adding a Linux dual boot next to macOS on my
+always-too-small hard drive, so I gave it a go.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="" src="/images/jetson.jpeg" width="350px"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;&lt;a href="https://github.com/notsimon/vagrant-jetson"&gt;This repository&lt;/a&gt; contains all the
+tools and instructions&lt;/strong&gt; necessary to achieve just that in a minimum amount of
+commands possible: it uses a Virtual Box VM configured through &lt;a href="vagrantup.com"&gt;Vagrant&lt;/a&gt;,
+and using &lt;a href="http://manpages.ubuntu.com/manpages/trusty/man1/xvfb-run.1.html"&gt;xvfb&lt;/a&gt; to
+bypass the need for a GUI.&lt;/p&gt;
+&lt;h3&gt;Recovery Mode&lt;/h3&gt;
+&lt;p&gt;Even if the instructions in the quick start guide of the devkit are absolutely
+rubbish, putting the board in Recovery mode is quite straightforward:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Power up the board (plug it and hit the PWR button)&lt;/li&gt;
+&lt;li&gt;Hold the REC button&lt;/li&gt;
+&lt;li&gt;Hit the RST button&lt;/li&gt;
+&lt;li&gt;Release the REC button after about 2 seconds&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;img alt="" src="/images/jetson-quick-start-rubbish.jpeg" width="350px"&gt;&lt;/p&gt;</content><category term="programming"></category></entry><entry><title>Real time interpolation of the magnetic field</title><link href="https://sgu.pw/real-time-interpolation-of-the-magnetic-field.html" rel="alternate"></link><published>2017-05-10T08:21:00+02:00</published><updated>2017-05-10T08:21:00+02:00</updated><author><name>Simon</name></author><id>tag:sgu.pw,2017-05-10:/real-time-interpolation-of-the-magnetic-field.html</id><summary type="html">&lt;p&gt;This report introduces one of my attempts at modelling the magnetic field of a 
 room using a continuous representation. The first goal of this work is to assist 
 the tracking of the orientation of a device by taking into account the multiple 
 distortions of the field observed indoor: this is …&lt;/p&gt;</summary><content type="html">&lt;p&gt;This report introduces one of my attempts at modelling the magnetic field of a 

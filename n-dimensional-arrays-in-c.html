@@ -25,4 +25,168 @@
   <link rel="stylesheet" type="text/css" href="https://sgu.pw/theme/css/katex.min.css"/>
 </head>
 
+<body>
+  <nav>
+    <a href="https://sgu.pw/">Home</a>
+        <a href="https://sgu.pw/pages/about.html">About</a>
+        <a href="https://sgu.pw/pages/cv.html">CV</a>
+      <a href="/articles.html">Articles</a>
+  </nav>
+
+  <div class="profile">
+    <a href="https://sgu.pw/">
+      <img src="https://sgu.pw/images/avatar.jpg"/>
+      <h1>Simon Guillot</h1>
+    </a>
+    <p class="accounts">
+        <a href="https://github.com/notsimon">
+          <svg class="icon"><use xlink:href="/theme/images/fa-brands.svg#github"/>github</svg>
+        </a>
+        <a href="https://www.linkedin.com/in/simon-guillot-302567184">
+          <svg class="icon"><use xlink:href="/theme/images/fa-brands.svg#linkedin"/>linkedin</svg>
+        </a>
+        <a href="https://m.me/simon.gllt">
+          <svg class="icon"><use xlink:href="/theme/images/fa-brands.svg#facebook-messenger"/>facebook-messenger</svg>
+        </a>
+        <a href="#">
+          <svg class="icon"><use xlink:href="/theme/images/fa-brands.svg#line"/>line</svg>
+        </a>
+    </p>
+  </div>
+  <div class="container">
+    <main>
+<article>
+  <header>
+    <h1>N-dimensional arrays in C</h1>
+    
+  </header>
+  <footer class="post-info">
+    <time class="published" datetime="2012-04-09T11:37:00+02:00">
+      Mon 09 April 2012
+    </time>
+    <address class="vcard author">
+      By           <a class="url fn" href="https://sgu.pw/author/simon.html">Simon</a>
+    </address>
+    <div class="category">
+        Category: <a href="https://sgu.pw/category/programming.html">programming</a>
+    </div>
+  </footer><!-- /.post-info -->
+
+  <section class="content">
+    <p>The grammar of C is messy and some constructions can be counter-intuitive for 
+beginners: this is the case of multidimensional arrays (non-programmers would 
+call them tensors).</p>
+<h2>Introduction</h2>
+<p>Someone new to low-level programming would be tempted to declare arrays with 
+multiple dimensions in the following way:</p>
+<div class="highlight"><pre><span></span><span class="kt">float</span><span class="o">***</span> <span class="nf">make_3d_float_array</span><span class="p">(</span><span class="kt">size_t</span> <span class="n">x</span><span class="p">,</span> <span class="kt">size_t</span> <span class="n">y</span><span class="p">,</span> <span class="kt">size_t</span> <span class="n">z</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kt">float</span><span class="o">***</span> <span class="n">A</span> <span class="o">=</span> <span class="n">malloc</span><span class="p">(</span><span class="n">x</span><span class="o">*</span><span class="k">sizeof</span><span class="p">(</span><span class="kt">float</span><span class="o">**</span><span class="p">));</span>
+
+    <span class="k">for</span> <span class="p">(...)</span> <span class="p">{</span>
+        <span class="n">A</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">malloc</span><span class="p">(...</span> <span class="c1">// I think you know the rest...</span>
+</pre></div>
+
+
+<p>Even though the syntax for accessing cells is the same as for static arrays, 
+that's not the best thing to do: unless you're planning to replace entire rows 
+or planes more often than you do random accesses, this is inefficient. We need 
+contiguous arrays without having to explicitly compute the indexes.</p>
+<p>While learning C and experimenting with metaprogramming, I wrote <a href="https://sgu.pw/c-ndarrays/ndarray.h">a few 
+helpers</a> using the preprocessor for dynamic 
+multidimensional arrays. If you take a look at it without much knowledge of the 
+C preprocessor, you'll probably see it as mostly voodoo. Fortunately C99 comes 
+with syntactic sugar that makes this unnecessary. <strong>Read on !</strong></p>
+<h2>Static arrays</h2>
+<p>As a reminder, static arrays means we are putting the size of the array in its 
+type. A static 2D arrays of integers can be declared and used as such:</p>
+<div class="highlight"><pre><span></span><span class="kt">void</span> <span class="nf">foo</span><span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">[</span><span class="mi">4</span><span class="p">][</span><span class="mi">2</span><span class="p">])</span> <span class="p">{</span>
+    <span class="c1">// Do something with x.</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">x</span><span class="p">[</span><span class="mi">4</span><span class="p">][</span><span class="mi">2</span><span class="p">];</span>
+
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">/</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">/</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]);</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span>
+            <span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">rand</span><span class="p">();</span>
+
+    <span class="n">foo</span><span class="p">(</span><span class="n">x</span><span class="p">);</span>
+    <span class="c1">// Don&#39;t be fooled by the syntax of foo&#39;s argument,</span>
+    <span class="c1">// there&#39;s no copy of x involved!</span>
+
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p>Although the syntax may be deceiving, <strong>the array is not copied when calling the 
+function</strong>. And there's no way to ask for an implicit copy.</p>
+<p>What about dynamic arrays, for which the size may not be known at compile time ?</p>
+<h2>Proper dynamic arrays</h2>
+<p>In C99, variable length arrays can be declared and allocated as follow:</p>
+<div class="highlight"><pre><span></span><span class="kt">int</span> <span class="n">m</span> <span class="o">=</span> <span class="n">rand</span><span class="p">()</span> <span class="o">%</span> <span class="mi">10</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+<span class="kt">int</span> <span class="n">n</span> <span class="o">=</span> <span class="n">rand</span><span class="p">()</span> <span class="o">%</span> <span class="mi">10</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+
+<span class="n">printf</span><span class="p">(</span><span class="s">&quot;m = %d, n = %d</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">n</span><span class="p">);</span>
+
+<span class="kt">int</span> <span class="n">x</span><span class="p">[</span><span class="n">m</span><span class="p">][</span><span class="n">n</span><span class="p">];</span>
+<span class="kt">int</span> <span class="p">(</span><span class="o">*</span><span class="n">y</span><span class="p">)[</span><span class="n">n</span><span class="p">]</span> <span class="o">=</span> <span class="n">malloc</span><span class="p">(</span><span class="n">m</span> <span class="o">*</span> <span class="n">n</span> <span class="o">*</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">y</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]));</span>
+<span class="kt">int</span> <span class="p">(</span><span class="o">*</span><span class="n">z</span><span class="p">)[</span><span class="n">m</span><span class="p">][</span><span class="n">n</span><span class="p">]</span> <span class="o">=</span> <span class="n">malloc</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="o">*</span><span class="n">z</span><span class="p">));</span>
+</pre></div>
+
+
+<p><code>x</code> is a dynamic (i.e. variable-length) array allocated on the stack. <code>y</code> and 
+<code>z</code> are both pointers to chunks of memory allocated in the heap (which are the 
+size of <code>x</code>) but the semantic slightly differs between the two: the type of the 
+data <code>y</code> points to is <em>an array of <code>n</code> integers</em>, while <code>z</code> points to <em>an array 
+of <code>m</code> arrays of <code>n</code> integers</em>.</p>
+<p>If you're not comfortable with pointer arithmetic, you may want to read <a href="http://www.cs.umd.edu/class/sum2003/cmsc311/Notes/BitOp/pointer.html">this 
+tutorial</a>.</p>
+<p>Cell accesses are written as such:</p>
+<div class="highlight"><pre><span></span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="mi">42</span><span class="p">;</span>
+<span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="mi">42</span><span class="p">;</span>
+<span class="p">(</span><span class="o">*</span><span class="n">z</span><span class="p">)[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="mi">42</span><span class="p">;</span> <span class="c1">// same as z[0][i][j] ;)</span>
+</pre></div>
+
+
+<p>Even though the semantic of <code>z</code> is, in some way, closer to what we're 
+expressing, its usage is less practical.</p>
+<p>How can we write functions taking dynamic arrays as arguments ? This is were the 
+real syntax tricks hide: we can put the lengths as arguments and use them in the 
+type of the array. For more details on it, read this <a href="https://gcc.gnu.org/onlinedocs/gcc/Variable-Length.html">GCC man 
+page</a>.</p>
+<p>In plain C99:</p>
+<div class="highlight"><pre><span></span><span class="kt">void</span> <span class="nf">foo</span><span class="p">(</span><span class="kt">int</span> <span class="n">m</span><span class="p">,</span> <span class="kt">int</span> <span class="n">n</span><span class="p">,</span> <span class="kt">int</span> <span class="n">x</span><span class="p">[</span><span class="n">m</span><span class="p">][</span><span class="n">n</span><span class="p">])</span> <span class="p">{</span>
+    <span class="c1">// Do something with x.</span>
+<span class="p">}</span>
+
+<span class="c1">// ...</span>
+
+<span class="n">foo</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">x</span><span class="p">);</span>
+<span class="n">foo</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">y</span><span class="p">);</span>
+<span class="n">foo</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="o">*</span><span class="n">z</span><span class="p">);</span>
+</pre></div>
+
+
+<p>Again, the arrays are not copied.</p>
+<p>Finally, GCC provides an elegant extension to put the size arguments after the 
+array, which may lead to more readable code in some cases:</p>
+<div class="highlight"><pre><span></span><span class="kt">void</span> <span class="n">bar</span><span class="p">(</span><span class="kt">int</span> <span class="n">m</span><span class="p">,</span> <span class="kt">int</span> <span class="n">n</span><span class="p">;</span> <span class="kt">int</span> <span class="n">x</span><span class="p">[</span><span class="n">m</span><span class="p">][</span><span class="n">n</span><span class="p">],</span> <span class="kt">int</span> <span class="n">m</span><span class="p">,</span> <span class="kt">int</span> <span class="n">n</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// Do something with x.</span>
+<span class="p">}</span>
+
+<span class="c1">// ...</span>
+
+<span class="n">bar</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">n</span><span class="p">);</span>
+</pre></div>
+
+
+<p>A full working example of this is available <a href="https://sgu.pw/c-ndarrays/arrays.c">here</a>.</p>
+  </section><!-- /.entry-content -->
+</article>
+    </main>
+  </div>
+  <footer>
+  </footer>
+</body>
 </html>

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<head>
+    <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="robots" content="noindex, nofollow"/>
+  <link rel="stylesheet" type="text/css" href="https://sgu.pw/theme/css/style.css"/>
+  <title>Simon Guillot | Setting up a Jetson TX2 with Vagrant</title>
+
+
+
+
+
+  <style>
+    .profile {
+      display: none;
+    }
+
+    article {
+      margin-top: 10vh;
+    }
+  </style>
+
+  <link rel="stylesheet" type="text/css" href="https://sgu.pw/theme/css/katex.min.css"/>
+</head>
+
+<body>
+  <nav>
+    <a href="https://sgu.pw/">Home</a>
+        <a href="https://sgu.pw/pages/about.html">About</a>
+        <a href="https://sgu.pw/pages/cv.html">CV</a>
+      <a href="/articles.html">Articles</a>
+  </nav>
+
+  <div class="profile">
+    <a href="https://sgu.pw/">
+      <img src="https://sgu.pw/images/avatar.jpg"/>
+      <h1>Simon Guillot</h1>
+    </a>
+    <p class="accounts">
+        <a href="https://github.com/notsimon">
+          <svg class="icon"><use xlink:href="/theme/images/fa-brands.svg#github"/>github</svg>
+        </a>
+        <a href="https://www.linkedin.com/in/simon-guillot-302567184">
+          <svg class="icon"><use xlink:href="/theme/images/fa-brands.svg#linkedin"/>linkedin</svg>
+        </a>
+        <a href="https://m.me/simon.gllt">
+          <svg class="icon"><use xlink:href="/theme/images/fa-brands.svg#facebook-messenger"/>facebook-messenger</svg>
+        </a>
+        <a href="#">
+          <svg class="icon"><use xlink:href="/theme/images/fa-brands.svg#line"/>line</svg>
+        </a>
+    </p>
+  </div>
+  <div class="container">
+    <main>
+<article>
+  <header>
+    <h1>Setting up a Jetson TX2 with Vagrant</h1>
+    
+  </header>
+  <footer class="post-info">
+    <time class="published" datetime="2019-11-16T11:42:00+01:00">
+      Sat 16 November 2019
+    </time>
+    <address class="vcard author">
+      By           <a class="url fn" href="https://sgu.pw/author/simon.html">Simon</a>
+    </address>
+    <div class="category">
+        Category: <a href="https://sgu.pw/category/programming.html">programming</a>
+    </div>
+  </footer><!-- /.post-info -->
+
+  <section class="content">
+    <p>This post is intended for those who want to flash their Jetson TX2 board
+from an Ubuntu VM without a desktop environment running.</p>
+<p>Setting up a Jetson TX2 must be done through NVidia's
+<a href="https://developer.nvidia.com/nvidia-sdk-manager">SDK Manager</a>. Per the
+requirements, it needs an Ubuntu Desktop not running in a VM. I have a Macbook
+and no intention of adding a Linux dual boot next to macOS on my
+always-too-small hard drive, so I gave it a go.</p>
+<p><img alt="" src="/images/jetson.jpeg" width="350px"></p>
+<p><strong><a href="https://github.com/notsimon/vagrant-jetson">This repository</a> contains all the
+tools and instructions</strong> necessary to achieve just that in a minimum amount of
+commands possible: it uses a Virtual Box VM configured through <a href="vagrantup.com">Vagrant</a>,
+and using <a href="http://manpages.ubuntu.com/manpages/trusty/man1/xvfb-run.1.html">xvfb</a> to
+bypass the need for a GUI.</p>
+<h3>Recovery Mode</h3>
+<p>Even if the instructions in the quick start guide of the devkit are absolutely
+rubbish, putting the board in Recovery mode is quite straightforward:</p>
+<ol>
+<li>Power up the board (plug it and hit the PWR button)</li>
+<li>Hold the REC button</li>
+<li>Hit the RST button</li>
+<li>Release the REC button after about 2 seconds</li>
+</ol>
+<p><img alt="" src="/images/jetson-quick-start-rubbish.jpeg" width="350px"></p>
+  </section><!-- /.entry-content -->
+</article>
+    </main>
+  </div>
+  <footer>
+  </footer>
+</body>
+</html>
